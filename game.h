@@ -11,8 +11,8 @@ const int ALL_CARDS_COUNT = 52;
 const int CARDS_PER_PACK = 13;
 
 class Game {
-    CardDeck main_card_stack {ALL_CARDS_COUNT};
-    CardDeck main_visible_card_stack {ALL_CARDS_COUNT};
+    CardDeck main_card_deck {ALL_CARDS_COUNT};
+    CardDeck main_visible_card_deck {ALL_CARDS_COUNT};
 
     CardDeck target_spades_deck {CARDS_PER_PACK, SPADES};
     CardDeck target_diamonds_deck {CARDS_PER_PACK, DIAMONDS};

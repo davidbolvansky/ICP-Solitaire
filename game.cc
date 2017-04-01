@@ -7,12 +7,12 @@
 int Game::games_counter = 0;
 
 Game::Game() {
-    this->main_card_stack = CardDeck::create_standard_deck();
-    this->main_card_stack.shuffle();
+    this->main_card_deck = CardDeck::create_standard_deck();
+    this->main_card_deck.shuffle();
 
     for (int working_stack_index = 0; working_stack_index < STACKS_COUNT; ++working_stack_index) {
         for (int cards_per_pack = 0; cards_per_pack < working_stack_index + 1; ++cards_per_pack) {
-            Card top = *this->main_card_stack.pop();
+            Card top = *this->main_card_deck.pop();
             if (working_stack_index == cards_per_pack) {
                 top.turn_face_up();
             }
@@ -24,7 +24,7 @@ Game::Game() {
 
     std::cout<< "Zostatok pre main stack" << std::endl;
 
-    this->main_card_stack.print();
+    this->main_card_deck.print();
 
     games_counter++;
 }
