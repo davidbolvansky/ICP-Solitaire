@@ -48,7 +48,7 @@ Color Card::get_color() {
     return this->color;
 }
 
-bool Card::similar_color_to(Card c) {
+bool Card::similar_color_to(Card &c) {
     if (this->get_color() == SPADES && c.get_color() == CLUBS || this->get_color() == CLUBS && c.get_color() == SPADES) {
         return true;
     } else if (this->get_color() == DIAMONDS && c.get_color() == HEARTS || this->get_color() == HEARTS && c.get_color() == DIAMONDS) {
@@ -63,7 +63,7 @@ int Card::get_value() {
     return this->value;
 }
 
-int Card::compare_value(Card c) {
+int Card::compare_value(Card &c) {
     return this->get_value() - c.get_value();
 }
 
@@ -80,6 +80,6 @@ bool Card::turn_face_up() {
     }
 }
 
-bool Card::equals(Card c) {
+bool Card::equals(Card &c) {
     return (this->get_color() == c.get_color() && this->get_value() == c.get_value());
 }

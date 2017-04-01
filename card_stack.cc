@@ -14,11 +14,11 @@ CardStack CardStack::create_working_pack() {
 
 }
 
-void CardStack::push(Card c) {
+void CardStack::push(Card &c) {
         this->cards_pack.push_back(c);
 }
 
-bool CardStack::put(Card c) {
+bool CardStack::put(Card &c) {
         if (this->get_size() + 1 > this->size) {
                 return false;
         }
@@ -69,7 +69,7 @@ bool CardStack::is_empty() {
         return this->cards_pack.empty();
 }
 
-bool CardStack::put(CardStack stack) {
+bool CardStack::put(CardStack &stack) {
         if (this->is_empty() || this->get_size() + stack.get_size() > this->size) return false;
 
         for (Card c : stack.cards_pack) {
@@ -79,7 +79,7 @@ bool CardStack::put(CardStack stack) {
         return true;
 }
 
-CardStack CardStack::pop(Card c) {
+CardStack CardStack::pop(Card &c) {
     CardStack card_stack{0};
     bool take_cards = false;
 

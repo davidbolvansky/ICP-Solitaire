@@ -10,14 +10,14 @@ class CardStack {
     std::vector<Card> cards_pack;
     public:
     CardStack(int size);
-    void push(Card c);
-    bool put(Card c);
-    bool put(CardStack stack);
+    void push(Card &c);
+    bool put(Card &c);
+    bool put(CardStack &stack);
     int get_size();
     Card* get();
     Card* get(int index);
     Card* pop();
-    CardStack pop(Card c);
+    CardStack pop(Card &c);
     bool is_empty();
     void print();
 

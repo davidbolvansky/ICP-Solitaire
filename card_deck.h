@@ -12,8 +12,8 @@ class CardDeck {
     CardDeck(int size);
     CardDeck(int size, Color color);
     void shuffle();
-    void push(Card c);
-    bool put(Card c);
+    void push(Card &c);
+    bool put(Card &c);
     int get_size();
     Card* get();
     Card* get(int index);

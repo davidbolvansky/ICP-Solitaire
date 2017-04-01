@@ -15,10 +15,24 @@ CardDeck::CardDeck(int size, Color color) {
 
 CardDeck CardDeck::create_standard_deck() {
         CardDeck standard_deck {52};
-        for (int i = 1; i <= 13; ++i) { standard_deck.push(Card(Color::CLUBS,i)); }
-        for (int i = 1; i <= 13; ++i) { standard_deck.push(Card(Color::DIAMONDS,i)); }
-        for (int i = 1; i <= 13; ++i) { standard_deck.push(Card(Color::HEARTS,i)); }
-        for (int i = 1; i <= 13; ++i) { standard_deck.push(Card(Color::SPADES,i)); }
+        Card card{Color::CLUBS, 1};
+
+        for (int i = 1; i <= 13; ++i) {
+            card = Card(Color::CLUBS,i);
+            standard_deck.push(card);
+        }
+        for (int i = 1; i <= 13; ++i) {
+            card = Card(Color::DIAMONDS,i);
+            standard_deck.push(card);
+        }
+        for (int i = 1; i <= 13; ++i) {
+            card = Card(Color::HEARTS,i);
+            standard_deck.push(card);
+        }
+        for (int i = 1; i <= 13; ++i) {
+            card = Card(Color::SPADES,i);
+            standard_deck.push(card);
+        }
 
         return standard_deck;
 
@@ -35,11 +49,11 @@ void CardDeck::shuffle() {
         std::random_shuffle (this->cards_pack.begin(), this->cards_pack.end() );
 }
 
-void CardDeck::push(Card c) {
+void CardDeck::push(Card &c) {
         this->cards_pack.push_back(c);
 }
 
-bool CardDeck::put(Card c) {
+bool CardDeck::put(Card &c) {
         if (this->get_size() + 1 > this->size) {
                 return false;
         }

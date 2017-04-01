@@ -14,12 +14,12 @@ class Card {
     Card(Color c, int value);
     std::string to_string();
     Color get_color();
-    bool similar_color_to(Card c);
+    bool similar_color_to(Card &c);
     int get_value();
-    int compare_value(Card c);
+    int compare_value(Card &c);
     bool is_turned_face_up();
     bool turn_face_up();
-    bool equals(Card c);
+    bool equals(Card &c);
 };
 
 
