@@ -43,5 +43,7 @@ int main2()
 
 int main(void) {
 	Game a;
-	std::cout << Game::get_games_count();
+	std::cout <<"Pocet hier: " <<  Game::get_games_count()  << std::endl;
+
+	return 0;
 }

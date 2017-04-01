@@ -99,7 +99,7 @@ CardStack CardStack::pop(Card c) {
 }
 
 void CardStack::print() {
-        std::cout << "[DEBUG] Stack contains: " << std::endl;
+        std::cout << "[DEBUG] Stack (items: " << this->get_size() << ") contains: " << std::endl;
         for (int i = 0; i < this->get_size(); ++i) {
                 std::cout << this->get(i)->to_string() << std::endl;
         }

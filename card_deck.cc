@@ -90,7 +90,7 @@ bool CardDeck::is_empty() {
 }
 
 void CardDeck::print() {
-        std::cout << "[DEBUG] Deck contains: " << std::endl;
+        std::cout << "[DEBUG] Deck (items: " << this->get_size() << ") contains: " << std::endl;
         for (int i = 0; i < this->get_size(); ++i) {
                 std::cout << this->get(i)->to_string() << std::endl;
         }
