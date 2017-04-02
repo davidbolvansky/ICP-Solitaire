@@ -4,6 +4,9 @@
 #include <vector>
 #include <chrono>
 #include "card.h"
+#include "card_deck.h"
+#include "card_stack.h"
+#include "command.h"
 
 const int DECKS_COUNT = 4;
 const int STACKS_COUNT = 7;
@@ -23,6 +26,7 @@ class Game {
                                                     CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}};
     int score;
     std::chrono::high_resolution_clock::time_point timer;
+    CommandManager command_manager;
     static int games_counter;
     public:
     Game();

@@ -1,9 +1,5 @@
 #include <iostream>
-#include "card.h"
-#include "card_deck.h"
-#include "card_stack.h"
 #include "game.h"
-#include "command.h"
 
 
 int Game::games_counter = 0;
@@ -34,11 +30,10 @@ Game::Game() {
 
         MoveDeckToDeckCommand *dtd = new MoveDeckToDeckCommand {&this->main_card_deck, &this->main_visible_card_deck};
 
-        CommandManager cm;
         std::shared_ptr<Command> p{dtd};
 
         for (int i = 0; i < 8; ++i) {
-            cm.execute_command(p);
+            this->command_manager.execute_command(p);
         }
 
         this->main_card_deck.print();
@@ -46,11 +41,34 @@ Game::Game() {
 
         std::cout<< "Command undo move DTD" << std::endl;
 
-        cm.undo_command();
+        this->command_manager.undo_command();
 
+        MoveStackToStackCommand *f = new MoveStackToStackCommand {&this->working_card_stacks[4], &this->working_card_stacks[2]};
+        std::shared_ptr<Command> s{f};
 
-        this->main_card_deck.print();
-        this->main_visible_card_deck.print();
+        std::cout<< "Move from 4 to 2 DTD" << std::endl;
+
+        this->working_card_stacks[2].print();
+        this->working_card_stacks[4].print();
+
+        if (this->command_manager.execute_command(s)) {
+            std::cout << "MOVE ok\n";
+        } else {
+            std::cout << "MOVE not ok\n";
+        }
+
+        this->working_card_stacks[2].print();
+        this->working_card_stacks[4].print();
+
+        std::cout<< "Now UNDO last command" << std::endl;
+
+        this->command_manager.undo_command();
+
+        this->working_card_stacks[2].print();
+        this->working_card_stacks[4].print();
+
+        //this->main_card_deck.print();
+        //this->main_visible_card_deck.print();
 
 
         games_counter++;

@@ -9,3 +9,6 @@ all:
 
 clean:
 	rm -f *.o hra2017-cli
+
+pack:
+	zip icp_solitaire.zip *.cc *.h Makefile

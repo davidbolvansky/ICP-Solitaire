@@ -84,7 +84,7 @@ CardStack CardStack::pop(Card &c) {
     bool take_cards = false;
 
     for (Card card : this->cards_pack) {
-        if (card.equals(c)) {
+        if (card.get_value() < c.get_value() && !card.similar_color_to(c) && card.is_turned_face_up()) { //if (card.equals(c)) {
             take_cards = true;
         }
 
@@ -94,7 +94,7 @@ CardStack CardStack::pop(Card &c) {
     }
 
     this->cards_pack.erase (this->cards_pack.end() - card_stack.get_size(), this->cards_pack.end());
-    this->size = card_stack.get_size();
+    card_stack.size = card_stack.get_size();
     return card_stack;
 }
 
