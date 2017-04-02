@@ -80,22 +80,22 @@ bool CardStack::put(CardStack &stack) {
 }
 
 CardStack CardStack::pop(Card &c) {
-    CardStack card_stack{0};
-    bool take_cards = false;
+        CardStack card_stack {0};
+        bool take_cards = false;
 
-    for (Card card : this->cards_pack) {
-        if (card.get_value() < c.get_value() && !card.similar_color_to(c) && card.is_turned_face_up()) { //if (card.equals(c)) {
-            take_cards = true;
+        for (Card card : this->cards_pack) {
+                if (card.get_value() < c.get_value() && !card.similar_color_to(c) && card.is_turned_face_up()) {
+                        take_cards = true;
+                }
+
+                if (take_cards) {
+                        card_stack.push(card);
+                }
         }
 
-        if (take_cards) {
-            card_stack.push(card);
-        }
-    }
-
-    this->cards_pack.erase (this->cards_pack.end() - card_stack.get_size(), this->cards_pack.end());
-    card_stack.size = card_stack.get_size();
-    return card_stack;
+        this->cards_pack.erase (this->cards_pack.end() - card_stack.get_size(), this->cards_pack.end());
+        card_stack.size = card_stack.get_size();
+        return card_stack;
 }
 
 void CardStack::print() {

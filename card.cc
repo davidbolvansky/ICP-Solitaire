@@ -37,49 +37,45 @@ std::string Card::to_string() {
 
         card_text = card_text + "(" + Color_short_texts[this->color] + ")";
         if (this->is_turned_face_up()) {
-            card_text += " turned up";
+                card_text += " turned up";
         } else {
-            card_text += " turned down";
+                card_text += " turned down";
         }
         return card_text;
 }
 
 Color Card::get_color() {
-    return this->color;
+        return this->color;
 }
 
 bool Card::similar_color_to(Card &c) {
-    if (this->get_color() == SPADES && c.get_color() == CLUBS || this->get_color() == CLUBS && c.get_color() == SPADES) {
-        return true;
-    } else if (this->get_color() == DIAMONDS && c.get_color() == HEARTS || this->get_color() == HEARTS && c.get_color() == DIAMONDS) {
-        return true;
-    }
+        if (this->get_color() == SPADES && c.get_color() == CLUBS || this->get_color() == CLUBS && c.get_color() == SPADES) {
+                return true;
+        } else if (this->get_color() == DIAMONDS && c.get_color() == HEARTS || this->get_color() == HEARTS && c.get_color() == DIAMONDS) {
+                return true;
+        }
 
-    return false;
+        return false;
 
 }
 
 int Card::get_value() {
-    return this->value;
+        return this->value;
 }
 
 int Card::compare_value(Card &c) {
-    return this->get_value() - c.get_value();
+        return this->get_value() - c.get_value();
 }
 
 bool Card::is_turned_face_up() {
-    return this->turned_face_up;
+        return this->turned_face_up;
 }
 
 bool Card::turn_face_up() {
-    if (this->is_turned_face_up()) {
-        return false;
-    } else {
-        this->turned_face_up = true;
-        return true;
-    }
+        this->turned_face_up = !this->turned_face_up;
+        return this->turned_face_up;
 }
 
 bool Card::equals(Card &c) {
-    return (this->get_color() == c.get_color() && this->get_value() == c.get_value());
+        return (this->get_color() == c.get_color() && this->get_value() == c.get_value());
 }

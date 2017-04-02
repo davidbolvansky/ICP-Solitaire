@@ -97,11 +97,14 @@ bool MoveStackToStackCommand::execute() {
 
         this->top = this->target->get();
 
-        if (top != nullptr) {
-                CardStack moved_cards = this->source->pop(*top);
-                if (moved_cards.is_empty() || !this->target->put(moved_cards)) {
-                        return false;
-                }
+        CardStack moved_cards = this->source->pop(*top);
+        if (moved_cards.is_empty() || !this->target->put(moved_cards)) {
+                return false;
+        }
+
+        Card *src_top = this->source->get();
+        if (src_top != nullptr) {
+                src_top->turn_face_up();
         }
 
         return true;
@@ -109,5 +112,9 @@ bool MoveStackToStackCommand::execute() {
 
 void MoveStackToStackCommand::undo() {
         CardStack moved_cards = this->target->pop(*this->top);
+        Card *src_top = this->source->get();
+        if (src_top != nullptr) {
+                src_top->turn_face_up();
+        }
         this->source->put(moved_cards);
 }
