@@ -75,12 +75,12 @@ void MoveDeckToDeckCommand::undo() {
         if (top != nullptr) {
                 // pop last card from second deck
                 this->target->pop();
+
                 // push this card to first deck
                 this->source->push(*top);
 
-                // get last card of second deck
+                // last card of second deck
                 top = this->target->get();
-
                 // turn this card face up
                 if (top != nullptr) {
                         top->turn_face_up();
@@ -151,11 +151,9 @@ void MoveStackToDeckCommand::undo() {
         if (top != nullptr) {
                 this->source->push(*top);
         }
-        // pop that card from deck
-        this->target->pop();
+        // get and pop that card from deck
+        top = this->target->pop();
 
-        // get new top of deck
-        top = this->target->get();
         // turn new top face up
         if (top != nullptr) {
                 top->turn_face_up();
@@ -170,18 +168,25 @@ MoveStackToStackCommand::MoveStackToStackCommand(CardStack *source, CardStack *t
 }
 
 bool MoveStackToStackCommand::execute() {
+        // return if one of stack is empty
         if (this->source->is_empty() || this->target->is_empty()) {
                 return false;
         }
 
+        // get last card of second stack
         this->top = this->target->get();
 
+        // get all cards since this card from first stack
         CardStack moved_cards = this->source->pop(*top);
+
+        // return if no cards to move or cannot put them
         if (moved_cards.is_empty() || !this->target->put(moved_cards)) {
                 return false;
         }
 
+        // get last card of first stack
         Card *src_top = this->source->get();
+        // turn this card face up
         if (src_top != nullptr) {
                 src_top->turn_face_up();
         }
@@ -190,12 +195,16 @@ bool MoveStackToStackCommand::execute() {
 }
 
 void MoveStackToStackCommand::undo() {
+        // get all cards since last card of second stack from second stack
         CardStack moved_cards = this->target->pop(*this->top);
 
+        // get last card of first stack
         Card *src_top = this->source->get();
+        // turn this card face down
         if (src_top != nullptr) {
                 src_top->turn_face_down();
         }
 
+        // put cards back to first stack
         this->source->put(moved_cards);
 }
