@@ -49,6 +49,10 @@ void CardDeck::shuffle() {
         std::random_shuffle (this->cards_pack.begin(), this->cards_pack.end() );
 }
 
+void CardDeck::swap(CardDeck &deck) {
+    this->cards_pack.swap(deck.cards_pack);
+}
+
 void CardDeck::push(Card &c) {
         this->cards_pack.push_back(c);
 }

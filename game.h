@@ -26,6 +26,8 @@ class Game {
     static int games_counter;
     public:
     Game();
+    CardDeck get_target_deck_by_color(Color c);
+    CardStack get_working_stack_by_id(int index);
     bool save_game();
     Game load_game();
 
