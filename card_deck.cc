@@ -53,8 +53,13 @@ void CardDeck::swap(CardDeck &deck) {
     this->cards_pack.swap(deck.cards_pack);
 }
 
-void CardDeck::push(Card &c) {
-        this->cards_pack.push_back(c);
+bool CardDeck::push(Card &c) {
+    if (this->get_size() + 1 > this->size) {
+            return false;
+    }
+
+    this->cards_pack.push_back(c);
+    return true;
 }
 
 bool CardDeck::put(Card &c) {

@@ -14,8 +14,13 @@ CardStack CardStack::create_working_pack() {
 
 }
 
-void CardStack::push(Card &c) {
-        this->cards_pack.push_back(c);
+bool CardStack::push(Card &c) {
+    if (this->get_size() + 1 > this->size) {
+            return false;
+    }
+
+    this->cards_pack.push_back(c);
+    return true;
 }
 
 bool CardStack::put(Card &c) {

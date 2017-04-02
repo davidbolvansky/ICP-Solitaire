@@ -17,7 +17,7 @@ Game::Game() {
                         this->working_card_stacks[working_stack_index].push(top);
                 }
 
-                this->working_card_stacks[working_stack_index].print();
+                //this->working_card_stacks[working_stack_index].print();
         }
 
         std::cout<< "Zostatok pre main stack" << std::endl;
@@ -32,14 +32,46 @@ Game::Game() {
 
         std::shared_ptr<Command> p{dtd};
 
-        for (int i = 0; i < 8; ++i) {
+        for (int i = 0; i < 7; ++i) {
             this->command_manager.execute_command(p);
         }
 
         this->main_card_deck.print();
         this->main_visible_card_deck.print();
 
-        std::cout<< "Command undo move DTD" << std::endl;
+        for (int i = 0; i < 4; ++i) {
+            this->command_manager.undo_command();
+        }
+
+        this->main_card_deck.print();
+        this->main_visible_card_deck.print();
+
+        /*MoveStackToDeckCommand *dts = new MoveStackToDeckCommand {&this->working_card_stacks[6], &this->target_diamonds_deck};
+
+        std::shared_ptr<Command> l{dts};
+
+        this->target_diamonds_deck.print();
+        this->working_card_stacks[6].print();
+
+        for (int i = 0; i < 5; ++i) {
+            this->command_manager.execute_command(l);
+        }
+
+        for (int i = 0; i < 2; ++i) {
+            this->command_manager.undo_command();
+        }
+
+        this->target_diamonds_deck.print();
+        this->working_card_stacks[6].print();*/
+
+        /*for (int i = 0; i < 4; ++i) {
+            this->command_manager.undo_command();
+        }
+
+        this->main_visible_card_deck.print();
+        this->working_card_stacks[2].print();*/
+
+        /*std::cout<< "Command undo move DTD" << std::endl;
 
         this->command_manager.undo_command();
 
@@ -68,7 +100,7 @@ Game::Game() {
         this->working_card_stacks[4].print();
 
         //this->main_card_deck.print();
-        //this->main_visible_card_deck.print();
+        //this->main_visible_card_deck.print();*/
 
 
         games_counter++;

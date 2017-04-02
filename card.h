@@ -19,6 +19,7 @@ class Card {
     int compare_value(Card &c);
     bool is_turned_face_up();
     bool turn_face_up();
+    bool turn_face_down();
     bool equals(Card &c);
 };
 

@@ -72,8 +72,21 @@ bool Card::is_turned_face_up() {
 }
 
 bool Card::turn_face_up() {
-        this->turned_face_up = !this->turned_face_up;
-        return this->turned_face_up;
+    if (this->is_turned_face_up()) {
+        return false;
+    } else {
+        this->turned_face_up = true;
+        return true;
+    }
+}
+
+bool Card::turn_face_down() {
+    if (!this->is_turned_face_up()) {
+        return false;
+    } else {
+        this->turned_face_up = false;
+        return true;
+    }
 }
 
 bool Card::equals(Card &c) {
