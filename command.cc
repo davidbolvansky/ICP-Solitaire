@@ -230,8 +230,7 @@ void MoveDeckToStackCommand::undo() {
 
         // turn new top face up
         if (top != nullptr) {
-            std::cout << "PICA " << top->to_string() << "\n";
-                top->turn_face_up();
+            top->turn_face_up();
         }
 }
 

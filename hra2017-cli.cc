@@ -4,7 +4,8 @@
 #include "board.h"
 
 const int LEFT_WINDOW_OFFSET = 2;
-const char * NO_CARD = "-(-)";
+const char * NO_CARD = " -- ";
+const char * FACE_DOWN_CARD = "-(-)";
 
 void draw_borders(WINDOW *screen) {
         int x, y, i;
@@ -80,7 +81,7 @@ int main(int argc, char *argv[]) {
                 // draw to our windows
                 mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Main Stack\tDiscard Stack\t\tClubs  Diamonds  Hearts  Spades");
                 draw_line(game_board, parent_x, 2);
-                mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t\t%s\t %s\t  %s\t  %s", game->get_main_card_deck().is_empty() ? "Refresh" : "Get", game->get_discard_card_deck().is_empty() ? NO_CARD : game->get_discard_card_deck().get()->to_string().c_str(),
+                mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t %s\t %s\t  %s\t  %s", game->get_main_card_deck().is_empty() ? "<=>" : "==>", game->get_discard_card_deck().is_empty() ? NO_CARD : game->get_discard_card_deck().get()->to_string().c_str(),
                           game->get_target_deck_by_color(Color::CLUBS).is_empty() ? NO_CARD : game->get_target_deck_by_color(Color::CLUBS).get()->to_string().c_str(),
                           game->get_target_deck_by_color(Color::DIAMONDS).is_empty() ? NO_CARD : game->get_target_deck_by_color(Color::DIAMONDS).get()->to_string().c_str(),
                           game->get_target_deck_by_color(Color::HEARTS).is_empty() ? NO_CARD : game->get_target_deck_by_color(Color::HEARTS).get()->to_string().c_str(),
@@ -88,14 +89,14 @@ int main(int argc, char *argv[]) {
                 draw_line(game_board, parent_x, 4);
                 mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "Stack 1    Stack 2    Stack 3    Stack 4    Stack 5    Stack 6    Stack 7");
                 for (int i = 0; i < CARDS_PER_PACK; ++i) {
-                        mvwprintw(game_board, 6 + i, LEFT_WINDOW_OFFSET, "  %s\t%s\t   %s\t    %s\t%s\t  %s\t     %s",
-                                  game->get_working_stack_by_id(0).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(0).get(i)->to_string().c_str(),
-                                  game->get_working_stack_by_id(1).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(1).get(i)->to_string().c_str(),
-                                  game->get_working_stack_by_id(2).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(2).get(i)->to_string().c_str(),
-                                  game->get_working_stack_by_id(3).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(3).get(i)->to_string().c_str(),
-                                  game->get_working_stack_by_id(4).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(4).get(i)->to_string().c_str(),
-                                  game->get_working_stack_by_id(5).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(5).get(i)->to_string().c_str(),
-                                  game->get_working_stack_by_id(6).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(6).get(i)->to_string().c_str());
+                        mvwprintw(game_board, 6 + i, LEFT_WINDOW_OFFSET, "  %s\t%s\t %s\t    %s\t%s\t  %s\t     %s",
+                                  game->get_working_stack_by_id(0).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(0).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(0).get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(1).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(1).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(1).get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(2).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(2).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(2).get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(3).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(3).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(3).get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(4).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(4).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(4).get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(5).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(5).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(5).get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(6).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(6).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(6).get(i)->to_string().c_str() : FACE_DOWN_CARD);
                 }
                 mvwprintw(score, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %d seconds | Score: %d |", game->get_moves_count(), game->get_total_time_in_seconds(), game->get_score());
 
@@ -106,5 +107,5 @@ int main(int argc, char *argv[]) {
 
         endwin();
 
-        return 0;
+        return EXIT_SUCCESS;
 }
