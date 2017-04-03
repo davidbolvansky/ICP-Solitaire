@@ -6,7 +6,7 @@ Board::Board() {
 }
 
 Game * Board::create_new_game() {
-        Game * new_game = new Game;
+        Game * new_game{};
         return this->add_game(new_game);
 }
 
