@@ -47,7 +47,8 @@ CardDeck CardDeck::create_target_pack(Color color) {
 }
 
 void CardDeck::shuffle() {
-        std::random_shuffle (this->cards_pack.begin(), this->cards_pack.end() );
+        std::srand(time(NULL));
+        std::random_shuffle (this->cards_pack.begin(), this->cards_pack.end());
 }
 
 void CardDeck::swap(CardDeck &deck) {

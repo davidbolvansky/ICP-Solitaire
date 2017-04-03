@@ -190,13 +190,6 @@ bool MoveDeckToStackCommand::execute() {
         // pop that card from stack
         this->source->pop();
 
-        // get previous card of top of deck
-        Card * prev_top =  this->destination->get(this->destination->get_size() - 2);
-        // turn this card face down
-        if (prev_top != nullptr) {
-                prev_top->turn_face_down();
-        }
-
         // take last card from stack
         top = this->source->get();
         // turn this card face up
@@ -212,8 +205,7 @@ void MoveDeckToStackCommand::undo() {
         Card *src_top = this->source->get();
         // turn this card face down
         if (src_top != nullptr) {
-            std::cout << src_top->to_string() << "\n";
-                src_top->turn_face_down();
+            src_top->turn_face_down();
         }
 
         // get last card from deck
@@ -224,14 +216,6 @@ void MoveDeckToStackCommand::undo() {
         }
         // pop that card from deck
         this->destination->pop();
-
-        // get last card of stack
-        top = this->destination->get();
-
-        // turn new top face up
-        if (top != nullptr) {
-            top->turn_face_up();
-        }
 }
 
 // STACK TO STACK
