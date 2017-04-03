@@ -17,28 +17,28 @@ class Command {
 
 class MoveDeckToDeckCommand : public Command {
     CardDeck *source;
-    CardDeck *target;
+    CardDeck *destination;
 public:
-    MoveDeckToDeckCommand(CardDeck *source, CardDeck *target);
+    MoveDeckToDeckCommand(CardDeck *source, CardDeck *destination);
     virtual bool execute() override;
     virtual void undo() override;
 };
 
 class MoveStackToDeckCommand : public Command {
     CardStack *source;
-    CardDeck *target;
+    CardDeck *destination;
 public:
-    MoveStackToDeckCommand(CardStack *source, CardDeck *target);
+    MoveStackToDeckCommand(CardStack *source, CardDeck *destination);
     virtual bool execute() override;
     virtual void undo() override;
 };
 
 class MoveStackToStackCommand : public Command {
     CardStack *source;
-    CardStack *target;
-    Card *top;
+    CardStack *destination;
+    Card *top_card;
 public:
-    MoveStackToStackCommand(CardStack *source, CardStack *target);
+    MoveStackToStackCommand(CardStack *source, CardStack *destination);
     virtual bool execute() override;
     virtual void undo() override;
 };
