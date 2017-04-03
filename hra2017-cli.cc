@@ -86,9 +86,9 @@ int main(int argc, char *argv[]) {
                           game->get_target_deck_by_color(Color::HEARTS).is_empty() ? NO_CARD : game->get_target_deck_by_color(Color::HEARTS).get()->to_string().c_str(),
                           game->get_target_deck_by_color(Color::SPADES).is_empty() ? NO_CARD : game->get_target_deck_by_color(Color::SPADES).get()->to_string().c_str());
                 draw_line(game_board, parent_x, 4);
-                mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "Stack 1     Stack 2     Stack 3     Stack 4     Stack 5     Stack 6     Stack 7");
+                mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "Stack 1    Stack 2    Stack 3    Stack 4    Stack 5    Stack 6    Stack 7");
                 for (int i = 0; i < CARDS_PER_PACK; ++i) {
-                        mvwprintw(game_board, 6 + i, LEFT_WINDOW_OFFSET, "  %s\t%s\t    %s\t%s\t    %s\t%s",
+                        mvwprintw(game_board, 6 + i, LEFT_WINDOW_OFFSET, "  %s\t%s\t   %s\t    %s\t%s\t  %s\t     %s",
                                   game->get_working_stack_by_id(0).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(0).get(i)->to_string().c_str(),
                                   game->get_working_stack_by_id(1).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(1).get(i)->to_string().c_str(),
                                   game->get_working_stack_by_id(2).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(2).get(i)->to_string().c_str(),
