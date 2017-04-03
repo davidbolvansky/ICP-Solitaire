@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 // draw to our windows
-                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Main Stack\tDiscard Stack\t\tClubs  Diamonds  Hearts  Spades");
+                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Main Deck\tDiscard Deck\t\tClubs  Diamonds  Hearts  Spades");
                 draw_line(game_board, parent_x, 2);
                 mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t %s\t %s\t  %s\t  %s", game->get_main_card_deck().is_empty() ? "<=>" : "==>", game->get_discard_card_deck().is_empty() ? NO_CARD : game->get_discard_card_deck().get()->to_string().c_str(),
                           game->get_target_deck_by_color(Color::CLUBS).is_empty() ? NO_CARD : game->get_target_deck_by_color(Color::CLUBS).get()->to_string().c_str(),
