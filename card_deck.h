@@ -20,6 +20,7 @@ class CardDeck {
     Card* get(int index);
     Card* pop();
     bool is_empty();
+    Color get_color();
     void print();
 
     static CardDeck create_standard_deck();

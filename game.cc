@@ -20,31 +20,48 @@ Game::Game() {
                 //this->working_card_stacks[working_stack_index].print();
         }
 
-        std::cout<< "Zostatok pre main stack" << std::endl;
+        /*std::cout<< "Zostatok pre main stack" << std::endl;
 
         this->main_card_deck.print();
-        this->main_visible_card_deck.print();
+        this->discard_card_deck.print();
 
         std::cout<< "Command execute move DTD" << std::endl;
 
 
-        MoveDeckToDeckCommand *dtd = new MoveDeckToDeckCommand {&this->main_card_deck, &this->main_visible_card_deck};
+        MoveDeckToDeckCommand *dtd = new MoveDeckToDeckCommand {&this->main_card_deck, &this->discard_card_deck};
 
         std::shared_ptr<Command> p{dtd};
 
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < 3; ++i) {
             this->command_manager.execute_command(p);
         }
 
         this->main_card_deck.print();
-        this->main_visible_card_deck.print();
+        this->discard_card_deck.print();
 
         for (int i = 0; i < 4; ++i) {
-            this->command_manager.undo_command();
+            //this->command_manager.undo_command();
         }
 
+        std::cout << "Main\n";
         this->main_card_deck.print();
-        this->main_visible_card_deck.print();
+        std::cout << "Final\n";
+        this->discard_card_deck.print();
+        std::cout << "First stack\n";
+        this->working_card_stacks[0].print();
+
+        MoveDeckToStackCommand *dts = new MoveDeckToStackCommand {&this->discard_card_deck, &this->working_card_stacks[0]};
+        std::shared_ptr<Command> f{dts};
+        this->command_manager.execute_command(f);
+        this->command_manager.execute_command(f);
+        this->command_manager.undo_command();
+        std::cout << "Exec\n";
+        std::cout << "Main\n";
+        this->main_card_deck.print();
+        std::cout << "Final SRC\n";
+        this->discard_card_deck.print();
+        std::cout << "First stack DST\n";
+        this->working_card_stacks[0].print();
 
         /*MoveStackToDeckCommand *dts = new MoveStackToDeckCommand {&this->working_card_stacks[6], &this->target_diamonds_deck};
 
@@ -68,7 +85,7 @@ Game::Game() {
             this->command_manager.undo_command();
         }
 
-        this->main_visible_card_deck.print();
+        this->discard_card_deck.print();
         this->working_card_stacks[2].print();*/
 
         /*std::cout<< "Command undo move DTD" << std::endl;
@@ -100,7 +117,7 @@ Game::Game() {
         this->working_card_stacks[4].print();
 
         //this->main_card_deck.print();
-        //this->main_visible_card_deck.print();*/
+        //this->discard_card_deck.print();*/
 
         games_counter++;
 }
@@ -132,6 +149,14 @@ CardStack Game::get_working_stack_by_id(int index) {
         return this->working_card_stacks[index];
 }
 
+CardDeck Game::get_main_card_deck() {
+    return this->main_card_deck;
+}
+
+CardDeck Game::get_discard_card_deck() {
+    return this->discard_card_deck;
+}
+
 bool Game::save(std::string filename) {
         // todo
 }
@@ -143,6 +168,19 @@ Game * Game::load(std::string filename) {
 
 int Game::get_games_count() {
         return games_counter;
+}
+
+int Game::get_score() {
+    int score = 0;
+    for (int i = 0; i < DECKS_COUNT; ++i) {
+        score += this->get_target_deck_by_color(static_cast<Color>(i)).get_size();
+    }
+
+    return score;
+}
+
+int Game::get_moves_count() {
+    return this->command_manager.get_size();
 }
 
 void Game::start() {

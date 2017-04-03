@@ -23,6 +23,10 @@ bool CommandManager::undo_command() {
         return true;
 }
 
+int CommandManager::get_size() {
+    return this->commands_stack.size();
+}
+
 // DECK TO DECK (Main deck to visible deck)
 
 MoveDeckToDeckCommand::MoveDeckToDeckCommand(CardDeck *source, CardDeck *destination) {
@@ -152,10 +156,81 @@ void MoveStackToDeckCommand::undo() {
                 this->source->push(*top);
         }
         // get and pop that card from deck
-        top = this->destination->pop();
+        this->destination->pop();
+
+        // get last card of stack
+        top = this->destination->get();
 
         // turn new top face up
         if (top != nullptr) {
+                top->turn_face_up();
+        }
+}
+
+// DECK TO STACK
+
+MoveDeckToStackCommand::MoveDeckToStackCommand(CardDeck *source, CardStack *destination) {
+        this->source = source;
+        this->destination = destination;
+}
+
+bool MoveDeckToStackCommand::execute() {
+        // empty stack, do nothing
+        if (this->source->is_empty()) {
+                return false;
+        }
+
+        // take last card from stack
+        Card * top = this->source->get();
+        // try to push this card to stack
+        if (!this->destination->put(*top)) {
+                return false;
+        }
+
+        // pop that card from stack
+        this->source->pop();
+
+        // get previous card of top of deck
+        Card * prev_top =  this->destination->get(this->destination->get_size() - 2);
+        // turn this card face down
+        if (prev_top != nullptr) {
+                prev_top->turn_face_down();
+        }
+
+        // take last card from stack
+        top = this->source->get();
+        // turn this card face up
+        if (top != nullptr) {
+                top->turn_face_up();
+        }
+
+        return true;
+}
+
+void MoveDeckToStackCommand::undo() {
+        // get last card from stack
+        Card *src_top = this->source->get();
+        // turn this card face down
+        if (src_top != nullptr) {
+            std::cout << src_top->to_string() << "\n";
+                src_top->turn_face_down();
+        }
+
+        // get last card from deck
+        Card * top = this->destination->get();
+        // push this card to stack
+        if (top != nullptr) {
+                this->source->push(*top);
+        }
+        // pop that card from deck
+        this->destination->pop();
+
+        // get last card of stack
+        top = this->destination->get();
+
+        // turn new top face up
+        if (top != nullptr) {
+            std::cout << "PICA " << top->to_string() << "\n";
                 top->turn_face_up();
         }
 }

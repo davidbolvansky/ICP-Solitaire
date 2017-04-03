@@ -33,6 +33,15 @@ public:
     virtual void undo() override;
 };
 
+class MoveDeckToStackCommand : public Command {
+    CardDeck *source;
+    CardStack *destination;
+public:
+    MoveDeckToStackCommand(CardDeck *source, CardStack *destination);
+    virtual bool execute() override;
+    virtual void undo() override;
+};
+
 class MoveStackToStackCommand : public Command {
     CardStack *source;
     CardStack *destination;
@@ -50,6 +59,7 @@ class CommandManager {
     public:
     bool execute_command(std::shared_ptr<Command> command);
     bool undo_command();
+    int get_size();
 };
 
 #endif // COMMAND_H

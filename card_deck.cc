@@ -6,6 +6,7 @@
 
 CardDeck::CardDeck(int size) {
         this->size = size;
+        this->color = NO_COLOR;
 }
 
 CardDeck::CardDeck(int size, Color color) {
@@ -15,23 +16,23 @@ CardDeck::CardDeck(int size, Color color) {
 
 CardDeck CardDeck::create_standard_deck() {
         CardDeck standard_deck {52};
-        Card card{Color::CLUBS, 1};
+        Card card {Color::CLUBS, 1};
 
         for (int i = 1; i <= 13; ++i) {
-            card = Card(Color::CLUBS,i);
-            standard_deck.push(card);
+                card = Card(Color::CLUBS,i);
+                standard_deck.push(card);
         }
         for (int i = 1; i <= 13; ++i) {
-            card = Card(Color::DIAMONDS,i);
-            standard_deck.push(card);
+                card = Card(Color::DIAMONDS,i);
+                standard_deck.push(card);
         }
         for (int i = 1; i <= 13; ++i) {
-            card = Card(Color::HEARTS,i);
-            standard_deck.push(card);
+                card = Card(Color::HEARTS,i);
+                standard_deck.push(card);
         }
         for (int i = 1; i <= 13; ++i) {
-            card = Card(Color::SPADES,i);
-            standard_deck.push(card);
+                card = Card(Color::SPADES,i);
+                standard_deck.push(card);
         }
 
         return standard_deck;
@@ -50,16 +51,16 @@ void CardDeck::shuffle() {
 }
 
 void CardDeck::swap(CardDeck &deck) {
-    this->cards_pack.swap(deck.cards_pack);
+        this->cards_pack.swap(deck.cards_pack);
 }
 
 bool CardDeck::push(Card &c) {
-    if (this->get_size() + 1 > this->size) {
-            return false;
-    }
+        if (this->get_size() + 1 > this->size) {
+                return false;
+        }
 
-    this->cards_pack.push_back(c);
-    return true;
+        this->cards_pack.push_back(c);
+        return true;
 }
 
 bool CardDeck::put(Card &c) {
@@ -110,6 +111,10 @@ Card * CardDeck::get(int index) {
 
 bool CardDeck::is_empty() {
         return this->cards_pack.empty();
+}
+
+Color CardDeck::get_color() {
+        return this->color;
 }
 
 void CardDeck::print() {

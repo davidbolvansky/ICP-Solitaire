@@ -38,11 +38,11 @@ std::string Card::to_string() {
         }
 
         card_text = card_text + "(" + Color_short_texts[this->color] + ")";
-        if (this->is_turned_face_up()) {
+        /*if (this->is_turned_face_up()) {
                 card_text += " turned up";
         } else {
                 card_text += " turned down";
-        }
+        }*/
         return card_text;
 }
 
@@ -59,6 +59,10 @@ bool Card::similar_color_to(Card &c) {
 
         return false;
 
+}
+
+bool Card::is_same_color(Color &c) {
+    return this->get_color() == c;
 }
 
 int Card::get_value() {

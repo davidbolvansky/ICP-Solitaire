@@ -15,7 +15,7 @@ const int CARDS_PER_PACK = 13;
 
 class Game {
     CardDeck main_card_deck {ALL_CARDS_COUNT};
-    CardDeck main_visible_card_deck {ALL_CARDS_COUNT};
+    CardDeck discard_card_deck {ALL_CARDS_COUNT};
 
     CardDeck target_spades_deck {CARDS_PER_PACK, SPADES};
     CardDeck target_diamonds_deck {CARDS_PER_PACK, DIAMONDS};
@@ -33,8 +33,12 @@ class Game {
     Game();
     CardDeck get_target_deck_by_color(Color c);
     CardStack get_working_stack_by_id(int index);
+    CardDeck get_main_card_deck();
+    CardDeck get_discard_card_deck();
     bool save(std::string filename);
     static Game * load(std::string filename);
+    int get_score();
+    int get_moves_count();
     void start();
     void pause();
     void resume();
