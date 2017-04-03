@@ -102,7 +102,6 @@ Game::Game() {
         //this->main_card_deck.print();
         //this->main_visible_card_deck.print();*/
 
-
         games_counter++;
 }
 
@@ -133,15 +132,32 @@ CardStack Game::get_working_stack_by_id(int index) {
         return this->working_card_stacks[index];
 }
 
-bool Game::save_game() {
+bool Game::save(std::string filename) {
         // todo
 }
 
-Game Game::load_game() {
-        Game a;
-        return a;
+Game * Game::load(std::string filename) {
+        Game *loaded_game = new Game;
+        return loaded_game;
 }
 
 int Game::get_games_count() {
         return games_counter;
+}
+
+void Game::start() {
+    this->started_at = std::chrono::high_resolution_clock::now();
+}
+
+void Game::pause() {
+   this->paused_at = std::chrono::high_resolution_clock::now();
+}
+
+void Game::resume() {
+    this->started_at += std::chrono::high_resolution_clock::now() - this->paused_at;
+}
+
+// http://www.informit.com/articles/article.aspx?p=1881386&seqNum=2
+std::chrono::seconds Game::get_total_time_in_seconds() {
+    return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - this->started_at);
 }

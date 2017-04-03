@@ -25,15 +25,20 @@ class Game {
     CardStack working_card_stacks [STACKS_COUNT] = { CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK},
                                                     CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}};
     int score;
-    std::chrono::high_resolution_clock::time_point timer;
+    std::chrono::high_resolution_clock::time_point started_at;
+    std::chrono::high_resolution_clock::time_point paused_at;
     CommandManager command_manager;
     static int games_counter;
     public:
     Game();
     CardDeck get_target_deck_by_color(Color c);
     CardStack get_working_stack_by_id(int index);
-    bool save_game();
-    Game load_game();
+    bool save(std::string filename);
+    static Game * load(std::string filename);
+    void start();
+    void pause();
+    void resume();
+    std::chrono::seconds get_total_time_in_seconds();
 
 static int get_games_count();
 };

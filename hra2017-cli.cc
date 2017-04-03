@@ -3,6 +3,8 @@
 #include "card_deck.h"
 #include "card_stack.h"
 #include "game.h"
+#include "board.h"
+#include <unistd.h> // DEBUG timer
 
 int main2()
 {
@@ -46,7 +48,18 @@ int main2()
 }
 
 int main(void) {
-	Game a;
+	/*Game a;
+	a.start();
+	sleep(2);
+	a.pause();
+	sleep(3);
+	a.resume();
+	sleep(4);*/
+
+	Board main;
+	Game * a = main.import_game("ahoj");
+	a->start();
+	std::cout << a->get_total_time_in_seconds().count() << "\n";
 	std::cout <<"Pocet hier: " <<  Game::get_games_count()  << std::endl;
 
 	return 0;

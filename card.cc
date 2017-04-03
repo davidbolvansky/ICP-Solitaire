@@ -6,14 +6,16 @@
 const char Color_short_texts[CARD_TYPES] = { 'S', 'D', 'H', 'C'};
 const char * Color_long_texts[CARD_TYPES] = { "Spades", "Diamonds", "Hearts", "Clubs"};
 
-Card::Card(Color c, int value) {
+Card::Card(Color c, int value, bool turned_face_up) {
         this->color = c;
         if (value < 1 || value > 13) {
                 throw std::out_of_range ("card value out of range");
         }
         this->value = value;
-        this->turned_face_up = false;
+        this->turned_face_up = turned_face_up;
 }
+
+Card::Card(Color c, int value ): Card(c, value, false) {}
 
 std::string Card::to_string() {
         std::string card_text;
