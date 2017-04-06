@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
         Game * game = main.create_new_game();
         game->start();
         int parent_x, parent_y, new_x, new_y;
-        int score_size = 3;
+        int game_info_size = 3;
 
 
 
@@ -53,11 +53,11 @@ int main(int argc, char *argv[]) {
         // set up initial windows
         getmaxyx(stdscr, parent_y, parent_x);
 
-        WINDOW *game_board = newwin(parent_y - score_size, parent_x, 0, 0);
-        WINDOW *score = newwin(score_size, parent_x, parent_y - score_size, 0);
+        WINDOW *game_board = newwin(parent_y - game_info_size, parent_x, 0, 0);
+        WINDOW *game_info = newwin(game_info_size, parent_x, parent_y - game_info_size, 0);
 
         draw_borders(game_board);
-        draw_borders(score);
+        draw_borders(game_info);
 
         while(1) {
                 getmaxyx(stdscr, new_y, new_x);
@@ -66,16 +66,16 @@ int main(int argc, char *argv[]) {
                         parent_x = new_x;
                         parent_y = new_y;
 
-                        wresize(game_board, new_y - score_size, new_x);
-                        wresize(score, score_size, new_x);
-                        mvwin(score, new_y - score_size, 0);
+                        wresize(game_board, new_y - game_info_size, new_x);
+                        wresize(game_info, game_info_size, new_x);
+                        mvwin(game_info, new_y - game_info_size, 0);
 
                         wclear(stdscr);
                         wclear(game_board);
-                        wclear(score);
+                        wclear(game_info);
 
                         draw_borders(game_board);
-                        draw_borders(score);
+                        draw_borders(game_info);
                 }
 
                 // draw to our windows
@@ -90,19 +90,19 @@ int main(int argc, char *argv[]) {
                 mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "Stack 1    Stack 2    Stack 3    Stack 4    Stack 5    Stack 6    Stack 7");
                 for (int i = 0; i < CARDS_PER_PACK; ++i) {
                         mvwprintw(game_board, 6 + i, LEFT_WINDOW_OFFSET, "  %s\t%s\t %s\t    %s\t%s\t  %s\t     %s",
-                                  game->get_working_stack_by_id(0).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(0).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(0).get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(1).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(1).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(1).get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(2).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(2).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(2).get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(3).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(3).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(3).get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(4).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(4).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(4).get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(5).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(5).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(5).get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(6).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(6).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(6).get(i)->to_string().c_str() : FACE_DOWN_CARD);
+                                  game->get_card_from_stack(0, i) == nullptr ? NO_CARD : game->get_working_stack_by_id(0).get(i)->is_turned_face_up() ? game->get_card_from_stack(0, i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_card_from_stack(1, i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(1).get(i)->is_turned_face_up() ? game->get_card_from_stack(1, i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_card_from_stack(2, i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(2).get(i)->is_turned_face_up() ? game->get_card_from_stack(2, i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_card_from_stack(3, i) == nullptr ? NO_CARD : game->get_working_stack_by_id(3).get(i)->is_turned_face_up() ? game->get_card_from_stack(3, i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_card_from_stack(4, i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(4).get(i)->is_turned_face_up() ? game->get_card_from_stack(4, i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_card_from_stack(5, i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(5).get(i)->is_turned_face_up() ? game->get_card_from_stack(5, i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_card_from_stack(6, i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(6).get(i)->is_turned_face_up() ? game->get_card_from_stack(6, i)->to_string().c_str() : FACE_DOWN_CARD);
                 }
-                mvwprintw(score, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %d seconds | Score: %d |", game->get_moves_count(), game->get_total_time_in_seconds(), game->get_score());
+                mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %d seconds | game_info: %d |", game->get_moves_count(), game->get_total_time_in_seconds(), game->get_score());
 
                 // refresh each window
                 wrefresh(game_board);
-                wrefresh(score);
+                wrefresh(game_info);
         }
 
         endwin();

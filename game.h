@@ -35,6 +35,7 @@ class Game {
     CardStack get_working_stack_by_id(int index);
     CardDeck get_main_card_deck();
     CardDeck get_discard_card_deck();
+    Card * get_card_from_stack(int stack_index, int card_index);
     bool save(std::string filename);
     static Game * load(std::string filename);
     int get_score();

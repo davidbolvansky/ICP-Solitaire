@@ -157,6 +157,10 @@ CardDeck Game::get_discard_card_deck() {
     return this->discard_card_deck;
 }
 
+Card * Game::get_card_from_stack(int stack_index, int card_index) {
+    return this->get_working_stack_by_id(stack_index).get(card_index);
+}
+
 bool Game::save(std::string filename) {
         // todo
 }
