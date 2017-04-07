@@ -112,27 +112,11 @@ int main(int argc, char *argv[]) {
                 // refresh each window
                 int c = getch();
                 if (c == 'c') {
-                        wclear(game_board);
-                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Commands:");
-                        mvwprintw(game_board, 2, LEFT_WINDOW_OFFSET, "g - get card");
-                        mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "e - exit");
-                        mvwprintw(game_board, 4, LEFT_WINDOW_OFFSET, "dds[1-7] - take card from discard deck to stack 1 - 7");
-                        mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "ddd[1-4] - take card from discard deck to deck 1 - 4");
-                        mvwprintw(game_board, 6, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - take card from deck 1 - 4 to stack 1 - 7");
-                        mvwprintw(game_board, 7, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - take card from stack 1 - 7 to deck 1 - 4");
-                        mvwprintw(game_board, 8, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
-
-                        wrefresh(game_board);
-                        wrefresh(game_board);
                         std::string command;
                         std::cin >> command;
 
-                        if (command == "e") {
-                                break;
-                        } else if (command == "g") {
+                        if (command == "g") {
                                 game->get_card_from_main_deck_to_discard_deck();
-                        } else if (command == "h") {
-                                break;
                         } else if (command.substr(0, 3) == "dds") {
                                 int i = atoi(command.substr(3, 4).data()) - 1;
                                 if (!game->move_card_from_discard_deck_to_working_stack(i)) {
@@ -170,6 +154,23 @@ int main(int argc, char *argv[]) {
                         } else if (command == "u") {
                                 game->undo();
                         }
+                } else if (c == 'h') {
+                    wclear(game_board);
+                    mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Help:");
+                    mvwprintw(game_board, 2, LEFT_WINDOW_OFFSET, "e - Exit game");
+                    mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "g - Get card from main deck to discard deck");
+                    mvwprintw(game_board, 4, LEFT_WINDOW_OFFSET, "dds[1-7] - Take card from discard deck to stack 1 - 7");
+                    mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "ddd[1-4] - Take card from discard deck to deck 1 - 4");
+                    mvwprintw(game_board, 6, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - Take card from deck 1 - 4 to stack 1 - 7");
+                    mvwprintw(game_board, 7, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
+                    mvwprintw(game_board, 8, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
+
+                    mvwprintw(game_board, 10, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
+
+                    wrefresh(game_board);
+                    std::cin.ignore();
+                } else if (c == 'e') {
+                    break;
                 }
 
                 wrefresh(game_board);
