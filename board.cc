@@ -11,7 +11,7 @@ Game * Board::create_new_game() {
 }
 
 Game * Board::add_game(Game *g) {
-        if (get_games_count() > this->get_games_count_limit()) {
+        if (this->get_games_count() > this->get_games_count_limit()) {
                 return nullptr;
         }
 
@@ -21,7 +21,7 @@ Game * Board::add_game(Game *g) {
 }
 
 Game * Board::get_game(int index) {
-        if (index < 0 || index > this->get_games_count()) {
+        if (index < 0 || index > this->get_games_count() - 1) {
                 return nullptr;
         }
         return this->games[index].get();

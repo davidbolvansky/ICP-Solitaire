@@ -163,9 +163,11 @@ int main(int argc, char *argv[]) {
                                 int deck_index = command[3]- '0' - 1;
                                 if (!game->move_card_from_working_stack_to_target_deck(stack_index , deck_index)) {
                                         wclear(game_board);
+                                        wclear(game_info);
                                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
                                         wrefresh(game_board);
                                         sleep(1);
+                                        wrefresh(game_info);
                                 }
                         } else if (command == "u") {
                                 game->undo();
@@ -177,14 +179,16 @@ int main(int argc, char *argv[]) {
                     mvwprintw(game_board, 2, LEFT_WINDOW_OFFSET, "e - Exit game");
                     mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "p - Pause game");
                     mvwprintw(game_board, 4, LEFT_WINDOW_OFFSET, "r - Resume game");
-                    mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "g - Get card from main deck to discard deck");
-                    mvwprintw(game_board, 6, LEFT_WINDOW_OFFSET, "dds[1-7] - Take card from discard deck to stack 1 - 7");
-                    mvwprintw(game_board, 7, LEFT_WINDOW_OFFSET, "ddd[1-4] - Take card from discard deck to deck 1 - 4");
-                    mvwprintw(game_board, 8, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - Take card from deck 1 - 4 to stack 1 - 7");
-                    mvwprintw(game_board, 9, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
-                    mvwprintw(game_board, 10, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
+                    mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "n - New game");
+                    mvwprintw(game_board, 6, LEFT_WINDOW_OFFSET, "g[1-4] - Switch game");
+                    mvwprintw(game_board, 7, LEFT_WINDOW_OFFSET, "g - Get card from main deck to discard deck");
+                    mvwprintw(game_board, 8, LEFT_WINDOW_OFFSET, "dds[1-7] - Take card from discard deck to stack 1 - 7");
+                    mvwprintw(game_board, 9, LEFT_WINDOW_OFFSET, "ddd[1-4] - Take card from discard deck to deck 1 - 4");
+                    mvwprintw(game_board, 10, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - Take card from deck 1 - 4 to stack 1 - 7");
+                    mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
+                    mvwprintw(game_board, 12, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
 
-                    mvwprintw(game_board, 12, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
+                    mvwprintw(game_board, 14, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
 
                     wrefresh(game_board);
                     wrefresh(game_info);
@@ -193,6 +197,36 @@ int main(int argc, char *argv[]) {
                     game->pause();
                 } else if (c == 'r') {
                     game->resume();
+                } else if (c == 'n') {
+                    //delete game;
+                    if((game = main.create_new_game()) == nullptr) {
+                        wclear(game_board);
+                        wclear(game_info);
+                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not start new game.");
+                        wrefresh(game_board);
+                        wrefresh(game_info);
+                        sleep(3);
+                        endwin();
+                        exit(EXIT_FAILURE);
+                    }
+                    game->start();
+                } else if (c == 'g') {
+                    game->pause();
+                    std::string id;
+                    std::cin >> id;;
+                    int game_index = id[0] - '0' - 1;
+                    if((game = main.get_game(game_index)) == nullptr) {
+                        wclear(game_board);
+                        wclear(game_info);
+                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not switch to game.");
+                        wrefresh(game_board);
+                        wrefresh(game_info);
+                        sleep(3);
+                        endwin();
+                        exit(EXIT_FAILURE);
+                    } else {
+                        game->start();
+                    }
                 } else if (c == 'e') {
                     break;
                 }
