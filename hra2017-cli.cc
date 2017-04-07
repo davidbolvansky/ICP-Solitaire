@@ -212,9 +212,8 @@ int main(int argc, char *argv[]) {
                     game->start();
                 } else if (c == 'g') {
                     game->pause();
-                    std::string id;
-                    std::cin >> id;;
-                    int game_index = id[0] - '0' - 1;
+                    int id = std::getchar();
+                    int game_index = id - '0' - 1;
                     if((game = main.get_game(game_index)) == nullptr) {
                         wclear(game_board);
                         wclear(game_info);
