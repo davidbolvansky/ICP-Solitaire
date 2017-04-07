@@ -17,6 +17,7 @@ int get_size();
 Card* get();
 Card* get(int index);
 Card* pop();
+CardStack top(Card &c);
 CardStack pop(Card &c);
 bool is_empty();
 void print();

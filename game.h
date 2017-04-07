@@ -17,11 +17,7 @@ class Game {
     CardDeck main_card_deck {ALL_CARDS_COUNT};
     CardDeck discard_card_deck {ALL_CARDS_COUNT};
 
-    CardDeck target_spades_deck {CARDS_PER_PACK, SPADES};
-    CardDeck target_diamonds_deck {CARDS_PER_PACK, DIAMONDS};
-    CardDeck target_hearts_deck {CARDS_PER_PACK, HEARTS};
-    CardDeck target_clubs_deck {CARDS_PER_PACK, CLUBS};
-
+    CardDeck target_card_decks [DECKS_COUNT] = { CardDeck {CARDS_PER_PACK, Color::SPADES} , CardDeck {CARDS_PER_PACK, Color::DIAMONDS}, CardDeck {CARDS_PER_PACK, Color::HEARTS}, CardDeck {CARDS_PER_PACK, Color::CLUBS}};
     CardStack working_card_stacks [STACKS_COUNT] = { CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK},
                                                     CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}};
     int score;
@@ -31,11 +27,10 @@ class Game {
     static int games_counter;
     public:
     Game();
-    CardDeck get_target_deck_by_color(Color c);
+    CardDeck get_target_deck_by_id(int index);
     CardStack get_working_stack_by_id(int index);
     CardDeck get_main_card_deck();
     CardDeck get_discard_card_deck();
-    Card * get_card_from_stack(int stack_index, int card_index);
     bool save(std::string filename);
     static Game * load(std::string filename);
     int get_score();
@@ -43,6 +38,13 @@ class Game {
     void start();
     void pause();
     void resume();
+
+    void undo();
+    bool get_card_from_main_deck_to_discard_deck();
+    bool move_card_from_discard_deck_to_working_stack(int stack_index);
+    bool move_card_from_discard_deck_to_target_deck(int deck_index);
+    bool move_card_from_target_deck_to_working_stack(int deck_index, int stack_index);
+    bool move_card_from_working_stack_to_target_deck(int stack_index, int deck_index);
     std::chrono::seconds get_total_time_in_seconds();
 
 static int get_games_count();

@@ -3,6 +3,7 @@
 
 #include <stack>
 #include <memory>
+#include "card.h"
 #include "card_deck.h"
 #include "card_stack.h"
 
@@ -45,9 +46,18 @@ public:
 class MoveStackToStackCommand : public Command {
     CardStack *source;
     CardStack *destination;
-    Card *top_card;
+    Card top_card;
 public:
-    MoveStackToStackCommand(CardStack *source, CardStack *destination);
+    MoveStackToStackCommand(CardStack *source, CardStack *destination, Card &top_card);
+    virtual bool execute() override;
+    virtual void undo() override;
+};
+
+class MoveMainDeckToDiscardDeckCommand : public Command {
+    CardDeck *source;
+    CardDeck *destination;
+public:
+    MoveMainDeckToDiscardDeckCommand(CardDeck *source, CardDeck *destination);
     virtual bool execute() override;
     virtual void undo() override;
 };

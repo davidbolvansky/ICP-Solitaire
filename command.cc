@@ -24,7 +24,7 @@ bool CommandManager::undo_command() {
 }
 
 int CommandManager::get_size() {
-    return this->commands_stack.size();
+        return this->commands_stack.size();
 }
 
 // DECK TO DECK (Main deck to visible deck)
@@ -44,8 +44,8 @@ bool MoveDeckToDeckCommand::execute() {
         Card * top = this->source->get();
 
         if (top != nullptr) {
-                // try to push this card to second deck
-                if (!this->destination->push(*top)) {
+                // try to put this card to second deck
+                if (!this->destination->put(*top)) {
                         return false;
                 }
 
@@ -180,11 +180,12 @@ bool MoveDeckToStackCommand::execute() {
                 return false;
         }
 
+
         // take last card from stack
         Card * top = this->source->get();
         // try to push this card to stack
         if (!this->destination->put(*top)) {
-                return false;
+            return false;
         }
 
         // pop that card from stack
@@ -205,7 +206,7 @@ void MoveDeckToStackCommand::undo() {
         Card *src_top = this->source->get();
         // turn this card face down
         if (src_top != nullptr) {
-            src_top->turn_face_down();
+                src_top->turn_face_down();
         }
 
         // get last card from deck
@@ -220,9 +221,10 @@ void MoveDeckToStackCommand::undo() {
 
 // STACK TO STACK
 
-MoveStackToStackCommand::MoveStackToStackCommand(CardStack *source, CardStack *destination) {
+MoveStackToStackCommand::MoveStackToStackCommand(CardStack *source, CardStack *destination, Card &top_card) {
         this->source = source;
         this->destination = destination;
+        this->top_card = top_card;
 }
 
 bool MoveStackToStackCommand::execute() {
@@ -231,16 +233,16 @@ bool MoveStackToStackCommand::execute() {
                 return false;
         }
 
-        // get last card of second stack
-        this->top_card = this->destination->get();
-
         // get all cards since this card from first stack
-        CardStack moved_cards = this->source->pop(*this->top_card);
+        CardStack moved_cards = this->source->top(this->top_card);
 
         // return if no cards to move or cannot put them
         if (moved_cards.is_empty() || !this->destination->put(moved_cards)) {
                 return false;
         }
+
+        // pop all cards since this card from first stack
+        this->source->pop(this->top_card);
 
         // get last card of first stack
         Card *src_top = this->source->get();
@@ -254,7 +256,7 @@ bool MoveStackToStackCommand::execute() {
 
 void MoveStackToStackCommand::undo() {
         // get all cards since last card of second stack from second stack
-        CardStack moved_cards = this->destination->pop(*this->top_card);
+        CardStack moved_cards = this->destination->pop(this->top_card);
 
         // get last card of first stack
         Card *src_top = this->source->get();
@@ -265,4 +267,76 @@ void MoveStackToStackCommand::undo() {
 
         // put cards back to first stack
         this->source->put(moved_cards);
+}
+
+// Main to discard DECK
+MoveMainDeckToDiscardDeckCommand::MoveMainDeckToDiscardDeckCommand(CardDeck *source, CardDeck *destination) {
+        this->source = source;
+        this->destination = destination;
+}
+
+bool MoveMainDeckToDiscardDeckCommand::execute() {
+        // return if both decks are empty
+        if (this->source->is_empty() && this->destination->is_empty()) {
+                return false;
+        }
+
+        // get last card of first deck
+        Card * top = this->source->get();
+
+        if (top != nullptr) {
+                // try to push this card to second deck
+                if (!this->destination->push(*top)) {
+                        return false;
+                }
+
+                // pop last card from first deck
+                this->source->pop();
+
+                // get previous card of top of second deck
+                Card * prev_top = this->destination->get(this->destination->get_size() - 2);
+
+                // turn this card face down
+                if (prev_top != nullptr) {
+                        prev_top->turn_face_down();
+                }
+
+                // get last card of second deck
+                Card *dest_top = this->destination->get();
+                // turn this card face down
+                dest_top->turn_face_up();
+        } else {
+                // just swap decks
+                this->source->swap(*this->destination);
+        }
+
+        return true;
+}
+
+void MoveMainDeckToDiscardDeckCommand::undo() {
+        // get last card of second deck
+        Card * top = this->destination->get();
+
+        if (top != nullptr) {
+                // pop last card from second deck
+                this->destination->pop();
+
+                // push this card to first deck
+                this->source->push(*top);
+
+                // last card of second deck
+                top = this->destination->get();
+                // turn this card face up
+                if (top != nullptr) {
+                        top->turn_face_up();
+                }
+
+                // get last card of first deck
+                Card *src_top = this->source->get();
+                // turn this card face down
+                src_top->turn_face_down();
+        } else {
+                // just swap decks
+                this->destination->swap(*this->source);
+        }
 }
