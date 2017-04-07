@@ -75,7 +75,19 @@ bool CardStack::is_empty() {
 }
 
 bool CardStack::put(CardStack &stack) {
-        if (this->is_empty() || this->get_size() + stack.get_size() > this->size) return false;
+        if (this->get_size() + stack.get_size() > this->size) return false;
+
+        for (Card c : stack.cards_pack) {
+            if (!this->put(c)) {
+                return false;
+            }
+        }
+
+        return true;
+}
+
+bool CardStack::push(CardStack &stack) {
+        if (this->get_size() + stack.get_size() > this->size) return false;
 
         for (Card c : stack.cards_pack) {
                 this->push(c);

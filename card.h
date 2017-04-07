@@ -11,7 +11,6 @@ class Card {
     int value;
     bool turned_face_up;
     public:
-    Card() {};
     Card(Color c, int value, bool turned_face_up);
     Card(Color c, int value);
     std::string to_string();

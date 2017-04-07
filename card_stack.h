@@ -11,6 +11,7 @@ std::vector<Card> cards_pack;
 public:
 CardStack(int size);
 bool push(Card &c);
+bool push(CardStack &stack);
 bool put(Card &c);
 bool put(CardStack &stack);
 int get_size();

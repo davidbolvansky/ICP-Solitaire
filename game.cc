@@ -201,30 +201,34 @@ bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, i
                 return false;
         }
 
-        Card * top = get_working_stack_by_id(src_stack_index).get(card_index);
+        Card * top = get_working_stack_by_id(src_stack_index)->get(card_index);
         if (top == nullptr) {
             return false;
         }
 
-        MoveStackToStackCommand *sts = new MoveStackToStackCommand {&this->working_card_stacks[src_stack_index], &this->working_card_stacks[dest_stack_index], *top};
+        FILE *p=fopen("afddj", "w+");
+        fprintf(p, "FF %s\n", top->to_string().c_str());
+        fclose(p);
+
+        MoveStackToStackCommand *sts = new MoveStackToStackCommand {&this->working_card_stacks[src_stack_index], &this->working_card_stacks[dest_stack_index], top};
         std::shared_ptr<Command> cmd{sts};
         return this->command_manager.execute_command(cmd);
 }
 
-CardDeck Game::get_target_deck_by_id(int index) {
-        return target_card_decks[index];
+CardDeck * Game::get_target_deck_by_id(int index) {
+        return &target_card_decks[index];
 }
 
-CardStack Game::get_working_stack_by_id(int index) {
-        return this->working_card_stacks[index];
+CardStack * Game::get_working_stack_by_id(int index) {
+        return &this->working_card_stacks[index];
 }
 
-CardDeck Game::get_main_card_deck() {
-        return this->main_card_deck;
+CardDeck * Game::get_main_card_deck() {
+        return &this->main_card_deck;
 }
 
-CardDeck Game::get_discard_card_deck() {
-        return this->discard_card_deck;
+CardDeck * Game::get_discard_card_deck() {
+        return &this->discard_card_deck;
 }
 
 bool Game::save(std::string filename) {
@@ -243,7 +247,7 @@ int Game::get_games_count() {
 int Game::get_score() {
         int score = 0;
         for (int i = 0; i < DECKS_COUNT; ++i) {
-                score += this->get_target_deck_by_id(i).get_size();
+                score += this->get_target_deck_by_id(i)->get_size();
         }
 
         return score;

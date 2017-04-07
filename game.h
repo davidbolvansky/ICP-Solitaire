@@ -28,10 +28,10 @@ class Game {
     static int games_counter;
     public:
     Game();
-    CardDeck get_target_deck_by_id(int index);
-    CardStack get_working_stack_by_id(int index);
-    CardDeck get_main_card_deck();
-    CardDeck get_discard_card_deck();
+    CardDeck * get_target_deck_by_id(int index);
+    CardStack * get_working_stack_by_id(int index);
+    CardDeck * get_main_card_deck();
+    CardDeck * get_discard_card_deck();
     bool save(std::string filename);
     static Game * load(std::string filename);
     int get_score();

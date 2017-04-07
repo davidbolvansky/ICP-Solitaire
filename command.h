@@ -46,9 +46,10 @@ public:
 class MoveStackToStackCommand : public Command {
     CardStack *source;
     CardStack *destination;
-    Card top_card;
+    Card * top_card;
+    CardStack moved_cards{13};
 public:
-    MoveStackToStackCommand(CardStack *source, CardStack *destination, Card &top_card);
+    MoveStackToStackCommand(CardStack *source, CardStack *destination, Card *top_card);
     virtual bool execute() override;
     virtual void undo() override;
 };

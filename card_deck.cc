@@ -16,21 +16,20 @@ CardDeck::CardDeck(int size, Color color) {
 
 CardDeck CardDeck::create_standard_deck() {
         CardDeck standard_deck {52};
-        Card card{};
         for (int i = 1; i <= 13; ++i) {
-                card = Card(Color::CLUBS,i);
+                Card card = Card(Color::CLUBS,i);
                 standard_deck.push(card);
         }
         for (int i = 1; i <= 13; ++i) {
-                card = Card(Color::DIAMONDS,i);
+                Card card = Card(Color::DIAMONDS,i);
                 standard_deck.push(card);
         }
         for (int i = 1; i <= 13; ++i) {
-                card = Card(Color::HEARTS,i);
+                Card card = Card(Color::HEARTS,i);
                 standard_deck.push(card);
         }
         for (int i = 1; i <= 13; ++i) {
-                card = Card(Color::SPADES,i);
+                Card card = Card(Color::SPADES,i);
                 standard_deck.push(card);
         }
 
@@ -46,7 +45,7 @@ CardDeck CardDeck::create_target_pack(Color color) {
 }
 
 void CardDeck::shuffle() {
-        //std::srand(time(NULL));
+        std::srand(time(NULL));
         std::random_shuffle (this->cards_pack.begin(), this->cards_pack.end());
 }
 
