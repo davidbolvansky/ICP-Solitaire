@@ -103,13 +103,29 @@ int main(int argc, char *argv[]) {
                                   game->get_working_stack_by_id(5).get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(5).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(5).get(i)->to_string().c_str() : FACE_DOWN_CARD,
                                   game->get_working_stack_by_id(6).get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(6).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(6).get(i)->to_string().c_str() : FACE_DOWN_CARD);
                 }
-                mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %d seconds | Score: %d", game->get_moves_count(), game->get_total_time_in_seconds().count(), game->get_score());
+
+                int total_time = game->get_total_time_in_seconds().count();
+                std::string game_time;
+                int minutes = total_time / 60;
+                int seconds = total_time % 60;
+                if (minutes == 1) {
+                    game_time += "1 minute ";
+                } else if (minutes > 1) {
+                    game_time += std::to_string(minutes) + " minutes ";
+                }
+
+                if (seconds == 1) {
+                    game_time += "1 second";
+                } else if (seconds > 1) {
+                    game_time += std::to_string(seconds) + " seconds";
+                }
+
+                mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %s | Score: %d", game->get_moves_count(), game_time.data(), game->get_score());
 
                 if (game->get_total_time_in_seconds().count() <  20) {
 
                 }
 
-                // refresh each window
                 int c = getch();
                 if (c == 'c') {
                         std::string command;
