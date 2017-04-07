@@ -234,17 +234,27 @@ int Game::get_moves_count() {
 
 void Game::start() {
         this->started_at = std::chrono::high_resolution_clock::now();
+        this->paused = false;
 }
 
 void Game::pause() {
+        if (this->paused) return;
         this->paused_at = std::chrono::high_resolution_clock::now();
+        this->paused = true;
 }
 
 void Game::resume() {
+        if (!this->paused) return;
         this->started_at += std::chrono::high_resolution_clock::now() - this->paused_at;
+        this->paused = false;
 }
 
 // http://www.informit.com/articles/article.aspx?p=1881386&seqNum=2
 std::chrono::seconds Game::get_total_time_in_seconds() {
-        return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - this->started_at);
+        if (this->paused) {
+            return std::chrono::duration_cast<std::chrono::seconds>(this->paused_at - this->started_at);
+        }
+        else {
+            return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - this->started_at);
+        }
 }

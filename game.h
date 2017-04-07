@@ -21,6 +21,7 @@ class Game {
     CardStack working_card_stacks [STACKS_COUNT] = { CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK},
                                                     CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}};
     int score;
+    bool paused;
     std::chrono::high_resolution_clock::time_point started_at;
     std::chrono::high_resolution_clock::time_point paused_at;
     CommandManager command_manager;
