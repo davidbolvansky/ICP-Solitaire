@@ -192,7 +192,7 @@ bool MoveDeckToStackCommand::execute() {
         Card * top = this->source->get();
         // try to push this card to stack
         if (!this->destination->put(*top)) {
-            return false;
+                return false;
         }
 
         // pop that card from stack
@@ -236,21 +236,30 @@ MoveStackToStackCommand::MoveStackToStackCommand(CardStack *source, CardStack *d
 
 bool MoveStackToStackCommand::execute() {
         // return if one of stack is empty
-        if (this->source->is_empty() || this->destination->is_empty()) {
+        if (this->source->is_empty()) {
                 return false;
         }
 
         // check if card is turned face up
         if (!this->top_card->is_turned_face_up()) {
-            return false;
+                return false;
         }
 
         // get all cards since this card from first stack
         this->moved_cards = this->source->top(*this->top_card);
 
-        // return if cannot put cards
-        if (!this->destination->put(moved_cards)) {
-            return false;
+        // put one card
+        if(this->moved_cards.get_size() == 1) {
+            Card * top = this->moved_cards.get();
+            // return if cannot put card
+            if (!this->destination->put(*top)) {
+                return false;
+            }
+        } else { // put more cards
+                // return if cannot put cards
+                if (!this->destination->put(moved_cards)) {
+                        return false;
+                }
         }
 
         // pop all cards since this card from first stack
