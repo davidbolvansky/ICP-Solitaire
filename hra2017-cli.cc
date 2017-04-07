@@ -93,8 +93,8 @@ int main(int argc, char *argv[]) {
                 mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "Stack 1    Stack 2    Stack 3    Stack 4    Stack 5    Stack 6    Stack 7");
                 for (int i = 0; i <  13; ++i) {
 
-
-                        mvwprintw(game_board, 6 + i, LEFT_WINDOW_OFFSET, "  %s\t%s\t %s\t    %s\t%s\t  %s\t     %s",
+                        int offset = i + 1 >= 10 ? 1 : 2;
+                        mvwprintw(game_board, 6 + i, offset, "%d %s\t%s\t %s\t    %s\t%s\t  %s\t     %s", i + 1,
                                   game->get_working_stack_by_id(0).get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(0).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(0).get(i)->to_string().c_str() : FACE_DOWN_CARD,
                                   game->get_working_stack_by_id(1).get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(1).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(1).get(i)->to_string().c_str() : FACE_DOWN_CARD,
                                   game->get_working_stack_by_id(2).get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(2).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(2).get(i)->to_string().c_str() : FACE_DOWN_CARD,
@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
                                   game->get_working_stack_by_id(5).get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(5).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(5).get(i)->to_string().c_str() : FACE_DOWN_CARD,
                                   game->get_working_stack_by_id(6).get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(6).get(i)->is_turned_face_up() ? game->get_working_stack_by_id(6).get(i)->to_string().c_str() : FACE_DOWN_CARD);
                 }
-                mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %d seconds | Score: %d |", game->get_moves_count(), game->get_total_time_in_seconds().count(), game->get_score());
+                mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %d seconds | Score: %d", game->get_moves_count(), game->get_total_time_in_seconds().count(), game->get_score());
 
                 if (game->get_total_time_in_seconds().count() <  20) {
 
