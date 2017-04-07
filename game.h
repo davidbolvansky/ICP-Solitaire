@@ -46,6 +46,7 @@ class Game {
     bool move_card_from_discard_deck_to_target_deck(int deck_index);
     bool move_card_from_target_deck_to_working_stack(int deck_index, int stack_index);
     bool move_card_from_working_stack_to_target_deck(int stack_index, int deck_index);
+    bool move_cards_from_working_stack_to_working_stack(int src_stack_index , int dest_stack_index, int card_index);
     std::chrono::seconds get_total_time_in_seconds();
 
 static int get_games_count();

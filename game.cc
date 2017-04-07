@@ -167,10 +167,10 @@ bool Game::move_card_from_discard_deck_to_target_deck(int deck_index) {
 }
 
 bool Game::move_card_from_target_deck_to_working_stack(int deck_index, int stack_index) {
-        if (deck_index < 0 || deck_index > 3) {
+        if (deck_index < 0 || deck_index > DECKS_COUNT - 1) {
                 return false;
         }
-        if (stack_index < 0 || stack_index > 6) {
+        if (stack_index < 0 || stack_index > STACKS_COUNT - 1) {
                 return false;
         }
         MoveDeckToStackCommand *dts = new MoveDeckToStackCommand {&this->target_card_decks[deck_index], &this->working_card_stacks[stack_index]};
@@ -179,14 +179,35 @@ bool Game::move_card_from_target_deck_to_working_stack(int deck_index, int stack
 }
 
 bool Game::move_card_from_working_stack_to_target_deck(int stack_index, int deck_index) {
-        if (deck_index < 0 || deck_index > 3) {
+        if (deck_index < 0 || deck_index > DECKS_COUNT - 1) {
                 return false;
         }
-        if (stack_index < 0 || stack_index > 6) {
+        if (stack_index < 0 || stack_index > STACKS_COUNT - 1) {
                 return false;
         }
         MoveStackToDeckCommand *std = new MoveStackToDeckCommand {&this->working_card_stacks[stack_index], &this->target_card_decks[deck_index]};
         std::shared_ptr<Command> cmd {std};
+        return this->command_manager.execute_command(cmd);
+}
+
+bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, int dest_stack_index, int card_index) {
+        if (src_stack_index < 0 || src_stack_index > STACKS_COUNT - 1) {
+                return false;
+        }
+        if (dest_stack_index < 0 || dest_stack_index > STACKS_COUNT - 1) {
+                return false;
+        }
+        if (card_index < 0 || card_index > CARDS_PER_PACK - 1) {
+                return false;
+        }
+
+        Card * top = get_working_stack_by_id(src_stack_index).get(card_index);
+        if (top == nullptr) {
+            return false;
+        }
+
+        MoveStackToStackCommand *sts = new MoveStackToStackCommand {&this->working_card_stacks[src_stack_index], &this->working_card_stacks[dest_stack_index], *top};
+        std::shared_ptr<Command> cmd{sts};
         return this->command_manager.execute_command(cmd);
 }
 
@@ -252,9 +273,9 @@ void Game::resume() {
 // http://www.informit.com/articles/article.aspx?p=1881386&seqNum=2
 std::chrono::seconds Game::get_total_time_in_seconds() {
         if (this->paused) {
-            return std::chrono::duration_cast<std::chrono::seconds>(this->paused_at - this->started_at);
+                return std::chrono::duration_cast<std::chrono::seconds>(this->paused_at - this->started_at);
         }
         else {
-            return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - this->started_at);
+                return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - this->started_at);
         }
 }

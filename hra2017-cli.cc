@@ -169,6 +169,32 @@ int main(int argc, char *argv[]) {
                                         sleep(1);
                                         wrefresh(game_info);
                                 }
+                        } else if (command.size() == 6 && command[0] == 's' && command[2] == 's') {
+                                int src_stack_index  = command[1] - '0' - 1;
+                                int dest_stack_index = command[3]- '0' - 1;
+                                int card_index = command[5]- '0' - 1;
+
+                                if (!(game->move_cards_from_working_stack_to_working_stack(src_stack_index , dest_stack_index, card_index))) {
+                                        wclear(game_board);
+                                        wclear(game_info);
+                                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
+                                        wrefresh(game_board);
+                                        sleep(1);
+                                        wrefresh(game_info);
+                                }
+                        } else if (command.size() == 7 && command[0] == 's' && command[2] == 's' && command[4] == 'c') {
+                                int src_stack_index  = command[1] - '0' - 1;
+                                int dest_stack_index = command[3]- '0' - 1;
+                                int card_index = atoi(command.substr(5, 7).data()) - 1;
+
+                                if (!(game->move_cards_from_working_stack_to_working_stack(src_stack_index , dest_stack_index, card_index))) {
+                                        wclear(game_board);
+                                        wclear(game_info);
+                                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
+                                        wrefresh(game_board);
+                                        sleep(1);
+                                        wrefresh(game_info);
+                                }
                         } else if (command == "u") {
                                 game->undo();
                         }

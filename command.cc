@@ -233,12 +233,17 @@ bool MoveStackToStackCommand::execute() {
                 return false;
         }
 
+        // check if card is turned face up
+        if (!this->top_card.is_turned_face_up()) {
+            return false;
+        }
+
         // get all cards since this card from first stack
         CardStack moved_cards = this->source->top(this->top_card);
 
-        // return if no cards to move or cannot put them
-        if (moved_cards.is_empty() || !this->destination->put(moved_cards)) {
-                return false;
+        // return if cannot put cards
+        if (!this->destination->put(moved_cards)) {
+            return false;
         }
 
         // pop all cards since this card from first stack

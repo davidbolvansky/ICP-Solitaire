@@ -85,16 +85,15 @@ bool CardStack::put(CardStack &stack) {
 }
 
 CardStack CardStack::top(Card &c) {
-    CardStack card_stack {0};
+    CardStack card_stack {13};
     bool take_cards = false;
-
     for (Card card : this->cards_pack) {
             if (card.equals(c)) {
                     take_cards = true;
             }
 
             if (take_cards) {
-                    card_stack.push(card);
+                card_stack.push(card);
             }
     }
 
