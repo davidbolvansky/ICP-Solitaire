@@ -1,5 +1,5 @@
 TODO
-- import/export hry
+- import/export hry -- DONE
 - hinty - napoveda na tah
 
 - GUI

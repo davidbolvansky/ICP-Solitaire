@@ -28,6 +28,7 @@ class Game {
     static int games_counter;
     public:
     Game();
+    Game(std::string filename);
     CardDeck * get_target_deck_by_id(int index);
     CardStack * get_working_stack_by_id(int index);
     CardDeck * get_stock_deck();

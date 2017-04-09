@@ -1,4 +1,7 @@
 #include <iostream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include "game.h"
 
 
@@ -19,6 +22,45 @@ Game::Game() {
         }
 
         score = 0;
+        games_counter++;
+}
+
+Game::Game(std::string filename) {
+        std::ifstream file(filename);
+        std::string line;
+        int color;
+        int value;
+        bool is_turned_face_up;
+        int save_to = 0;
+        while (std::getline(file, line)) {
+                if (line.find("#") != std::string::npos) {
+                        save_to++;
+                        continue;
+                }
+
+                std::istringstream line_stream(line);
+
+                if (save_to == 14) {
+                        line_stream >> value;
+                        this->score = value;
+                        continue;
+                }
+
+                line_stream >> color >> value >> is_turned_face_up;
+
+                Card c {static_cast<Color> (color), value, is_turned_face_up};
+
+                if (save_to == 1) {
+                        this->stock_deck.push(c);
+                } else if (save_to == 2) {
+                        this->waste_deck.push(c);
+                } else if (save_to  >= 3 && save_to <= 6) {
+                        this->target_card_decks[save_to - 3].push(c);
+                } else if (save_to  >= 7 && save_to <= 13) {
+                        this->working_card_stacks[save_to - 7].push(c);
+                }
+        }
+
         games_counter++;
 }
 
@@ -88,11 +130,11 @@ bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, i
 
         Card * top = get_working_stack_by_id(src_stack_index)->get(card_index);
         if (top == nullptr) {
-            return false;
+                return false;
         }
 
         MoveWorkingStackToWorkingStackCommand *sts = new MoveWorkingStackToWorkingStackCommand {&this->score, &this->working_card_stacks[src_stack_index], &this->working_card_stacks[dest_stack_index], top};
-        std::shared_ptr<Command> cmd{sts};
+        std::shared_ptr<Command> cmd {sts};
         return this->command_manager.execute_command(cmd);
 }
 
@@ -113,12 +155,56 @@ CardDeck * Game::get_waste_deck() {
 }
 
 bool Game::save(std::string filename) {
-        // todo
+        std::ofstream file (filename);
+        if (!file) return false;
+
+        file << "# Stock deck" << std::endl;
+
+        for (int i = 0; i < this->stock_deck.get_size(); ++i) {
+                Card *c = this->stock_deck.get(i);
+                file << c->get_color() << " " << c->get_value() << " " << c->is_turned_face_up() << std::endl;
+        }
+
+        file << "# Waste deck" << std::endl;
+
+        for (int i = 0; i < this->waste_deck.get_size(); ++i) {
+                Card *c = this->waste_deck.get(i);
+                file << c->get_color() << " " << c->get_value() << " " << c->is_turned_face_up() << std::endl;
+        }
+
+        for (int t = 0; t < DECKS_COUNT; ++t) {
+                file << "# Target deck " << t + 1 << std::endl;
+                for (int i = 0; i < CARDS_PER_PACK; ++i) {
+                        Card *c = this->target_card_decks[t].get(i);
+                        if (!c) continue;
+                        file << c->get_color() << " " << c->get_value() << " " << c->is_turned_face_up() << std::endl;
+                }
+
+        }
+
+        for (int t = 0; t < STACKS_COUNT; ++t) {
+                file << "# Working stack " << t + 1 << std::endl;
+                for (int i = 0; i < CARDS_PER_PACK; ++i) {
+                        Card *c = this->working_card_stacks[t].get(i);
+                        if (!c) continue;
+                        file << c->get_color() << " " << c->get_value() << " " << c->is_turned_face_up() << std::endl;
+                }
+
+        }
+
+        file << "# Score" << std::endl;
+        file << this->score << std::endl;
+
+        file.close();
         return true;
 }
 
 Game * Game::load(std::string filename) {
-        Game *loaded_game = new Game;
+        std::ifstream file(filename);
+        if (!file) return nullptr;
+
+        Game *loaded_game = new Game {filename};
+        loaded_game->save("file2.txt");
         return loaded_game;
 }
 
@@ -128,7 +214,7 @@ int Game::get_games_count() {
 
 int Game::get_score() {
         if (this->score < 0) {
-            this->score = 0;
+                this->score = 0;
         }
 
         return this->score;
