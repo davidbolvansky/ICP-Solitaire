@@ -127,7 +127,7 @@ int Game::get_games_count() {
 
 int Game::get_score() {
         if (this->score < 0) {
-            return 0;
+            this->score = 0;
         }
 
         return this->score;
