@@ -135,16 +135,16 @@ int main(int argc, char *argv[]) {
 
                         if (command == "g") {
                                 game->move_card_from_stock_deck_to_waste_deck();
-                        } else if (command.substr(0, 3) == "dds") {
-                                int i = atoi(command.substr(3, 4).data()) - 1;
+                        } else if (command.substr(0, 2) == "ws") {
+                                int i = atoi(command.substr(2,3).data()) - 1;
                                 if (!game->move_card_from_waste_deck_to_working_stack(i)) {
                                         wclear(game_board);
                                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
                                         wrefresh(game_board);
                                         sleep(1);
                                 }
-                        } else if (command.substr(0, 3) == "ddd") {
-                                int i = atoi(command.substr(3, 4).data()) - 1;
+                        } else if (command.substr(0, 2) == "wd") {
+                                int i = atoi(command.substr(2,3).data()) - 1;
                                 if (!game->move_card_from_waste_deck_to_target_deck(i)) {
                                         wclear(game_board);
                                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
@@ -212,9 +212,9 @@ int main(int argc, char *argv[]) {
                     mvwprintw(game_board, 7, LEFT_WINDOW_OFFSET, "g[1-4] - Switch game");
 
                     mvwprintw(game_board, 9, LEFT_WINDOW_OFFSET, "Control mode:");
-                    mvwprintw(game_board, 10, LEFT_WINDOW_OFFSET, "g - Get card from main deck to discard deck");
-                    mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "dds[1-7] - Take card from discard deck to stack 1 - 7");
-                    mvwprintw(game_board, 12, LEFT_WINDOW_OFFSET, "ddd[1-4] - Take card from discard deck to deck 1 - 4");
+                    mvwprintw(game_board, 10, LEFT_WINDOW_OFFSET, "g - Get card from stock deck to waste deck");
+                    mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "ws[1-7] - Take card from waste deck stack 1 - 7");
+                    mvwprintw(game_board, 12, LEFT_WINDOW_OFFSET, "wd[1-4] - Take card from waste deck to deck 1 - 4");
                     mvwprintw(game_board, 13, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - Take card from deck 1 - 4 to stack 1 - 7");
                     mvwprintw(game_board, 14, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
                     mvwprintw(game_board, 15, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
@@ -242,8 +242,12 @@ int main(int argc, char *argv[]) {
                     game->start();
                 } else if (c == 'g') {
                     game->pause();
-                    int id = std::getchar();
-                    int game_index = id - '0' - 1;
+                    std::string id;
+                    std::cin >> id;
+                    if (id.size() > 1) {
+                        continue;
+                    }
+                    int game_index = id[0] - '0' - 1;
                     if((game = main.get_game(game_index)) == nullptr) {
                         wclear(game_board);
                         wclear(game_info);
