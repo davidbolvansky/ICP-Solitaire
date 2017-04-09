@@ -29,12 +29,13 @@ int CommandManager::get_size() {
 
 // DECK TO DECK (Main deck to visible deck)
 
-MoveDeckToDeckCommand::MoveDeckToDeckCommand(CardDeck *source, CardDeck *destination) {
+MoveWasteDeckToTargetDeckCommand::MoveWasteDeckToTargetDeckCommand(int *score, CardDeck *source, CardDeck *destination) {
         this->source = source;
         this->destination = destination;
+        this->score = score;
 }
 
-bool MoveDeckToDeckCommand::execute() {
+bool MoveWasteDeckToTargetDeckCommand::execute() {
         // return if both decks are empty
         if (this->source->is_empty() && this->destination->is_empty()) {
                 return false;
@@ -69,10 +70,12 @@ bool MoveDeckToDeckCommand::execute() {
                 this->source->swap(*this->destination);
         }
 
+        *this->score += 10;
+
         return true;
 }
 
-void MoveDeckToDeckCommand::undo() {
+void MoveWasteDeckToTargetDeckCommand::undo() {
         // get last card of second deck
         Card * top = this->destination->get();
 
@@ -98,17 +101,19 @@ void MoveDeckToDeckCommand::undo() {
                 // just swap decks
                 this->destination->swap(*this->source);
         }
-}
 
+        *this->score -= 10;
+}
 
 // STACK TO DECK (4 decks)
 
-MoveStackToDeckCommand::MoveStackToDeckCommand(CardStack *source, CardDeck *destination) {
+MoveWorkingStackToTargetDeckCommand::MoveWorkingStackToTargetDeckCommand(int *score, CardStack *source, CardDeck *destination) {
         this->source = source;
         this->destination = destination;
+        this->score = score;
 }
 
-bool MoveStackToDeckCommand::execute() {
+bool MoveWorkingStackToTargetDeckCommand::execute() {
         // empty stack, do nothing
         if (this->source->is_empty()) {
                 return false;
@@ -138,10 +143,12 @@ bool MoveStackToDeckCommand::execute() {
                 top->turn_face_up();
         }
 
+        *this->score += 10;
+
         return true;
 }
 
-void MoveStackToDeckCommand::undo() {
+void MoveWorkingStackToTargetDeckCommand::undo() {
         // get last card from stack
         Card *src_top = this->source->get();
         // turn this card face down
@@ -172,16 +179,19 @@ void MoveStackToDeckCommand::undo() {
         if (top != nullptr) {
                 top->turn_face_up();
         }
+
+        *this->score -= 10;
 }
 
 // DECK TO STACK
 
-MoveDeckToStackCommand::MoveDeckToStackCommand(CardDeck *source, CardStack *destination) {
+MoveWasteDeckToWorkingStackCommand::MoveWasteDeckToWorkingStackCommand(int *score, CardDeck *source, CardStack *destination) {
         this->source = source;
         this->destination = destination;
+        this->score = score;
 }
 
-bool MoveDeckToStackCommand::execute() {
+bool MoveWasteDeckToWorkingStackCommand::execute() {
         // empty stack, do nothing
         if (this->source->is_empty()) {
                 return false;
@@ -205,10 +215,12 @@ bool MoveDeckToStackCommand::execute() {
                 top->turn_face_up();
         }
 
+        *this->score += 5;
+
         return true;
 }
 
-void MoveDeckToStackCommand::undo() {
+void MoveWasteDeckToWorkingStackCommand::undo() {
         // get last card from stack
         Card *src_top = this->source->get();
         // turn this card face down
@@ -224,17 +236,76 @@ void MoveDeckToStackCommand::undo() {
         }
         // pop that card from deck
         this->destination->pop();
+
+        *this->score -= 5;
+}
+
+//
+
+MoveTargetDeckToWorkingStackCommand::MoveTargetDeckToWorkingStackCommand(int *score, CardDeck *source, CardStack *destination) {
+        this->source = source;
+        this->destination = destination;
+        this->score = score;
+}
+
+bool MoveTargetDeckToWorkingStackCommand::execute() {
+        // empty stack, do nothing
+        if (this->source->is_empty()) {
+                return false;
+        }
+
+
+        // take last card from stack
+        Card * top = this->source->get();
+        // try to push this card to stack
+        if (!this->destination->put(*top)) {
+                return false;
+        }
+
+        // pop that card from stack
+        this->source->pop();
+
+        // take last card from stack
+        top = this->source->get();
+        // turn this card face up
+        if (top != nullptr) {
+                top->turn_face_up();
+        }
+
+        *this->score -= 15;
+        return true;
+}
+
+void MoveTargetDeckToWorkingStackCommand::undo() {
+        // get last card from stack
+        Card *src_top = this->source->get();
+        // turn this card face down
+        if (src_top != nullptr) {
+                src_top->turn_face_down();
+        }
+
+        // get last card from deck
+        Card * top = this->destination->get();
+        // push this card to stack
+        if (top != nullptr) {
+                this->source->push(*top);
+        }
+        // pop that card from deck
+        this->destination->pop();
+
+        *this->score += 15;
 }
 
 // STACK TO STACK
 
-MoveStackToStackCommand::MoveStackToStackCommand(CardStack *source, CardStack *destination, Card *top_card) {
+MoveWorkingStackToWorkingStackCommand::MoveWorkingStackToWorkingStackCommand(int *score, CardStack *source, CardStack *destination, Card *top_card) {
         this->source = source;
         this->destination = destination;
         this->top_card = top_card;
+        this->score = score;
 }
 
-bool MoveStackToStackCommand::execute() {
+bool MoveWorkingStackToWorkingStackCommand::execute() {
         // return if one of stack is empty
         if (this->source->is_empty()) {
                 return false;
@@ -275,7 +346,7 @@ bool MoveStackToStackCommand::execute() {
         return true;
 }
 
-void MoveStackToStackCommand::undo() {
+void MoveWorkingStackToWorkingStackCommand::undo() {
         // get last card of first stack
         Card *src_top = this->source->get();
         // turn this card face down
@@ -298,12 +369,13 @@ void MoveStackToStackCommand::undo() {
 }
 
 // Main to discard DECK
-MoveMainDeckToDiscardDeckCommand::MoveMainDeckToDiscardDeckCommand(CardDeck *source, CardDeck *destination) {
+MoveStockDeckToWasteDeckCommand::MoveStockDeckToWasteDeckCommand(int *score, CardDeck *source, CardDeck *destination) {
         this->source = source;
         this->destination = destination;
+        this->score = score;
 }
 
-bool MoveMainDeckToDiscardDeckCommand::execute() {
+bool MoveStockDeckToWasteDeckCommand::execute() {
         // return if both decks are empty
         if (this->source->is_empty() && this->destination->is_empty()) {
                 return false;
@@ -341,7 +413,7 @@ bool MoveMainDeckToDiscardDeckCommand::execute() {
         return true;
 }
 
-void MoveMainDeckToDiscardDeckCommand::undo() {
+void MoveStockDeckToWasteDeckCommand::undo() {
         // get last card of second deck
         Card * top = this->destination->get();
 

@@ -82,10 +82,10 @@ int main(int argc, char *argv[]) {
                 }
 
                 // draw to our windows
-                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Main Deck\tDiscard Deck\t\tSpades  Diamonds  Hearts  Clubs");
+                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "  Stock\t   Waste\t\tSpades  Diamonds  Hearts  Clubs");
                 draw_line(game_board, parent_x, 2);
-                mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t %s\t %s\t  %s\t  %s",
-                          game->get_main_card_deck()->is_empty() ? "<=>" : "==>", game->get_discard_card_deck()->is_empty() ? NO_CARD : game->get_discard_card_deck()->get()->to_string().c_str(),
+                mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t %s\t  %s\t   %s\t  %s",
+                          game->get_stock_deck()->is_empty() ? "<=>" : "==>", game->get_waste_deck()->is_empty() ? NO_CARD : game->get_waste_deck()->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::SPADES)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::SPADES)->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::DIAMONDS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::DIAMONDS)->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::HEARTS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::HEARTS)->get()->to_string().c_str(),
@@ -121,6 +121,7 @@ int main(int argc, char *argv[]) {
                     game_time += std::to_string(seconds) + " seconds";
                 }
 
+                werase(game_info);
                 mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %s | Score: %d", game->get_moves_count(), game_time.data(), game->get_score());
 
                 if (game->get_total_time_in_seconds().count() <  20) {
@@ -133,10 +134,10 @@ int main(int argc, char *argv[]) {
                         std::cin >> command;
 
                         if (command == "g") {
-                                game->get_card_from_main_deck_to_discard_deck();
+                                game->move_card_from_stock_deck_to_waste_deck();
                         } else if (command.substr(0, 3) == "dds") {
                                 int i = atoi(command.substr(3, 4).data()) - 1;
-                                if (!game->move_card_from_discard_deck_to_working_stack(i)) {
+                                if (!game->move_card_from_waste_deck_to_working_stack(i)) {
                                         wclear(game_board);
                                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
                                         wrefresh(game_board);
@@ -144,7 +145,7 @@ int main(int argc, char *argv[]) {
                                 }
                         } else if (command.substr(0, 3) == "ddd") {
                                 int i = atoi(command.substr(3, 4).data()) - 1;
-                                if (!game->move_card_from_discard_deck_to_target_deck(i)) {
+                                if (!game->move_card_from_waste_deck_to_target_deck(i)) {
                                         wclear(game_board);
                                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
                                         wrefresh(game_board);

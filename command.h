@@ -16,49 +16,64 @@ class Command {
 
 
 
-class MoveDeckToDeckCommand : public Command {
+class MoveWasteDeckToTargetDeckCommand : public Command {
     CardDeck *source;
     CardDeck *destination;
+    int *score;
 public:
-    MoveDeckToDeckCommand(CardDeck *source, CardDeck *destination);
+    MoveWasteDeckToTargetDeckCommand(int *score, CardDeck *source, CardDeck *destination);
     virtual bool execute() override;
     virtual void undo() override;
 };
 
-class MoveStackToDeckCommand : public Command {
+class MoveWorkingStackToTargetDeckCommand : public Command {
     CardStack *source;
     CardDeck *destination;
+    int *score;
 public:
-    MoveStackToDeckCommand(CardStack *source, CardDeck *destination);
+    MoveWorkingStackToTargetDeckCommand(int *score, CardStack *source, CardDeck *destination);
     virtual bool execute() override;
     virtual void undo() override;
 };
 
-class MoveDeckToStackCommand : public Command {
+class MoveWasteDeckToWorkingStackCommand : public Command {
     CardDeck *source;
     CardStack *destination;
+    int *score;
 public:
-    MoveDeckToStackCommand(CardDeck *source, CardStack *destination);
+    MoveWasteDeckToWorkingStackCommand(int *score, CardDeck *source, CardStack *destination);
     virtual bool execute() override;
     virtual void undo() override;
 };
 
-class MoveStackToStackCommand : public Command {
+class MoveTargetDeckToWorkingStackCommand : public Command {
+    CardDeck *source;
+    CardStack *destination;
+    int *score;
+public:
+    MoveTargetDeckToWorkingStackCommand(int *score, CardDeck *source, CardStack *destination);
+    virtual bool execute() override;
+    virtual void undo() override;
+};
+
+class MoveWorkingStackToWorkingStackCommand : public Command {
     CardStack *source;
     CardStack *destination;
     Card * top_card;
     CardStack moved_cards{13};
+    int *score;
 public:
-    MoveStackToStackCommand(CardStack *source, CardStack *destination, Card *top_card);
+    MoveWorkingStackToWorkingStackCommand(int *score, CardStack *source, CardStack *destination, Card *top_card);
     virtual bool execute() override;
     virtual void undo() override;
 };
 
-class MoveMainDeckToDiscardDeckCommand : public Command {
+class MoveStockDeckToWasteDeckCommand : public Command {
     CardDeck *source;
     CardDeck *destination;
+    int *score;
 public:
-    MoveMainDeckToDiscardDeckCommand(CardDeck *source, CardDeck *destination);
+    MoveStockDeckToWasteDeckCommand(int *score, CardDeck *source, CardDeck *destination);
     virtual bool execute() override;
     virtual void undo() override;
 };

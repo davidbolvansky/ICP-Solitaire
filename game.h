@@ -14,8 +14,8 @@ const int ALL_CARDS_COUNT = 52;
 const int CARDS_PER_PACK = 13;
 
 class Game {
-    CardDeck main_card_deck {ALL_CARDS_COUNT};
-    CardDeck discard_card_deck {ALL_CARDS_COUNT};
+    CardDeck stock_deck {ALL_CARDS_COUNT};
+    CardDeck waste_deck {ALL_CARDS_COUNT};
 
     CardDeck target_card_decks [DECKS_COUNT] = { CardDeck {CARDS_PER_PACK, Color::SPADES} , CardDeck {CARDS_PER_PACK, Color::DIAMONDS}, CardDeck {CARDS_PER_PACK, Color::HEARTS}, CardDeck {CARDS_PER_PACK, Color::CLUBS}};
     CardStack working_card_stacks [STACKS_COUNT] = { CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK},
@@ -30,8 +30,8 @@ class Game {
     Game();
     CardDeck * get_target_deck_by_id(int index);
     CardStack * get_working_stack_by_id(int index);
-    CardDeck * get_main_card_deck();
-    CardDeck * get_discard_card_deck();
+    CardDeck * get_stock_deck();
+    CardDeck * get_waste_deck();
     bool save(std::string filename);
     static Game * load(std::string filename);
     int get_score();
@@ -41,9 +41,9 @@ class Game {
     void resume();
 
     void undo();
-    bool get_card_from_main_deck_to_discard_deck();
-    bool move_card_from_discard_deck_to_working_stack(int stack_index);
-    bool move_card_from_discard_deck_to_target_deck(int deck_index);
+    bool move_card_from_stock_deck_to_waste_deck();
+    bool move_card_from_waste_deck_to_working_stack(int stack_index);
+    bool move_card_from_waste_deck_to_target_deck(int deck_index);
     bool move_card_from_target_deck_to_working_stack(int deck_index, int stack_index);
     bool move_card_from_working_stack_to_target_deck(int stack_index, int deck_index);
     bool move_cards_from_working_stack_to_working_stack(int src_stack_index , int dest_stack_index, int card_index);
