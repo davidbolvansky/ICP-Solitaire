@@ -51,9 +51,9 @@ Color Card::get_color() {
 }
 
 bool Card::similar_color_to(Card &c) {
-        if (this->get_color() == SPADES && c.get_color() == CLUBS || this->get_color() == CLUBS && c.get_color() == SPADES) {
+        if ((this->get_color() == SPADES && c.get_color() == CLUBS) || (this->get_color() == CLUBS && c.get_color() == SPADES)) {
                 return true;
-        } else if (this->get_color() == DIAMONDS && c.get_color() == HEARTS || this->get_color() == HEARTS && c.get_color() == DIAMONDS) {
+        } else if ((this->get_color() == DIAMONDS && c.get_color() == HEARTS) || (this->get_color() == HEARTS && c.get_color() == DIAMONDS)) {
                 return true;
         }
 

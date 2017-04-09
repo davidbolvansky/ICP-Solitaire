@@ -114,6 +114,7 @@ CardDeck * Game::get_waste_deck() {
 
 bool Game::save(std::string filename) {
         // todo
+        return true;
 }
 
 Game * Game::load(std::string filename) {
