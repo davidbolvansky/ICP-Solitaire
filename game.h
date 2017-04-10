@@ -17,7 +17,7 @@ class Game {
     CardDeck stock_deck {ALL_CARDS_COUNT};
     CardDeck waste_deck {ALL_CARDS_COUNT};
 
-    CardDeck target_card_decks [DECKS_COUNT] = { CardDeck {CARDS_PER_PACK, Color::SPADES} , CardDeck {CARDS_PER_PACK, Color::DIAMONDS}, CardDeck {CARDS_PER_PACK, Color::HEARTS}, CardDeck {CARDS_PER_PACK, Color::CLUBS}};
+    CardDeck target_card_decks [DECKS_COUNT] = { CardDeck {CARDS_PER_PACK} , CardDeck {CARDS_PER_PACK}, CardDeck {CARDS_PER_PACK}, CardDeck {CARDS_PER_PACK}};
     CardStack working_card_stacks [STACKS_COUNT] = { CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK},
                                                     CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}};
     int score;
@@ -30,6 +30,7 @@ class Game {
     Game();
     Game(std::string filename);
     CardDeck * get_target_deck_by_id(int index);
+    CardDeck * get_target_deck_by_color(Color c);
     CardStack * get_working_stack_by_id(int index);
     CardDeck * get_stock_deck();
     CardDeck * get_waste_deck();

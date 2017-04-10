@@ -9,11 +9,6 @@ CardDeck::CardDeck(int size) {
         this->color = NO_COLOR;
 }
 
-CardDeck::CardDeck(int size, Color color) {
-        this->size = size;
-        this->color = color;
-}
-
 CardDeck CardDeck::create_standard_deck() {
         CardDeck standard_deck {52};
         for (int i = 1; i <= 13; ++i) {
@@ -34,13 +29,6 @@ CardDeck CardDeck::create_standard_deck() {
         }
 
         return standard_deck;
-
-}
-
-
-CardDeck CardDeck::create_target_pack(Color color) {
-        CardDeck target_pack {13, color};
-        return target_pack;
 
 }
 
@@ -118,6 +106,10 @@ bool CardDeck::is_empty() {
 
 Color CardDeck::get_color() {
         return this->color;
+}
+
+void CardDeck::set_color(Color c) {
+        this->color = c;
 }
 
 void CardDeck::print() {

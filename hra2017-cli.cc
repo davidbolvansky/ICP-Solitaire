@@ -8,6 +8,16 @@ const int LEFT_WINDOW_OFFSET = 2;
 const char * NO_CARD = " -- ";
 const char * FACE_DOWN_CARD = "-(-)";
 
+const char * get_target_deck_name(Game * game, int index) {
+        switch (game->get_target_deck_by_id(index)->get_color()) {
+            case SPADES: return "Spades  ";
+            case DIAMONDS: return "Diamonds";
+            case HEARTS: return "Hearts  ";
+            case CLUBS: return "Clubs   ";
+        }
+        return "--------";
+}
+
 void draw_borders(WINDOW *screen) {
         int x, y, i;
 
@@ -82,9 +92,10 @@ int main(int argc, char *argv[]) {
                 }
 
                 // draw to our windows
-                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "  Stock\t   Waste\t\tSpades  Diamonds  Hearts  Clubs");
+                werase(game_board);
+                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "  Stock\t   Waste\t\t%s  %s  %s  %s", get_target_deck_name(game, 0), get_target_deck_name(game, 1), get_target_deck_name(game, 2), get_target_deck_name(game, 3));
                 draw_line(game_board, parent_x, 2);
-                mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t %s\t  %s\t   %s\t  %s",
+                mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t  %s\t   %s      %s      %s",
                           game->get_stock_deck()->is_empty() ? "<=>" : "==>", game->get_waste_deck()->is_empty() ? NO_CARD : game->get_waste_deck()->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::SPADES)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::SPADES)->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::DIAMONDS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::DIAMONDS)->get()->to_string().c_str(),
@@ -110,15 +121,15 @@ int main(int argc, char *argv[]) {
                 int minutes = total_time / 60;
                 int seconds = total_time % 60;
                 if (minutes == 1) {
-                    game_time += "1 minute ";
+                        game_time += "1 minute ";
                 } else if (minutes > 1) {
-                    game_time += std::to_string(minutes) + " minutes ";
+                        game_time += std::to_string(minutes) + " minutes ";
                 }
 
                 if (seconds == 1) {
-                    game_time += "1 second";
+                        game_time += "1 second";
                 } else if (seconds > 1) {
-                    game_time += std::to_string(seconds) + " seconds";
+                        game_time += std::to_string(seconds) + " seconds";
                 }
 
                 werase(game_info);
@@ -163,7 +174,7 @@ int main(int argc, char *argv[]) {
                         } else if (command.size() == 4 && command[0] == 's' && command[2] == 'd') {
                                 int stack_index  = command[1] - '0' - 1;
                                 int deck_index = command[3]- '0' - 1;
-                                if (!game->move_card_from_working_stack_to_target_deck(stack_index , deck_index)) {
+                                if (!game->move_card_from_working_stack_to_target_deck(stack_index, deck_index)) {
                                         wclear(game_board);
                                         wclear(game_info);
                                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
@@ -176,7 +187,7 @@ int main(int argc, char *argv[]) {
                                 int dest_stack_index = command[3]- '0' - 1;
                                 int card_index = command[5]- '0' - 1;
 
-                                if (!(game->move_cards_from_working_stack_to_working_stack(src_stack_index , dest_stack_index, card_index))) {
+                                if (!(game->move_cards_from_working_stack_to_working_stack(src_stack_index, dest_stack_index, card_index))) {
                                         wclear(game_board);
                                         wclear(game_info);
                                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
@@ -189,7 +200,7 @@ int main(int argc, char *argv[]) {
                                 int dest_stack_index = command[3]- '0' - 1;
                                 int card_index = atoi(command.substr(5, 7).data()) - 1;
 
-                                if (!(game->move_cards_from_working_stack_to_working_stack(src_stack_index , dest_stack_index, card_index))) {
+                                if (!(game->move_cards_from_working_stack_to_working_stack(src_stack_index, dest_stack_index, card_index))) {
                                         wclear(game_board);
                                         wclear(game_info);
                                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Invalid move.");
@@ -201,107 +212,107 @@ int main(int argc, char *argv[]) {
                                 game->undo();
                         }
                 } else if (c == 'h') {
-                    wclear(game_board);
-                    wclear(game_info);
-                    mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Help:");
-                    mvwprintw(game_board, 2, LEFT_WINDOW_OFFSET, "c - Control mode");
-                    mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "e - Exit game");
-                    mvwprintw(game_board, 4, LEFT_WINDOW_OFFSET, "p - Pause game");
-                    mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "r - Resume game");
-                    mvwprintw(game_board, 6, LEFT_WINDOW_OFFSET, "n - New game");
-                    mvwprintw(game_board, 7, LEFT_WINDOW_OFFSET, "g[1-4] - Switch game");
-                    mvwprintw(game_board, 8, LEFT_WINDOW_OFFSET, "s - Save game");
-                    mvwprintw(game_board, 9, LEFT_WINDOW_OFFSET, "l - Load game");
+                        wclear(game_board);
+                        wclear(game_info);
+                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Help:");
+                        mvwprintw(game_board, 2, LEFT_WINDOW_OFFSET, "c - Control mode");
+                        mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "e - Exit game");
+                        mvwprintw(game_board, 4, LEFT_WINDOW_OFFSET, "p - Pause game");
+                        mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "r - Resume game");
+                        mvwprintw(game_board, 6, LEFT_WINDOW_OFFSET, "n - New game");
+                        mvwprintw(game_board, 7, LEFT_WINDOW_OFFSET, "g[1-4] - Switch game");
+                        mvwprintw(game_board, 8, LEFT_WINDOW_OFFSET, "s - Save game");
+                        mvwprintw(game_board, 9, LEFT_WINDOW_OFFSET, "l - Load game");
 
-                    mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "Control mode:");
-                    mvwprintw(game_board, 12, LEFT_WINDOW_OFFSET, "g - Get card from stock deck to waste deck");
-                    mvwprintw(game_board, 13, LEFT_WINDOW_OFFSET, "ws[1-7] - Take card from waste deck stack 1 - 7");
-                    mvwprintw(game_board, 14, LEFT_WINDOW_OFFSET, "wd[1-4] - Take card from waste deck to deck 1 - 4");
-                    mvwprintw(game_board, 15, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - Take card from deck 1 - 4 to stack 1 - 7");
-                    mvwprintw(game_board, 16, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
-                    mvwprintw(game_board, 17, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
+                        mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "Control mode:");
+                        mvwprintw(game_board, 12, LEFT_WINDOW_OFFSET, "g - Get card from stock deck to waste deck");
+                        mvwprintw(game_board, 13, LEFT_WINDOW_OFFSET, "ws[1-7] - Take card from waste deck stack 1 - 7");
+                        mvwprintw(game_board, 14, LEFT_WINDOW_OFFSET, "wd[1-4] - Take card from waste deck to deck 1 - 4");
+                        mvwprintw(game_board, 15, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - Take card from deck 1 - 4 to stack 1 - 7");
+                        mvwprintw(game_board, 16, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
+                        mvwprintw(game_board, 17, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
 
-                    mvwprintw(game_board, 19, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
+                        mvwprintw(game_board, 19, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
 
-                    wrefresh(game_board);
-                    wrefresh(game_info);
-                    std::cin.ignore();
+                        wrefresh(game_board);
+                        wrefresh(game_info);
+                        std::cin.ignore();
                 } else if (c == 'p') {
-                    game->pause();
+                        game->pause();
                 } else if (c == 'r') {
-                    game->resume();
+                        game->resume();
                 } else if (c == 'n') {
-                    if((game = main.create_new_game()) == nullptr) {
-                        wclear(game_board);
-                        wclear(game_info);
-                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not start new game.");
-                        wrefresh(game_board);
-                        wrefresh(game_info);
-                        sleep(1);
-                        endwin();
-                        exit(EXIT_FAILURE);
-                    }
-                    game->start();
+                        if((game = main.create_new_game()) == nullptr) {
+                                wclear(game_board);
+                                wclear(game_info);
+                                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not start new game.");
+                                wrefresh(game_board);
+                                wrefresh(game_info);
+                                sleep(1);
+                                endwin();
+                                exit(EXIT_FAILURE);
+                        }
+                        game->start();
                 } else if (c == 'g') {
-                    game->pause();
-                    std::string id;
-                    std::cin >> id;
-                    if (id.size() > 1) {
-                        continue;
-                    }
-                    int game_index = id[0] - '0' - 1;
-                    if((game = main.get_game(game_index)) == nullptr) {
-                        wclear(game_board);
-                        wclear(game_info);
-                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not switch to game.");
-                        wrefresh(game_board);
-                        wrefresh(game_info);
-                        sleep(1);
-                        endwin();
-                        exit(EXIT_FAILURE);
-                    } else {
-                        game->start();
-                    }
+                        game->pause();
+                        std::string id;
+                        std::cin >> id;
+                        if (id.size() > 1) {
+                                continue;
+                        }
+                        int game_index = id[0] - '0' - 1;
+                        if((game = main.get_game(game_index)) == nullptr) {
+                                wclear(game_board);
+                                wclear(game_info);
+                                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not switch to game.");
+                                wrefresh(game_board);
+                                wrefresh(game_info);
+                                sleep(1);
+                                endwin();
+                                exit(EXIT_FAILURE);
+                        } else {
+                                game->start();
+                        }
                 } else if (c == 'e') {
-                    break;
+                        break;
                 } else if (c == 's') {
-                    wclear(game_board);
-                    wclear(game_info);
-                    mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Enter file name:");
-                    wrefresh(game_board);
-                    wrefresh(game_info);
-                    std::string filename;
-                    std::cin >> filename;
-                    if(!game->save(filename)) {
                         wclear(game_board);
                         wclear(game_info);
-                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not save game.");
+                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Enter file name:");
                         wrefresh(game_board);
                         wrefresh(game_info);
-                        sleep(1);
-                        endwin();
-                        exit(EXIT_FAILURE);
-                    }
+                        std::string filename;
+                        std::cin >> filename;
+                        if(!game->save(filename)) {
+                                wclear(game_board);
+                                wclear(game_info);
+                                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not save game.");
+                                wrefresh(game_board);
+                                wrefresh(game_info);
+                                sleep(1);
+                                endwin();
+                                exit(EXIT_FAILURE);
+                        }
                 } else if (c == 'l') {
-                    wclear(game_board);
-                    wclear(game_info);
-                    mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Enter file name:");
-                    wrefresh(game_board);
-                    wrefresh(game_info);
-                    std::string filename;
-                    std::cin >> filename;
-                    Game * backup = game;
-                    if(!(game = Game::load(filename))) {
                         wclear(game_board);
                         wclear(game_info);
-                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not load game.");
+                        mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Enter file name:");
                         wrefresh(game_board);
                         wrefresh(game_info);
-                        sleep(1);
-                        game = backup;
-                    } else {
-                        game->start();
-                    }
+                        std::string filename;
+                        std::cin >> filename;
+                        Game * backup = game;
+                        if(!(game = Game::load(filename))) {
+                                wclear(game_board);
+                                wclear(game_info);
+                                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not load game.");
+                                wrefresh(game_board);
+                                wrefresh(game_info);
+                                sleep(1);
+                                game = backup;
+                        } else {
+                                game->start();
+                        }
                 }
                 wrefresh(game_board);
                 wrefresh(game_info);

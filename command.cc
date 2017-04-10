@@ -44,6 +44,11 @@ bool MoveWasteDeckToTargetDeckCommand::execute() {
         // get last card of first deck
         Card * top = this->source->get();
 
+        // set color of target deck
+        if (this->destination->is_empty() && top->get_value() == 1) {
+            this->destination->set_color(top->get_color());
+        }
+
         // try to put this card to second deck
         if (!this->destination->put(*top)) {
                 return false;
@@ -89,6 +94,11 @@ void MoveWasteDeckToTargetDeckCommand::undo() {
         // pop that card from deck
         this->destination->pop();
 
+        // unset color of target deck
+        if (this->destination->is_empty()) {
+            this->destination->set_color(Color::NO_COLOR);
+        }
+
         *this->score -= 10;
 }
 
@@ -108,6 +118,12 @@ bool MoveWorkingStackToTargetDeckCommand::execute() {
 
         // take last card from stack
         Card * top = this->source->get();
+
+        // set color of target deck
+        if (this->destination->is_empty() && top->get_value() == 1) {
+            this->destination->set_color(top->get_color());
+        }
+
         // try to push this card to stack
         if (!this->destination->put(*top)) { // DEBUG: use push - less restrictive
                 return false;
@@ -165,6 +181,11 @@ void MoveWorkingStackToTargetDeckCommand::undo() {
         // turn new top face up
         if (top != nullptr) {
                 top->turn_face_up();
+        }
+
+        // unset color of target deck
+        if (this->destination->is_empty()) {
+            this->destination->set_color(Color::NO_COLOR);
         }
 
         *this->score -= 10;

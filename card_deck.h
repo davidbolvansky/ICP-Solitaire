@@ -10,7 +10,6 @@ class CardDeck {
     std::vector<Card> cards_pack;
     public:
     CardDeck(int size);
-    CardDeck(int size, Color color);
     void shuffle();
     void swap(CardDeck &deck);
     void reverse();
@@ -22,10 +21,10 @@ class CardDeck {
     Card* pop();
     bool is_empty();
     Color get_color();
+    void set_color(Color c);
     void print();
 
     static CardDeck create_standard_deck();
-    static CardDeck create_target_pack(Color color);
 };
 
 #endif // CARD_DECK_H

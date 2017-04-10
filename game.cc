@@ -59,6 +59,7 @@ Game::Game(std::string filename) {
                         this->waste_deck.push(c);
                 } else if (save_to  >= 3 && save_to <= 6) {
                         this->target_card_decks[save_to - 3].push(c);
+                        this->target_card_decks[save_to - 3].set_color(static_cast<Color> (save_to - 3));
                 } else if (save_to  >= 7 && save_to <= 13) {
                         this->working_card_stacks[save_to - 7].push(c);
                 }
@@ -79,7 +80,7 @@ bool Game::move_card_from_stock_deck_to_waste_deck() {
 }
 
 bool Game::move_card_from_waste_deck_to_working_stack(int stack_index) {
-        if (stack_index < 0 || stack_index > 6) {
+        if (stack_index < 0 || stack_index > STACKS_COUNT - 1) {
                 return false;
         }
         MoveWasteDeckToWorkingStackCommand *dts = new MoveWasteDeckToWorkingStackCommand {&this->score,&this->waste_deck, &this->working_card_stacks[stack_index]};
@@ -88,7 +89,7 @@ bool Game::move_card_from_waste_deck_to_working_stack(int stack_index) {
 }
 
 bool Game::move_card_from_waste_deck_to_target_deck(int deck_index) {
-        if (deck_index < 0 || deck_index > 3) {
+        if (deck_index < 0 || deck_index > DECKS_COUNT - 1) {
                 return false;
         }
         MoveWasteDeckToTargetDeckCommand *dtd = new MoveWasteDeckToTargetDeckCommand {&this->score, &this->waste_deck, &this->target_card_decks[deck_index]};
@@ -141,6 +142,16 @@ bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, i
         return this->command_manager.execute_command(cmd);
 }
 
+CardDeck * Game::get_target_deck_by_color(Color c) {
+        for (int i = 0; i < DECKS_COUNT; ++i) {
+                if (this->target_card_decks[i].get_color() == c) {
+                        return &this->target_card_decks[i];
+                }
+        }
+
+        return nullptr;
+}
+
 CardDeck * Game::get_target_deck_by_id(int index) {
         return &target_card_decks[index];
 }
@@ -178,8 +189,10 @@ bool Game::save(std::string filename) {
         for (int t = 0; t < DECKS_COUNT; ++t) {
                 file << "# Target deck " << t + 1 << std::endl;
                 for (int i = 0; i < CARDS_PER_PACK; ++i) {
-                        Card *c = this->target_card_decks[t].get(i);
-                        if (!c) continue;
+                        CardDeck * target_deck = this->get_target_deck_by_color(static_cast<Color>(t));
+                        if (!target_deck) continue;
+                        Card *c = target_deck->get(i);
+                        if (!c) break;
                         file << c->get_color() << " " << c->get_value() << " " << c->is_turned_face_up() << std::endl;
                 }
 
@@ -189,7 +202,7 @@ bool Game::save(std::string filename) {
                 file << "# Working stack " << t + 1 << std::endl;
                 for (int i = 0; i < CARDS_PER_PACK; ++i) {
                         Card *c = this->working_card_stacks[t].get(i);
-                        if (!c) continue;
+                        if (!c) break;
                         file << c->get_color() << " " << c->get_value() << " " << c->is_turned_face_up() << std::endl;
                 }
 
