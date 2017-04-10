@@ -206,7 +206,6 @@ Game * Game::load(std::string filename) {
         Game *loaded_game = nullptr;
         try {
                 loaded_game = new Game {filename};
-                loaded_game->save("file2.txt");
         }
         catch(std::exception const& e) {
                 // nothing

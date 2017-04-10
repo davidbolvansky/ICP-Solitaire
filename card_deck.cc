@@ -53,6 +53,10 @@ void CardDeck::swap(CardDeck &deck) {
         this->cards_pack.swap(deck.cards_pack);
 }
 
+void CardDeck::reverse() {
+        std::reverse(this->cards_pack.begin(), this->cards_pack.end());
+}
+
 bool CardDeck::push(Card &c) {
         if (this->get_size() + 1 > this->size) {
                 return false;
