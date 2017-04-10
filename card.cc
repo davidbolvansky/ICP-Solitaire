@@ -55,13 +55,15 @@ bool Card::similar_color_to(Card &c) {
                 return true;
         } else if ((this->get_color() == DIAMONDS && c.get_color() == HEARTS) || (this->get_color() == HEARTS && c.get_color() == DIAMONDS)) {
                 return true;
+        } else if (this->get_color() == c.get_color()) {
+            return true;
         }
 
         return false;
 
 }
 
-bool Card::is_same_color(Color &c) {
+bool Card::is_same_color(Color c) {
     return this->get_color() == c;
 }
 

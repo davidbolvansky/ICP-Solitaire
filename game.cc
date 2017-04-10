@@ -65,6 +65,8 @@ Game::Game(std::string filename) {
                 }
         }
 
+        file.close();
+
         games_counter++;
 }
 
@@ -153,7 +155,7 @@ CardDeck * Game::get_target_deck_by_color(Color c) {
 }
 
 CardDeck * Game::get_target_deck_by_id(int index) {
-        return &target_card_decks[index];
+        return &this->target_card_decks[index];
 }
 
 CardStack * Game::get_working_stack_by_id(int index) {

@@ -2,20 +2,53 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <string.h>
+#include <fstream>
+#include <vector>
 #include "board.h"
 
 const int LEFT_WINDOW_OFFSET = 2;
 const char * NO_CARD = " -- ";
 const char * FACE_DOWN_CARD = "-(-)";
 
+// string sized to 8 chars
 const char * get_target_deck_name(Game * game, int index) {
         switch (game->get_target_deck_by_id(index)->get_color()) {
-            case SPADES: return "Spades  ";
-            case DIAMONDS: return "Diamonds";
-            case HEARTS: return "Hearts  ";
-            case CLUBS: return "Clubs   ";
+        case SPADES: return "Spades  ";
+        case DIAMONDS: return "Diamonds";
+        case HEARTS: return "Hearts  ";
+        case CLUBS: return "Clubs   ";
         }
         return "--------";
+}
+
+void print_hints(Game *p) {
+        std::ofstream file("hint");
+        std::vector<Move> moves = MoveFinder::get_available_moves(p);
+        file << moves.size() << std::endl;
+        for (int i = 0; i < moves.size(); ++i) {
+                Move move = moves[i];
+                switch (move.get_move_type()) {
+                case STOCK_DECK_TO_WASTE_DECK:
+                        file << "Take card from stock deck to waste deck." << std::endl;
+                        break;
+                case WASTE_DECK_TO_TARGET_DECK:
+                        file << "Take card from waste deck to target deck " << move.get_destination_index() + 1 << "." << std::endl;
+                        break;
+                case WASTE_DECK_TO_WORKING_STACK:
+                        file << "Take card from waste deck to working pack " << move.get_destination_index() + 1 << "." << std::endl;
+                        break;
+                case TARGET_DECK_TO_WORKING_STACK:
+                        file << "Take card from target deck " << move.get_source_index() + 1 << " to working stack " << move.get_destination_index() + 1 << "." << std::endl;
+                        break;
+                case WORKING_STACK_TO_TARGET_DECK:
+                        file << "Take card from working stack " << move.get_source_index() + 1 << " to target deck " << move.get_destination_index() + 1 << "." << std::endl;
+                        break;
+                case WORKING_STACK_TO_WORKING_STACK:
+                        file << "Take card from working stack " << move.get_source_index() + 1 << " to working stack " << move.get_destination_index() + 1  << " since card " << move.get_card_index() + 1 << "." << std::endl;
+                        break;
+                }
+        }
+        file.close();
 }
 
 void draw_borders(WINDOW *screen) {
@@ -208,9 +241,8 @@ int main(int argc, char *argv[]) {
                                         sleep(1);
                                         wrefresh(game_info);
                                 }
-                        } else if (command == "u") {
-                                game->undo();
                         }
+
                 } else if (c == 'h') {
                         wclear(game_board);
                         wclear(game_info);
@@ -223,16 +255,18 @@ int main(int argc, char *argv[]) {
                         mvwprintw(game_board, 7, LEFT_WINDOW_OFFSET, "g[1-4] - Switch game");
                         mvwprintw(game_board, 8, LEFT_WINDOW_OFFSET, "s - Save game");
                         mvwprintw(game_board, 9, LEFT_WINDOW_OFFSET, "l - Load game");
+                        mvwprintw(game_board, 10, LEFT_WINDOW_OFFSET, "u - Undo");
+                        mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "i - Hint");
 
-                        mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "Control mode:");
-                        mvwprintw(game_board, 12, LEFT_WINDOW_OFFSET, "g - Get card from stock deck to waste deck");
-                        mvwprintw(game_board, 13, LEFT_WINDOW_OFFSET, "ws[1-7] - Take card from waste deck stack 1 - 7");
-                        mvwprintw(game_board, 14, LEFT_WINDOW_OFFSET, "wd[1-4] - Take card from waste deck to deck 1 - 4");
-                        mvwprintw(game_board, 15, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - Take card from deck 1 - 4 to stack 1 - 7");
-                        mvwprintw(game_board, 16, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
-                        mvwprintw(game_board, 17, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
+                        mvwprintw(game_board, 13, LEFT_WINDOW_OFFSET, "Control mode:");
+                        mvwprintw(game_board, 14, LEFT_WINDOW_OFFSET, "g - Get card from stock deck to waste deck");
+                        mvwprintw(game_board, 15, LEFT_WINDOW_OFFSET, "ws[1-7] - Take card from waste deck stack 1 - 7");
+                        mvwprintw(game_board, 16, LEFT_WINDOW_OFFSET, "wd[1-4] - Take card from waste deck to deck 1 - 4");
+                        mvwprintw(game_board, 17, LEFT_WINDOW_OFFSET, "d[1-4]s[1-7] - Take card from deck 1 - 4 to stack 1 - 7");
+                        mvwprintw(game_board, 18, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
+                        mvwprintw(game_board, 19, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
 
-                        mvwprintw(game_board, 19, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
+                        mvwprintw(game_board, 20, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
 
                         wrefresh(game_board);
                         wrefresh(game_info);
@@ -313,6 +347,10 @@ int main(int argc, char *argv[]) {
                         } else {
                                 game->start();
                         }
+                } else if (c  == 'u') {
+                        game->undo();
+                } else if (c  == 'i') {
+                        print_hints(game);
                 }
                 wrefresh(game_board);
                 wrefresh(game_info);

@@ -16,7 +16,7 @@ class Card {
     std::string to_string();
     Color get_color();
     bool similar_color_to(Card &c);
-    bool is_same_color(Color &c);
+    bool is_same_color(Color c);
     int get_value();
     int compare_value(Card &c);
     bool is_turned_face_up();

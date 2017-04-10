@@ -7,9 +7,10 @@ all:
 	$(COMPILER) -std=c++11 -c game.cc
 	$(COMPILER) -std=c++11 -c board.cc
 	$(COMPILER) -std=c++11 -c test.cc
+	$(COMPILER) -std=c++11 -c move.cc
 	$(COMPILER) -std=c++11 -c hra2017-cli.cc
 	$(COMPILER) -std=c++11 test.o card.o card_deck.o card_stack.o command.o game.o board.o -o test
-	$(COMPILER) -std=c++11 hra2017-cli.o card.o card_deck.o card_stack.o command.o game.o board.o -o hra2017-cli -lncurses
+	$(COMPILER) -std=c++11 hra2017-cli.o card.o card_deck.o card_stack.o command.o game.o board.o move.o -o hra2017-cli -lncurses
 
 clean:
 	rm -f *.o hra2017-cli test
