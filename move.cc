@@ -94,12 +94,14 @@ std::vector<Move> MoveFinder::get_available_moves(Game *game) {
                         for (int c = 0; c < CARDS_PER_PACK; ++c) {
                                 Card * working_card = game->get_working_stack_by_id(j)->get(c);
                                 if (!working_card) {
-                                        if (working_top->get_value() == 13) {
+                                        if (c == 0 && working_top->get_value() == 13) {
                                                moves.push_back(Move {WORKING_STACK_TO_WORKING_STACK, i, j, 1});
                                                break;
                                         }
                                         continue;
-                                } else if (!working_card->is_turned_face_up()) {
+                                }
+
+                                if (!working_card->is_turned_face_up()) {
                                         continue;
                                 }
 
