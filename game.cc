@@ -27,6 +27,9 @@ Game::Game() {
 
 Game::Game(std::string filename) {
         std::ifstream file(filename);
+        if (!file) {
+                throw std::runtime_error("file not found");
+        }
         std::string line;
         int color;
         int value;
@@ -200,11 +203,14 @@ bool Game::save(std::string filename) {
 }
 
 Game * Game::load(std::string filename) {
-        std::ifstream file(filename);
-        if (!file) return nullptr;
-
-        Game *loaded_game = new Game {filename};
-        loaded_game->save("file2.txt");
+        Game *loaded_game = nullptr;
+        try {
+                loaded_game = new Game {filename};
+                loaded_game->save("file2.txt");
+        }
+        catch(std::exception const& e) {
+                // nothing
+        }
         return loaded_game;
 }
 

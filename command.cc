@@ -36,38 +36,35 @@ MoveWasteDeckToTargetDeckCommand::MoveWasteDeckToTargetDeckCommand(int *score, C
 }
 
 bool MoveWasteDeckToTargetDeckCommand::execute() {
-        // return if both decks are empty
-        if (this->source->is_empty() && this->destination->is_empty()) {
+        // empty stack, do nothing
+        if (this->source->is_empty()) {
                 return false;
         }
 
         // get last card of first deck
         Card * top = this->source->get();
 
+        // try to put this card to second deck
+        if (!this->destination->put(*top)) {
+                return false;
+        }
+
+        // pop last card from first deck
+        this->source->pop();
+
+        // get previous card of top of second deck
+        Card * prev_top = this->destination->get(this->destination->get_size() - 2);
+
+        // turn this card face down
+        if (prev_top != nullptr) {
+                prev_top->turn_face_down();
+        }
+
+        // take last card from stack
+        top = this->source->get();
+        // turn this card face up
         if (top != nullptr) {
-                // try to put this card to second deck
-                if (!this->destination->put(*top)) {
-                        return false;
-                }
-
-                // pop last card from first deck
-                this->source->pop();
-
-                // get previous card of top of second deck
-                Card * prev_top = this->destination->get(this->destination->get_size() - 2);
-
-                // turn this card face down
-                if (prev_top != nullptr) {
-                        prev_top->turn_face_down();
-                }
-
-                // get last card of second deck
-                Card *dest_top = this->destination->get();
-                // turn this card face down
-                dest_top->turn_face_up();
-        } else {
-                // just swap decks
-                this->source->swap(*this->destination);
+                top->turn_face_up();
         }
 
         *this->score += 10;
@@ -76,31 +73,21 @@ bool MoveWasteDeckToTargetDeckCommand::execute() {
 }
 
 void MoveWasteDeckToTargetDeckCommand::undo() {
-        // get last card of second deck
-        Card * top = this->destination->get();
-
-        if (top != nullptr) {
-                // pop last card from second deck
-                this->destination->pop();
-
-                // push this card to first deck
-                this->source->push(*top);
-
-                // last card of second deck
-                top = this->destination->get();
-                // turn this card face up
-                if (top != nullptr) {
-                        top->turn_face_up();
-                }
-
-                // get last card of first deck
-                Card *src_top = this->source->get();
-                // turn this card face down
+        // get last card from deck
+        Card *src_top = this->source->get();
+        // turn this card face down
+        if (src_top != nullptr) {
                 src_top->turn_face_down();
-        } else {
-                // just swap decks
-                this->destination->swap(*this->source);
         }
+
+        // get last card from deck
+        Card * top = this->destination->get();
+        // push this card to deck
+        if (top != nullptr) {
+                this->source->push(*top);
+        }
+        // pop that card from deck
+        this->destination->pop();
 
         *this->score -= 10;
 }
@@ -197,7 +184,6 @@ bool MoveWasteDeckToWorkingStackCommand::execute() {
                 return false;
         }
 
-
         // take last card from stack
         Card * top = this->source->get();
         // try to push this card to stack
@@ -249,7 +235,7 @@ MoveTargetDeckToWorkingStackCommand::MoveTargetDeckToWorkingStackCommand(int *sc
 }
 
 bool MoveTargetDeckToWorkingStackCommand::execute() {
-        // empty stack, do nothing
+        // empty deck, do nothing
         if (this->source->is_empty()) {
                 return false;
         }
@@ -321,13 +307,13 @@ bool MoveWorkingStackToWorkingStackCommand::execute() {
 
         // put one card
         if(this->moved_cards.get_size() == 1) {
-            Card * top = this->moved_cards.get();
-            // return if cannot put card
-            if (!this->destination->put(*top)) {
-                return false;
-            }
+                Card * top = this->moved_cards.get();
+                // return if cannot put card
+                if (!this->destination->put(*top)) {
+                        return false;
+                }
         } else { // put more cards
-                // return if cannot put cards
+                 // return if cannot put cards
                 if (!this->destination->put(moved_cards)) {
                         return false;
                 }
@@ -403,7 +389,7 @@ bool MoveStockDeckToWasteDeckCommand::execute() {
 
                 // get last card of second deck
                 Card *dest_top = this->destination->get();
-                // turn this card face down
+                // turn this card face up
                 dest_top->turn_face_up();
         } else {
                 // just swap decks

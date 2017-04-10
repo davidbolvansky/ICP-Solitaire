@@ -22,12 +22,12 @@
 1 2 0
 2 3 0
 3 6 0
-1 10 0
-3 1 1
+1 10 1
 # Target deck 1
 # Target deck 2
 # Target deck 3
 # Target deck 4
+3 1 1
 # Working stack 1
 2 12 1
 # Working stack 2
@@ -64,4 +64,4 @@
 2 5 0
 2 8 1
 # Score
-0
+10

@@ -290,6 +290,7 @@ int main(int argc, char *argv[]) {
                     wrefresh(game_info);
                     std::string filename;
                     std::cin >> filename;
+                    Game * backup = game;
                     if(!(game = Game::load(filename))) {
                         wclear(game_board);
                         wclear(game_info);
@@ -297,8 +298,7 @@ int main(int argc, char *argv[]) {
                         wrefresh(game_board);
                         wrefresh(game_info);
                         sleep(1);
-                        endwin();
-                        exit(EXIT_FAILURE);
+                        game = backup;
                     } else {
                         game->start();
                     }
