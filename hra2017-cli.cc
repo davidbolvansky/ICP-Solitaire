@@ -277,7 +277,7 @@ int main(int argc, char *argv[]) {
                         if((game = main.create_new_game()) == nullptr) {
                                 wclear(game_board);
                                 wclear(game_info);
-                                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not start new game.");
+                                mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Cannot not start new game. Reached maximum number of games (%d).", main.get_games_count_limit());
                                 wrefresh(game_board);
                                 wrefresh(game_info);
                                 sleep(1);
