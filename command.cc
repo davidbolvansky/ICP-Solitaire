@@ -342,7 +342,7 @@ bool MoveWorkingStackToWorkingStackCommand::execute() {
                 }
         } else { // put more cards
                  // return if cannot put cards
-                if (!this->destination->put(moved_cards)) {
+                if (!this->destination->put(this->moved_cards)) {
                         return false;
                 }
         }
