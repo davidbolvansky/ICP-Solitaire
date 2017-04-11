@@ -61,7 +61,7 @@ int main(void) {
 	a->start();
 	a->load("file.txt");
 	//std::cout << a->get_total_time_in_seconds().count() << "\n";
-	std::cout <<"Pocet hier: " <<  Game::get_games_count()  << std::endl;
+	std::cout <<"Pocet hier: " <<  main.get_games_count()  << std::endl;
 
 	return 0;
 }

@@ -4,9 +4,6 @@
 #include <sstream>
 #include "game.h"
 
-
-int Game::games_counter = 0;
-
 Game::Game() {
         this->stock_deck = CardDeck::create_standard_deck();
         this->stock_deck.shuffle();
@@ -22,7 +19,6 @@ Game::Game() {
         }
 
         score = 0;
-        games_counter++;
 }
 
 Game::Game(std::string filename) {
@@ -66,10 +62,7 @@ Game::Game(std::string filename) {
         }
 
         file.close();
-
-        games_counter++;
 }
-
 
 void Game::undo() {
         this->command_manager.undo_command();
@@ -226,10 +219,6 @@ Game * Game::load(std::string filename) {
                 // nothing
         }
         return loaded_game;
-}
-
-int Game::get_games_count() {
-        return games_counter;
 }
 
 int Game::get_score() {

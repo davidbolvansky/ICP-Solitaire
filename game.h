@@ -26,7 +26,6 @@ class Game {
     std::chrono::high_resolution_clock::time_point started_at;
     std::chrono::high_resolution_clock::time_point paused_at;
     CommandManager command_manager;
-    static int games_counter;
     public:
     Game();
     Game(std::string filename);
@@ -52,8 +51,6 @@ class Game {
     bool move_cards_from_working_stack_to_working_stack(int src_stack_index , int dest_stack_index, int card_index);
 
     std::chrono::seconds get_total_time_in_seconds();
-
-static int get_games_count();
 };
 
 #endif // GAME_H
