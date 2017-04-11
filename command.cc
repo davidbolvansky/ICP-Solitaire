@@ -272,6 +272,11 @@ bool MoveTargetDeckToWorkingStackCommand::execute() {
         // pop that card from stack
         this->source->pop();
 
+        // unset color of target deck
+        if (this->source->is_empty()) {
+            this->source->set_color(Color::NO_COLOR);
+        }
+
         // take last card from stack
         top = this->source->get();
         // turn this card face up
@@ -293,10 +298,12 @@ void MoveTargetDeckToWorkingStackCommand::undo() {
 
         // get last card from deck
         Card * top = this->destination->get();
-        // push this card to stack
-        if (top != nullptr) {
-                this->source->push(*top);
+
+        // set color of target deck
+        if (this->source->is_empty()) {
+            this->source->set_color(top->get_color());
         }
+
         // pop that card from deck
         this->destination->pop();
 
