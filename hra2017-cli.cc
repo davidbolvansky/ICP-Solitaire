@@ -18,7 +18,7 @@ const char * get_target_deck_name(Game * game, int index) {
         case HEARTS: return "Hearts  ";
         case CLUBS: return "Clubs   ";
         }
-        return "--------";
+        return "        ";
 }
 
 // DEBUG
@@ -87,36 +87,6 @@ void show_hints(Game *game, WINDOW *screen) {
         mvwprintw(screen, moves.size() + 3, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
 }
 
-void draw_borders(WINDOW *screen) {
-        int x, y, i;
-
-        getmaxyx(screen, y, x);
-
-        // 4 corners
-        mvwprintw(screen, 0, 0, "+");
-        mvwprintw(screen, y - 1, 0, "+");
-        mvwprintw(screen, 0, x - 1, "+");
-        mvwprintw(screen, y - 1, x - 1, "+");
-
-        // sides
-        for (i = 1; i < (y - 1); i++) {
-                mvwprintw(screen, i, 0, "|");
-                mvwprintw(screen, i, x - 1, "|");
-        }
-
-        // top and bottom
-        for (i = 1; i < (x - 1); i++) {
-                mvwprintw(screen, 0, i, "-");
-                mvwprintw(screen, y - 1, i, "-");
-        }
-}
-
-void draw_line(WINDOW *screen, int x, int y) {
-        for (int i = 1; i < (x - 1); i++) {
-                mvwprintw(screen, y, i, "-");
-        }
-}
-
 int main(int argc, char *argv[]) {
         Board main {};
         Game * game = main.create_new_game();
@@ -137,10 +107,6 @@ int main(int argc, char *argv[]) {
 
         WINDOW *game_board = newwin(parent_y - game_info_size, parent_x, 0, 0);
         WINDOW *game_info = newwin(game_info_size, parent_x, parent_y - game_info_size, 0);
-
-        //draw_borders(game_board);
-        //draw_borders(game_info);
-
         while(1) {
                 getmaxyx(stdscr, new_y, new_x);
 
@@ -155,22 +121,17 @@ int main(int argc, char *argv[]) {
                         wclear(stdscr);
                         wclear(game_board);
                         wclear(game_info);
-
-                        draw_borders(game_board);
-                        draw_borders(game_info);
                 }
 
                 // draw to our windows
                 werase(game_board);
                 mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "  Stock\t   Waste\t\t%s  %s  %s  %s", get_target_deck_name(game, 0), get_target_deck_name(game, 1), get_target_deck_name(game, 2), get_target_deck_name(game, 3));
-                draw_line(game_board, parent_x, 2);
                 mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t  %s\t   %s      %s      %s",
                           game->get_stock_deck()->is_empty() ? "<=>" : "==>", game->get_waste_deck()->is_empty() ? NO_CARD : game->get_waste_deck()->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::SPADES)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::SPADES)->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::DIAMONDS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::DIAMONDS)->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::HEARTS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::HEARTS)->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::CLUBS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::CLUBS)->get()->to_string().c_str());
-                draw_line(game_board, parent_x, 4);
                 mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "Stack 1    Stack 2    Stack 3    Stack 4    Stack 5    Stack 6    Stack 7");
                 for (int i = 0; i <  13; ++i) {
 
