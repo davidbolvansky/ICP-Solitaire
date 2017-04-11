@@ -57,7 +57,6 @@ std::string print_hints(Game *game) {
 void show_hints(Game *game, WINDOW *screen) {
         std::vector<Move> moves = MoveFinder::get_available_moves(game);
         std::string hint;
-        int id = 0;
         mvwprintw(screen, 1, LEFT_WINDOW_OFFSET, "Hints:");
         for (int i = 0; i < moves.size(); ++i) {
                 Move move = moves[i];
