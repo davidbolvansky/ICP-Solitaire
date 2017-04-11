@@ -13,17 +13,18 @@ const char * FACE_DOWN_CARD = "-(-)";
 // string sized to 8 chars
 const char * get_target_deck_name(Game * game, int index) {
         switch (game->get_target_deck_by_id(index)->get_color()) {
-        case SPADES: return "Spades  ";
-        case DIAMONDS: return "Diamonds";
-        case HEARTS: return "Hearts  ";
-        case CLUBS: return "Clubs   ";
+            case SPADES: return "Spades  ";
+            case DIAMONDS: return "Diamonds";
+            case HEARTS: return "Hearts  ";
+            case CLUBS: return "Clubs   ";
         }
         return "--------";
 }
 
-std::string print_hints(Game *p) {
+// DEBUG
+std::string print_hints(Game *game) {
         std::ofstream file("hint");
-        std::vector<Move> moves = MoveFinder::get_available_moves(p);
+        std::vector<Move> moves = MoveFinder::get_available_moves(game);
         std::string hints;
         for (int i = 0; i < moves.size(); ++i) {
                 Move move = moves[i];
@@ -51,6 +52,40 @@ std::string print_hints(Game *p) {
         file << hints;
         file.close();
         return hints;
+}
+
+void show_hints(Game *game, WINDOW *screen) {
+        std::vector<Move> moves = MoveFinder::get_available_moves(game);
+        std::string hint;
+        int id = 0;
+        mvwprintw(screen, 1, LEFT_WINDOW_OFFSET, "Hints:");
+        for (int i = 0; i < moves.size(); ++i) {
+                Move move = moves[i];
+                switch (move.get_move_type()) {
+                case STOCK_DECK_TO_WASTE_DECK:
+                        hint = "Card from stock deck to waste deck";
+                        break;
+                case WASTE_DECK_TO_TARGET_DECK:
+                        hint = "Card from waste deck to " + std::to_string(move.get_destination_index() + 1)  + ". target deck";
+                        break;
+                case WASTE_DECK_TO_WORKING_STACK:
+                        hint = "Card from waste deck to " + std::to_string(move.get_destination_index() + 1) + ". working pack";
+                        break;
+                case TARGET_DECK_TO_WORKING_STACK:
+                        hint = "Card from " + std::to_string(move.get_source_index() + 1) + ". target deck to " + std::to_string(move.get_destination_index() + 1) + ". working stack";
+                        break;
+                case WORKING_STACK_TO_TARGET_DECK:
+                        hint = "Card from " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". target deck";
+                        break;
+                case WORKING_STACK_TO_WORKING_STACK:
+                        hint = "Card from working stack " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". working stack since " + std::to_string(move.get_card_index() + 1) + ". card";
+                        break;
+                }
+
+                mvwprintw(screen, i + 2, LEFT_WINDOW_OFFSET, hint.c_str());
+        }
+
+        mvwprintw(screen, moves.size() + 3, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
 }
 
 void draw_borders(WINDOW *screen) {
@@ -268,7 +303,7 @@ int main(int argc, char *argv[]) {
                         mvwprintw(game_board, 18, LEFT_WINDOW_OFFSET, "s[1-7]d[1-4] - Take card from stack 1 - 7 to deck 1 - 4");
                         mvwprintw(game_board, 19, LEFT_WINDOW_OFFSET, "s[1-7]s[1-7]c[1-13] - Take card 1 - 13 from stack 1 - 7 to stack 1 - 7");
 
-                        mvwprintw(game_board, 20, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
+                        mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
 
                         wrefresh(game_board);
                         wrefresh(game_info);
@@ -352,7 +387,12 @@ int main(int argc, char *argv[]) {
                 } else if (c  == 'u') {
                         game->undo();
                 } else if (c  == 'i') {
-                        print_hints(game);
+                        wclear(game_board);
+                        wclear(game_info);
+                        show_hints(game, game_board);
+                        wrefresh(game_board);
+                        wrefresh(game_info);
+                        std::cin.ignore();
                 }
                 wrefresh(game_board);
                 wrefresh(game_info);
