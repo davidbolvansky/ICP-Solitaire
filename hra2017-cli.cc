@@ -13,10 +13,10 @@ const char * FACE_DOWN_CARD = "-(-)";
 // string sized to 8 chars
 const char * get_target_deck_name(Game * game, int index) {
         switch (game->get_target_deck_by_id(index)->get_color()) {
-            case SPADES: return "Spades  ";
-            case DIAMONDS: return "Diamonds";
-            case HEARTS: return "Hearts  ";
-            case CLUBS: return "Clubs   ";
+        case SPADES: return "Spades  ";
+        case DIAMONDS: return "Diamonds";
+        case HEARTS: return "Hearts  ";
+        case CLUBS: return "Clubs   ";
         }
         return "--------";
 }
@@ -292,7 +292,7 @@ int main(int argc, char *argv[]) {
                         mvwprintw(game_board, 8, LEFT_WINDOW_OFFSET, "s - Save game");
                         mvwprintw(game_board, 9, LEFT_WINDOW_OFFSET, "l - Load game");
                         mvwprintw(game_board, 10, LEFT_WINDOW_OFFSET, "u - Undo");
-                        mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "i - Hint");
+                        mvwprintw(game_board, 11, LEFT_WINDOW_OFFSET, "m - Move hint");
 
                         mvwprintw(game_board, 13, LEFT_WINDOW_OFFSET, "Control mode:");
                         mvwprintw(game_board, 14, LEFT_WINDOW_OFFSET, "g - Get card from stock deck to waste deck");
@@ -312,6 +312,7 @@ int main(int argc, char *argv[]) {
                 } else if (c == 'r') {
                         game->resume();
                 } else if (c == 'n') {
+                        Game * backup = game;
                         if((game = main.create_new_game()) == nullptr) {
                                 wclear(game_board);
                                 wclear(game_info);
@@ -319,8 +320,17 @@ int main(int argc, char *argv[]) {
                                 wrefresh(game_board);
                                 wrefresh(game_info);
                                 sleep(1);
-                                endwin();
-                                exit(EXIT_FAILURE);
+
+                                if (backup == nullptr) {
+                                        endwin();
+                                        exit(EXIT_FAILURE);
+                                } else {
+                                        game = backup;
+                                }
+                        } else {
+                                if (backup != nullptr) {
+                                        backup->pause();
+                                }
                         }
                         game->start();
                 } else if (c == 'g') {
@@ -331,6 +341,7 @@ int main(int argc, char *argv[]) {
                                 continue;
                         }
                         int game_index = id[0] - '0' - 1;
+                        Game * backup = game;
                         if((game = main.get_game(game_index)) == nullptr) {
                                 wclear(game_board);
                                 wclear(game_info);
@@ -338,11 +349,19 @@ int main(int argc, char *argv[]) {
                                 wrefresh(game_board);
                                 wrefresh(game_info);
                                 sleep(1);
-                                endwin();
-                                exit(EXIT_FAILURE);
+
+                                if (backup == nullptr) {
+                                        endwin();
+                                        exit(EXIT_FAILURE);
+                                } else {
+                                        game = backup;
+                                }
                         } else {
-                                game->start();
+                                if (backup != nullptr) {
+                                        backup->pause();
+                                }
                         }
+                        game->resume();
                 } else if (c == 'e') {
                         break;
                 } else if (c == 's') {
@@ -360,8 +379,6 @@ int main(int argc, char *argv[]) {
                                 wrefresh(game_board);
                                 wrefresh(game_info);
                                 sleep(1);
-                                endwin();
-                                exit(EXIT_FAILURE);
                         }
                 } else if (c == 'l') {
                         wclear(game_board);
@@ -379,13 +396,22 @@ int main(int argc, char *argv[]) {
                                 wrefresh(game_board);
                                 wrefresh(game_info);
                                 sleep(1);
-                                game = backup;
+
+                                if (backup == nullptr) {
+                                        endwin();
+                                        exit(EXIT_FAILURE);
+                                } else {
+                                        game = backup;
+                                }
                         } else {
-                                game->start();
+                                if (backup != nullptr) {
+                                        backup->pause();
+                                }
                         }
+                        game->start();
                 } else if (c  == 'u') {
                         game->undo();
-                } else if (c  == 'i') {
+                } else if (c  == 'm') {
                         wclear(game_board);
                         wclear(game_info);
                         show_hints(game, game_board);
