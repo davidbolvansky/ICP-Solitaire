@@ -163,7 +163,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 werase(game_info);
-                mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %s | Score: %d | Game: %d / %d", game->get_moves_count(), game_time.data(), game->get_score(), main.get_game_id(game) + 1, main.get_games_count());
+                mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %s | Score: %d | Game: %d / %d", game->get_moves_count(), game_time.data(), game->get_score(), main.get_game_by_id(game) + 1, main.get_games_count());
 
                 if (game->get_total_time_in_seconds().count() <  20) {
 

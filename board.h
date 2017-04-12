@@ -17,7 +17,7 @@ class Board {
     Game * get_game(int index);
     Game * import_game(std::string filename);
     bool cancel_game(Game *g);
-    int get_game_id(Game *g);
+    int get_game_by_id(Game *g);
     bool export_game(int index, std::string filename);
     int get_games_count();
     void set_game_count_limit(int limit);
