@@ -46,7 +46,7 @@ bool MoveWasteDeckToTargetDeckCommand::execute() {
 
         // set color of target deck
         if (this->destination->is_empty() && top->get_value() == 1) {
-            this->destination->set_color(top->get_color());
+                this->destination->set_color(top->get_color());
         }
 
         // try to put this card to second deck
@@ -79,14 +79,14 @@ bool MoveWasteDeckToTargetDeckCommand::execute() {
 
 void MoveWasteDeckToTargetDeckCommand::undo() {
         // get last card from deck
-        Card *src_top = this->source->get();
+        Card *top = this->source->get();
         // turn this card face down
-        if (src_top != nullptr) {
-                src_top->turn_face_down();
+        if (top != nullptr) {
+                top->turn_face_down();
         }
 
         // get last card from deck
-        Card * top = this->destination->get();
+        top = this->destination->get();
         // push this card to deck
         if (top != nullptr) {
                 this->source->push(*top);
@@ -96,7 +96,7 @@ void MoveWasteDeckToTargetDeckCommand::undo() {
 
         // unset color of target deck
         if (this->destination->is_empty()) {
-            this->destination->set_color(Color::NO_COLOR);
+                this->destination->set_color(Color::NO_COLOR);
         }
 
         *this->score -= 10;
@@ -121,7 +121,7 @@ bool MoveWorkingStackToTargetDeckCommand::execute() {
 
         // set color of target deck
         if (this->destination->is_empty() && top->get_value() == 1) {
-            this->destination->set_color(top->get_color());
+                this->destination->set_color(top->get_color());
         }
 
         // try to push this card to stack
@@ -153,14 +153,14 @@ bool MoveWorkingStackToTargetDeckCommand::execute() {
 
 void MoveWorkingStackToTargetDeckCommand::undo() {
         // get last card from stack
-        Card *src_top = this->source->get();
+        Card * top = this->source->get();
         // turn this card face down
-        if (src_top != nullptr) {
-                src_top->turn_face_down();
+        if (top != nullptr) {
+                top->turn_face_down();
         }
 
         // get last card from deck
-        Card * top = this->destination->get();
+        top = this->destination->get();
         // push this card to stack
         if (top != nullptr) {
                 this->source->push(*top);
@@ -185,7 +185,7 @@ void MoveWorkingStackToTargetDeckCommand::undo() {
 
         // unset color of target deck
         if (this->destination->is_empty()) {
-            this->destination->set_color(Color::NO_COLOR);
+                this->destination->set_color(Color::NO_COLOR);
         }
 
         *this->score -= 10;
@@ -229,14 +229,14 @@ bool MoveWasteDeckToWorkingStackCommand::execute() {
 
 void MoveWasteDeckToWorkingStackCommand::undo() {
         // get last card from stack
-        Card *src_top = this->source->get();
+        Card * top = this->source->get();
         // turn this card face down
-        if (src_top != nullptr) {
-                src_top->turn_face_down();
+        if (top != nullptr) {
+                top->turn_face_down();
         }
 
         // get last card from deck
-        Card * top = this->destination->get();
+        top = this->destination->get();
         // push this card to stack
         if (top != nullptr) {
                 this->source->push(*top);
@@ -274,7 +274,7 @@ bool MoveTargetDeckToWorkingStackCommand::execute() {
 
         // unset color of target deck
         if (this->source->is_empty()) {
-            this->source->set_color(Color::NO_COLOR);
+                this->source->set_color(Color::NO_COLOR);
         }
 
         // take last card from stack
@@ -290,18 +290,18 @@ bool MoveTargetDeckToWorkingStackCommand::execute() {
 
 void MoveTargetDeckToWorkingStackCommand::undo() {
         // get last card from stack
-        Card *src_top = this->source->get();
+        Card * top = this->source->get();
         // turn this card face down
-        if (src_top != nullptr) {
-                src_top->turn_face_down();
+        if (top != nullptr) {
+                top->turn_face_down();
         }
 
         // get last card from deck
-        Card * top = this->destination->get();
+        top = this->destination->get();
 
         // set color of target deck
         if (this->source->is_empty()) {
-            this->source->set_color(top->get_color());
+                this->source->set_color(top->get_color());
         }
 
         // pop that card from deck
@@ -351,10 +351,10 @@ bool MoveWorkingStackToWorkingStackCommand::execute() {
         this->source->pop(*this->top_card);
 
         // get last card of first stack
-        Card *src_top = this->source->get();
+        Card *top = this->source->get();
         // turn this card face up
-        if (src_top != nullptr) {
-                src_top->turn_face_up();
+        if (top != nullptr) {
+                top->turn_face_up();
         }
 
         return true;
@@ -362,10 +362,10 @@ bool MoveWorkingStackToWorkingStackCommand::execute() {
 
 void MoveWorkingStackToWorkingStackCommand::undo() {
         // get last card of first stack
-        Card *src_top = this->source->get();
+        Card *top = this->source->get();
         // turn this card face down
-        if (src_top != nullptr) {
-                src_top->turn_face_down();
+        if (top != nullptr) {
+                top->turn_face_down();
         }
 
         // put cards back to first stack
@@ -375,10 +375,10 @@ void MoveWorkingStackToWorkingStackCommand::undo() {
         this->destination->pop(*this->top_card);
 
         // get last card of first stack
-        src_top = this->source->get();
+        top = this->source->get();
         // turn this card face up
-        if (src_top != nullptr) {
-                src_top->turn_face_up();
+        if (top != nullptr) {
+                top->turn_face_up();
         }
 }
 
@@ -416,9 +416,9 @@ bool MoveStockDeckToWasteDeckCommand::execute() {
                 }
 
                 // get last card of second deck
-                Card *dest_top = this->destination->get();
+                top = this->destination->get();
                 // turn this card face up
-                dest_top->turn_face_up();
+                top->turn_face_up();
         } else {
                 // just swap decks
                 this->source->swap(*this->destination);
@@ -447,9 +447,9 @@ void MoveStockDeckToWasteDeckCommand::undo() {
                 }
 
                 // get last card of first deck
-                Card *src_top = this->source->get();
+                Card *top = this->source->get();
                 // turn this card face down
-                src_top->turn_face_down();
+                top->turn_face_down();
         } else {
                 // just swap decks
                 this->destination->swap(*this->source);
