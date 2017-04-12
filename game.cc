@@ -181,9 +181,7 @@ bool Game::save(std::string filename) {
         for (int t = 0; t < DECKS_COUNT; ++t) {
                 file << "# Target deck " << t + 1 << std::endl;
                 for (int i = 0; i < CARDS_PER_PACK; ++i) {
-                        CardDeck * target_deck = this->get_target_deck_by_id(t);
-                        if (!target_deck) continue;
-                        Card *c = target_deck->get(i);
+                        Card *c = this->get_target_deck_by_id(t)->get(i);
                         if (!c) break;
                         file << c->get_color() << " " << c->get_value() << " " << c->is_turned_face_up() << std::endl;
                 }
