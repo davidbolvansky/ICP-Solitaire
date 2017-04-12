@@ -30,7 +30,6 @@ class Game {
     Game();
     Game(std::string filename);
     CardDeck * get_target_deck_by_id(int index);
-    CardDeck * get_target_deck_by_color(Color c);
     CardStack * get_working_stack_by_id(int index);
     CardDeck * get_stock_deck();
     CardDeck * get_waste_deck();

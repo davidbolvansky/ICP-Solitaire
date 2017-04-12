@@ -22,14 +22,14 @@ Game * Board::add_game(Game *g) {
 
 bool Board::cancel_game(Game *g) {
         int i = 0;
-        if ((i = get_game_by_id(g)) != -1) {
+        if ((i = get_game_id(g)) != -1) {
                 this->games.erase(this->games.begin() + i);
                 return true;
         }
         return false;
 }
 
-int Board::get_game_by_id(Game *g) {
+int Board::get_game_id(Game *g) {
         for (int i = 0; i < this->games.size(); ++i) {
                 if (this->get_game(i) == g) {
                         return i;

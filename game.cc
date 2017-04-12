@@ -61,10 +61,10 @@ Game::Game(std::string filename) {
         }
 
         for (int i = 0; i < DECKS_COUNT; ++i) {
-                CardDeck deck = this->target_card_decks[i];
-                if (!deck.is_empty()) {
-                        Card * top = deck.get();
-                        deck.set_color(top->get_color());
+                CardDeck * deck = get_target_deck_by_id(i);
+                if (!deck->is_empty()) {
+                        Card * top = deck->get();
+                        deck->set_color(top->get_color());
                 }
         }
 
@@ -144,16 +144,6 @@ bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, i
         return this->command_manager.execute_command(cmd);
 }
 
-CardDeck * Game::get_target_deck_by_color(Color c) {
-        for (int i = 0; i < DECKS_COUNT; ++i) {
-                if (this->target_card_decks[i].get_color() == c) {
-                        return &this->target_card_decks[i];
-                }
-        }
-
-        return nullptr;
-}
-
 CardDeck * Game::get_target_deck_by_id(int index) {
         return &this->target_card_decks[index];
 }
@@ -191,7 +181,7 @@ bool Game::save(std::string filename) {
         for (int t = 0; t < DECKS_COUNT; ++t) {
                 file << "# Target deck " << t + 1 << std::endl;
                 for (int i = 0; i < CARDS_PER_PACK; ++i) {
-                        CardDeck * target_deck = this->get_target_deck_by_color(static_cast<Color>(t));
+                        CardDeck * target_deck = this->get_target_deck_by_id(t);
                         if (!target_deck) continue;
                         Card *c = target_deck->get(i);
                         if (!c) break;
