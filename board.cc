@@ -22,7 +22,7 @@ Game * Board::add_game(Game *g) {
 
 bool Board::cancel_game(Game *g) {
         int i = 0;
-        if ((i = get_game_id(g)) != -1) {
+        if ((i = this->get_game_id(g)) != -1) {
                 this->games.erase(this->games.begin() + i);
                 return true;
         }
