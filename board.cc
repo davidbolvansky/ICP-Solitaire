@@ -6,15 +6,15 @@ Board::Board() {
 }
 
 Game * Board::create_new_game() {
+        if (this->get_games_count() > this->get_games_count_limit()) {
+                return nullptr;
+        }
+
         Game * new_game = new Game {};
         return this->add_game(new_game);
 }
 
 Game * Board::add_game(Game *g) {
-        if (this->get_games_count() > this->get_games_count_limit()) {
-                return nullptr;
-        }
-
         std::shared_ptr<Game> game_ptr {g};
         this->games.push_back(game_ptr);
         return this->games.back().get();
@@ -23,19 +23,19 @@ Game * Board::add_game(Game *g) {
 bool Board::cancel_game(Game *g) {
         int i = 0;
         if ((i = get_game_id(g)) != -1) {
-            this->games.erase(this->games.begin() + i);
-            return true;
+                this->games.erase(this->games.begin() + i);
+                return true;
         }
         return false;
 }
 
 int Board::get_game_id(Game *g) {
-    for (int i = 0; i < this->games.size(); ++i) {
-            if (this->get_game(i) == g) {
-                    return i;
-            }
-    }
-    return -1;
+        for (int i = 0; i < this->games.size(); ++i) {
+                if (this->get_game(i) == g) {
+                        return i;
+                }
+        }
+        return -1;
 }
 
 Game * Board::get_game(int index) {
@@ -46,6 +46,9 @@ Game * Board::get_game(int index) {
 }
 
 Game * Board::import_game(std::string filename) {
+        if (this->get_games_count() > this->get_games_count_limit()) {
+                return nullptr;
+        }
         Game *imported_game = Game::load(filename);
         if (imported_game == nullptr) {
                 return nullptr;
