@@ -55,9 +55,16 @@ Game::Game(std::string filename) {
                         this->waste_deck.push(c);
                 } else if (save_to  >= 3 && save_to <= 6) {
                         this->target_card_decks[save_to - 3].push(c);
-                        this->target_card_decks[save_to - 3].set_color(static_cast<Color> (save_to - 3));
                 } else if (save_to  >= 7 && save_to <= 13) {
                         this->working_card_stacks[save_to - 7].push(c);
+                }
+        }
+
+        for (int i = 0; i < DECKS_COUNT; ++i) {
+                CardDeck deck = this->target_card_decks[i];
+                if (!deck.is_empty()) {
+                        Card * top = deck.get();
+                        deck.set_color(top->get_color());
                 }
         }
 
