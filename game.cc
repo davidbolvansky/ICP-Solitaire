@@ -130,7 +130,7 @@ bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, i
         if (dest_stack_index < 0 || dest_stack_index > STACKS_COUNT - 1) {
                 return false;
         }
-        if (card_index < 0 || card_index > CARDS_PER_PACK - 1) {
+        if (card_index < 0 || card_index > CARDS_PER_STACK - 1) {
                 return false;
         }
 
@@ -190,7 +190,7 @@ bool Game::save(std::string filename) {
 
         for (int t = 0; t < STACKS_COUNT; ++t) {
                 file << "# Working stack " << t + 1 << std::endl;
-                for (int i = 0; i < CARDS_PER_PACK; ++i) {
+                for (int i = 0; i < CARDS_PER_STACK; ++i) {
                         Card *c = this->working_card_stacks[t].get(i);
                         if (!c) break;
                         file << c->get_color() << " " << c->get_value() << " " << c->is_turned_face_up() << std::endl;
