@@ -73,10 +73,8 @@ std::vector<Move> MoveFinder::get_available_moves(Game *game) {
                                 }
                                 continue;
                         }
-                        if (!waste_top->similar_color_to(*working_top)) {
-                                if (waste_top->compare_value(*working_top) == -1) {
-                                        moves.push_back(Move {WASTE_DECK_TO_WORKING_STACK, i});
-                                }
+                        if (!waste_top->similar_color_to(*working_top) && waste_top->compare_value(*working_top) == -1) {
+                                moves.push_back(Move {WASTE_DECK_TO_WORKING_STACK, i});
                         }
                 }
         }
@@ -95,8 +93,8 @@ std::vector<Move> MoveFinder::get_available_moves(Game *game) {
                                 Card * working_card = game->get_working_stack_by_id(j)->get(c);
                                 if (!working_card) {
                                         if (c == 0 && working_top->get_value() == 13) {
-                                               moves.push_back(Move {WORKING_STACK_TO_WORKING_STACK, i, j, 1});
-                                               break;
+                                                moves.push_back(Move {WORKING_STACK_TO_WORKING_STACK, i, j, 1});
+                                                break;
                                         }
                                         continue;
                                 }
