@@ -13,14 +13,15 @@ const int DECKS_COUNT = 4;
 const int STACKS_COUNT = 7;
 const int ALL_CARDS_COUNT = 52;
 const int CARDS_PER_PACK = 13;
+const int CARDS_PER_STACK = 19;
 
 class Game {
     CardDeck stock_deck {ALL_CARDS_COUNT};
     CardDeck waste_deck {ALL_CARDS_COUNT};
 
     CardDeck target_card_decks [DECKS_COUNT] = { CardDeck {CARDS_PER_PACK} , CardDeck {CARDS_PER_PACK}, CardDeck {CARDS_PER_PACK}, CardDeck {CARDS_PER_PACK}};
-    CardStack working_card_stacks [STACKS_COUNT] = { CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK},
-                                                    CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}, CardStack {CARDS_PER_PACK}};
+    CardStack working_card_stacks [STACKS_COUNT] = { CardStack {CARDS_PER_STACK}, CardStack {CARDS_PER_STACK}, CardStack {CARDS_PER_STACK},
+                                                    CardStack {CARDS_PER_STACK}, CardStack {CARDS_PER_STACK}, CardStack {CARDS_PER_STACK}, CardStack {CARDS_PER_STACK}};
     int score;
     bool paused;
     std::chrono::high_resolution_clock::time_point started_at;
