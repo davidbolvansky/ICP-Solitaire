@@ -6,7 +6,7 @@ Board::Board() {
 }
 
 Game * Board::create_new_game() {
-        if (this->get_games_count() > this->get_games_count_limit()) {
+        if (this->get_games_count() + 1 > this->get_games_count_limit()) {
                 return nullptr;
         }
 
@@ -46,7 +46,7 @@ Game * Board::get_game(int index) {
 }
 
 Game * Board::import_game(std::string filename) {
-        if (this->get_games_count() > this->get_games_count_limit()) {
+        if (this->get_games_count() + 1 > this->get_games_count_limit()) {
                 return nullptr;
         }
         Game *imported_game = Game::load(filename);
