@@ -45,7 +45,7 @@ std::string print_hints(Game *game) {
                         hints += "Take card from " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". target deck.\n";
                         break;
                 case WORKING_STACK_TO_WORKING_STACK:
-                        hints += "Take card from working stack " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". working stack since " + std::to_string(move.get_card_index() + 1) + ". card.\n";
+                        hints += "Take card from " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". working stack since " + std::to_string(move.get_card_index() + 1) + ". card.\n";
                         break;
                 }
         }
@@ -77,7 +77,7 @@ void show_hints(Game *game, WINDOW *screen) {
                         hint = "Card from " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". target deck";
                         break;
                 case WORKING_STACK_TO_WORKING_STACK:
-                        hint = "Card from working stack " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". working stack since " + std::to_string(move.get_card_index() + 1) + ". card";
+                        hint = "Card from " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". working stack since " + std::to_string(move.get_card_index() + 1) + ". card";
                         break;
                 }
 
