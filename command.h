@@ -62,6 +62,7 @@ class MoveWorkingStackToWorkingStackCommand : public Command {
     Card * top_card;
     CardStack moved_cards{13};
     int *score;
+    bool card_turned;
 public:
     MoveWorkingStackToWorkingStackCommand(int *score, CardStack *source, CardStack *destination, Card *top_card);
     virtual bool execute() override;

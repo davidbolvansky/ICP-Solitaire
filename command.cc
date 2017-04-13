@@ -354,7 +354,7 @@ bool MoveWorkingStackToWorkingStackCommand::execute() {
         Card *top = this->source->get();
         // turn this card face up
         if (top != nullptr) {
-                top->turn_face_up();
+                this->card_turned = top->turn_face_up();
         }
 
         return true;
@@ -364,7 +364,7 @@ void MoveWorkingStackToWorkingStackCommand::undo() {
         // get last card of first stack
         Card *top = this->source->get();
         // turn this card face down
-        if (top != nullptr) {
+        if (top != nullptr && this->card_turned) {
                 top->turn_face_down();
         }
 
