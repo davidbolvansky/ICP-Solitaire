@@ -423,6 +423,7 @@ bool MoveStockDeckToWasteDeckCommand::execute() {
                 // just swap decks
                 this->source->swap(*this->destination);
                 this->source->reverse();
+                *this->score -= 100;
         }
 
         return true;
@@ -454,5 +455,6 @@ void MoveStockDeckToWasteDeckCommand::undo() {
                 // just swap decks
                 this->destination->swap(*this->source);
                 this->destination->reverse();
+                *this->score += 100;
         }
 }
