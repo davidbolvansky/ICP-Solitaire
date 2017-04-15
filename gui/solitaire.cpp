@@ -36,6 +36,9 @@ void Solitaire::createGame()
 
     connect(ui->save, SIGNAL (released()), this, SLOT (save()));
     connect(ui->load, SIGNAL (released()), this, SLOT (load()));
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
+    timer->start(1000);
 
     connect(ui->stock_deck, SIGNAL (released()), this, SLOT (handleStockDeck()));
     connect(ui->waste_deck, SIGNAL (released()), this, SLOT (handleWasteDeck()));
@@ -308,6 +311,8 @@ void Solitaire::paintCards()
             }
         }
     }
+    ui->moves->setText("Moves: " + QString::number(game->get_moves_count()));
+    ui->score->setText("Score: " + QString::number(game->get_score()));
 }
 
 void Solitaire::handleWasteDeck()
@@ -419,7 +424,6 @@ void Solitaire::handleWorking()
        }
     //chceme presunut kartu z target na working
     } else if (targetClicked > -1) {
-        qInfo("waat");
         //bolo kliknute na najspodnejsku kartu alebo je prazdny
         if (game->get_working_stack_by_id(stack)->get_size() == card + 1 || game->get_working_stack_by_id(stack)->is_empty()) {
             game->move_card_from_target_deck_to_working_stack(targetClicked, stack);
@@ -477,4 +481,13 @@ void Solitaire::load()
         paintCards();
     }
 
+}
+
+void Solitaire::showTime()
+{
+    int t = game->get_total_time_in_seconds().count();
+    QTime time(0,0);
+    time = time.addSecs(t);
+    QString text = time.toString("mm:ss");
+    ui->time->setText(text);
 }

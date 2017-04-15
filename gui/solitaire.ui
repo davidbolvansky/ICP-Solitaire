@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>672</width>
-    <height>586</height>
+    <width>644</width>
+    <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -229,8 +229,8 @@
      <rect>
       <x>10</x>
       <y>175</y>
-      <width>621</width>
-      <height>391</height>
+      <width>620</width>
+      <height>381</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2858,6 +2858,64 @@
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="info" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>560</y>
+      <width>620</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="moves">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>100</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="score">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>0</y>
+       <width>100</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="time">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>0</y>
+       <width>100</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
    <zorder>working</zorder>
    <zorder>stock_deck</zorder>
    <zorder>waste_deck</zorder>
@@ -2866,6 +2924,7 @@
    <zorder>target_deck_4</zorder>
    <zorder>target_deck_1</zorder>
    <zorder>menu</zorder>
+   <zorder>info</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>

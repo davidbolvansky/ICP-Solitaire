@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTime>
+#include <QTimer>
 #include "../game.h"
 #include "../card.h"
 #include "../board.h"
@@ -35,6 +37,7 @@ private slots:
     void handleWorking();
     void save();
     void load();
+    void showTime();
 
 private:
     Ui::Solitaire *ui;
