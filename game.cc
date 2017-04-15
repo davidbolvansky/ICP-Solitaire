@@ -218,7 +218,7 @@ Game * Game::load(std::string filename) {
 
 int Game::get_score() {
         if (this->score < 0) {
-                this->score = 0;
+                return 0;
         }
 
         return this->score;
