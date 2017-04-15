@@ -40,6 +40,8 @@ private slots:
     void showTime();
     void undo();
 
+    void on_hint_clicked();
+
 private:
     Ui::Solitaire *ui;
     Board *main;

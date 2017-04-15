@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -153,13 +154,20 @@ public:
     QPushButton *working6_18;
     QWidget *menu;
     QPushButton *save;
+    QPushButton *load;
+    QPushButton *undo;
+    QPushButton *hint;
+    QWidget *info;
+    QLabel *moves;
+    QLabel *score;
+    QLabel *time;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *Solitaire)
     {
         if (Solitaire->objectName().isEmpty())
             Solitaire->setObjectName(QStringLiteral("Solitaire"));
-        Solitaire->resize(672, 586);
+        Solitaire->resize(644, 605);
         Solitaire->setStyleSheet(QStringLiteral("background-color: rgb(78, 154, 6);"));
         centralWidget = new QWidget(Solitaire);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
@@ -221,7 +229,7 @@ public:
         target_deck_1->setFlat(false);
         working = new QWidget(centralWidget);
         working->setObjectName(QStringLiteral("working"));
-        working->setGeometry(QRect(10, 175, 621, 391));
+        working->setGeometry(QRect(10, 175, 620, 381));
         working->setStyleSheet(QStringLiteral(""));
         working0 = new QWidget(working);
         working0->setObjectName(QStringLiteral("working0"));
@@ -965,7 +973,31 @@ public:
         menu->setGeometry(QRect(0, 0, 671, 31));
         save = new QPushButton(menu);
         save->setObjectName(QStringLiteral("save"));
-        save->setGeometry(QRect(0, 0, 84, 28));
+        save->setGeometry(QRect(0, 0, 85, 28));
+        load = new QPushButton(menu);
+        load->setObjectName(QStringLiteral("load"));
+        load->setGeometry(QRect(85, 0, 85, 28));
+        undo = new QPushButton(menu);
+        undo->setObjectName(QStringLiteral("undo"));
+        undo->setGeometry(QRect(170, 0, 85, 28));
+        hint = new QPushButton(menu);
+        hint->setObjectName(QStringLiteral("hint"));
+        hint->setGeometry(QRect(255, 0, 85, 28));
+        info = new QWidget(centralWidget);
+        info->setObjectName(QStringLiteral("info"));
+        info->setGeometry(QRect(10, 560, 620, 20));
+        moves = new QLabel(info);
+        moves->setObjectName(QStringLiteral("moves"));
+        moves->setGeometry(QRect(0, 0, 100, 20));
+        moves->setStyleSheet(QStringLiteral(""));
+        score = new QLabel(info);
+        score->setObjectName(QStringLiteral("score"));
+        score->setGeometry(QRect(100, 0, 100, 20));
+        score->setStyleSheet(QStringLiteral(""));
+        time = new QLabel(info);
+        time->setObjectName(QStringLiteral("time"));
+        time->setGeometry(QRect(200, 0, 100, 20));
+        time->setStyleSheet(QStringLiteral(""));
         Solitaire->setCentralWidget(centralWidget);
         working->raise();
         stock_deck->raise();
@@ -975,6 +1007,7 @@ public:
         target_deck_4->raise();
         target_deck_1->raise();
         menu->raise();
+        info->raise();
         statusBar = new QStatusBar(Solitaire);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         Solitaire->setStatusBar(statusBar);
@@ -1113,6 +1146,12 @@ public:
         working6_17->setText(QString());
         working6_18->setText(QString());
         save->setText(QApplication::translate("Solitaire", "Save Game", Q_NULLPTR));
+        load->setText(QApplication::translate("Solitaire", "Load Game", Q_NULLPTR));
+        undo->setText(QApplication::translate("Solitaire", "Undo", Q_NULLPTR));
+        hint->setText(QApplication::translate("Solitaire", "Hint", Q_NULLPTR));
+        moves->setText(QString());
+        score->setText(QString());
+        time->setText(QString());
     } // retranslateUi
 
 };

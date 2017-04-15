@@ -21,39 +21,6 @@ const char * get_target_deck_name(Game * game, int index) {
         return "        ";
 }
 
-// DEBUG
-std::string print_hints(Game *game) {
-        std::ofstream file("hint");
-        std::vector<Move> moves = MoveFinder::get_available_moves(game);
-        std::string hints;
-        for (int i = 0; i < moves.size(); ++i) {
-                Move move = moves[i];
-                switch (move.get_move_type()) {
-                case STOCK_DECK_TO_WASTE_DECK:
-                        hints += "Take card from stock deck to waste deck.\n";
-                        break;
-                case WASTE_DECK_TO_TARGET_DECK:
-                        hints += "Take card from waste deck to " + std::to_string(move.get_destination_index() + 1)  + ". target deck.\n";
-                        break;
-                case WASTE_DECK_TO_WORKING_STACK:
-                        hints += "Take card from waste deck to " + std::to_string(move.get_destination_index() + 1) + ". working pack.\n";
-                        break;
-                case TARGET_DECK_TO_WORKING_STACK:
-                        hints += "Take card from " + std::to_string(move.get_source_index() + 1) + ". target deck to " + std::to_string(move.get_destination_index() + 1) + ". working stack.\n";
-                        break;
-                case WORKING_STACK_TO_TARGET_DECK:
-                        hints += "Take card from " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". target deck.\n";
-                        break;
-                case WORKING_STACK_TO_WORKING_STACK:
-                        hints += "Take card from " + std::to_string(move.get_source_index() + 1) + ". working stack to " + std::to_string(move.get_destination_index() + 1) + ". working stack since " + std::to_string(move.get_card_index() + 1) + ". card.\n";
-                        break;
-                }
-        }
-        file << hints;
-        file.close();
-        return hints;
-}
-
 void show_hints(Game *game, WINDOW *screen) {
         std::vector<Move> moves = MoveFinder::get_available_moves(game);
         std::string hint;
