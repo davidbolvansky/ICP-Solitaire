@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QPushButton>
+#include <QFileDialog>
+#include <QMessageBox>
 #include "../game.h"
 #include "../card.h"
 #include "../board.h"
@@ -32,6 +34,7 @@ private slots:
     void handleTargetDeck4();
     void handleWorking();
     void save();
+    void load();
 
 private:
     Ui::Solitaire *ui;

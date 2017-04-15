@@ -35,6 +35,7 @@ void Solitaire::createGame()
     resetSelection();
 
     connect(ui->save, SIGNAL (released()), this, SLOT (save()));
+    connect(ui->load, SIGNAL (released()), this, SLOT (load()));
 
     connect(ui->stock_deck, SIGNAL (released()), this, SLOT (handleStockDeck()));
     connect(ui->waste_deck, SIGNAL (released()), this, SLOT (handleWasteDeck()));
@@ -327,9 +328,12 @@ void Solitaire::handleTargetDeck1()
         game->move_card_from_working_stack_to_target_deck(workingStackClicked, 0);
         workingCardClicked = -1;
         workingStackClicked = -1;
-    } else {
+    } else if (targetClicked > -1) {
         targetClicked = -1;
+    } else {
+        targetClicked = 0;
     }
+
 
     paintCards();
 }
@@ -343,8 +347,10 @@ void Solitaire::handleTargetDeck2()
         game->move_card_from_working_stack_to_target_deck(workingStackClicked, 1);
         workingCardClicked = -1;
         workingStackClicked = -1;
-    } else {
+    } else if (targetClicked > -1) {
         targetClicked = -1;
+    } else {
+        targetClicked = 1;
     }
 
     paintCards();
@@ -359,8 +365,10 @@ void Solitaire::handleTargetDeck3()
         game->move_card_from_working_stack_to_target_deck(workingStackClicked, 2);
         workingCardClicked = -1;
         workingStackClicked = -1;
-    } else {
+    } else if (targetClicked > -1) {
         targetClicked = -1;
+    } else {
+        targetClicked = 2;
     }
 
     paintCards();
@@ -375,8 +383,10 @@ void Solitaire::handleTargetDeck4()
         game->move_card_from_working_stack_to_target_deck(workingStackClicked, 3);
         workingCardClicked = -1;
         workingStackClicked = -1;
-    } else {
+    } else if (targetClicked > -1) {
         targetClicked = -1;
+    } else {
+        targetClicked = 3;
     }
 
     paintCards();
@@ -407,6 +417,15 @@ void Solitaire::handleWorking()
            resetSelection();
            paintCards();
        }
+    //chceme presunut kartu z target na working
+    } else if (targetClicked > -1) {
+        qInfo("waat");
+        //bolo kliknute na najspodnejsku kartu alebo je prazdny
+        if (game->get_working_stack_by_id(stack)->get_size() == card + 1 || game->get_working_stack_by_id(stack)->is_empty()) {
+            game->move_card_from_target_deck_to_working_stack(targetClicked, stack);
+            resetSelection();
+            paintCards();
+        }
     } else {
         resetSelection();
         workingCardClicked = card;
@@ -424,5 +443,38 @@ void Solitaire::resetSelection()
 
 void Solitaire::save()
 {
-    game->save("subor");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Game to File"));
+    if (fileName.isEmpty())
+        return;
+    else {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return;
+        } else {
+            game->save(fileName.toStdString());
+        }
+    }
+}
+
+void Solitaire::load()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Address Book"));
+    if (fileName.isEmpty())
+        return;
+    else {
+
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return;
+        }
+
+        game = game->load(fileName.toStdString());
+        paintCards();
+    }
+
 }
