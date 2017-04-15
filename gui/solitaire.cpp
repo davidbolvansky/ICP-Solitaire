@@ -39,6 +39,7 @@ void Solitaire::createGame()
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
     timer->start(1000);
+    connect(ui->undo, SIGNAL (released()), this, SLOT (undo()));
 
     connect(ui->stock_deck, SIGNAL (released()), this, SLOT (handleStockDeck()));
     connect(ui->waste_deck, SIGNAL (released()), this, SLOT (handleWasteDeck()));
@@ -490,4 +491,10 @@ void Solitaire::showTime()
     time = time.addSecs(t);
     QString text = time.toString("mm:ss");
     ui->time->setText(text);
+}
+
+void Solitaire::undo()
+{
+    game->undo();
+    paintCards();
 }

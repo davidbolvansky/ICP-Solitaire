@@ -38,6 +38,7 @@ private slots:
     void save();
     void load();
     void showTime();
+    void undo();
 
 private:
     Ui::Solitaire *ui;
