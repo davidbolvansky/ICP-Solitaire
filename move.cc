@@ -93,7 +93,7 @@ std::vector<Move> MoveFinder::get_available_moves(Game *game) {
                                 Card * working_card = game->get_working_stack_by_id(j)->get(c);
                                 if (!working_card) {
                                         if (c == 0 && working_top->get_value() == 13) {
-                                                moves.push_back(Move {WORKING_STACK_TO_WORKING_STACK, i, j, 1});
+                                                moves.push_back(Move {WORKING_STACK_TO_WORKING_STACK, i, j, game->get_working_stack_by_id(i)->get_size() - 1});
                                                 break;
                                         }
                                         continue;
