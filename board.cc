@@ -30,7 +30,7 @@ bool Board::cancel_game(Game *g) {
 }
 
 int Board::get_game_id(Game *g) {
-        for (int i = 0; i < this->games.size(); ++i) {
+        for (unsigned int i = 0; i < this->games.size(); ++i) {
                 if (this->get_game(i) == g) {
                         return i;
                 }

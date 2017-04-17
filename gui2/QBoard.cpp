@@ -501,7 +501,7 @@ void QBoard::on_hint_clicked()
 {
     std::vector<Move> moves = MoveFinder::get_available_moves(game);
     std::string hints;
-    for (int i = 0; i < moves.size(); ++i) {
+    for (unsigned int i = 0; i < moves.size(); ++i) {
             Move move = moves[i];
             switch (move.get_move_type()) {
             case STOCK_DECK_TO_WASTE_DECK:
