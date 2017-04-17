@@ -62,16 +62,18 @@ int main(int argc, char *argv[])
     QVBoxLayout *main = new QVBoxLayout(&mainWidget);
     QGridLayout *horizontalLayout = new QGridLayout();
     main->addLayout(horizontalLayout);
-    QBoard *board0 = new QBoard;
+
+    Board * mainBoard = new Board{};
+    QBoard *board0 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board0, 0,0);
 
-    QBoard *board1 = new QBoard;
+    QBoard *board1 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board1,0,1);
 
-    QBoard *board2 = new QBoard;
+    QBoard *board2 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board2,1,0);
 
-    QBoard *board3 = new QBoard;
+    QBoard *board3 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board3,1,1);
 
     mainWidget.setWindowTitle(QObject::tr("Solitaire"));

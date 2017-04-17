@@ -68,7 +68,7 @@ class QBoard : public QFrame
     Q_OBJECT
 
 public:
-    QBoard(QWidget *parent = 0);
+    QBoard(QWidget *parent = 0, Board * board = nullptr);
     ~QBoard();
 
 protected:

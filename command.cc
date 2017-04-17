@@ -1,4 +1,3 @@
-
 #include <iostream> // DEBUG
 #include <memory>
 #include "command.h"

@@ -49,10 +49,9 @@
 ****************************************************************************/
 
 #include <QtWidgets>
-
 #include "QBoard.h"
 
-QBoard::QBoard(QWidget *parent)
+QBoard::QBoard(QWidget *parent, Board * board)
     : QFrame(parent)
 {
     setMinimumSize(550, 300);
@@ -61,8 +60,7 @@ QBoard::QBoard(QWidget *parent)
     layout = new QVBoxLayout();
     setLayout(layout);
 
-    main = new Board;
-    game = main->create_new_game();
+    game = board->create_new_game();
     game->start();
 
     createObjects();
