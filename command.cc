@@ -303,6 +303,11 @@ void MoveTargetDeckToWorkingStackCommand::undo() {
                 this->source->set_color(top->get_color());
         }
 
+        // push this card to deck
+        if (top != nullptr) {
+                this->source->push(*top);
+        }
+
         // pop that card from deck
         this->destination->pop();
 
