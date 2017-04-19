@@ -151,15 +151,8 @@ bool MoveWorkingStackToTargetDeckCommand::execute() {
 }
 
 void MoveWorkingStackToTargetDeckCommand::undo() {
-        // get last card from stack
-        Card * top = this->source->get();
-        // turn this card face down
-        if (top != nullptr) {
-                top->turn_face_down();
-        }
-
         // get last card from deck
-        top = this->destination->get();
+        Card * top = this->destination->get();
         // push this card to stack
         if (top != nullptr) {
                 this->source->push(*top);
