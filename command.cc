@@ -98,6 +98,13 @@ void MoveWasteDeckToTargetDeckCommand::undo() {
                 this->destination->set_color(Color::NO_COLOR);
         }
 
+        // get last card of deck
+        top = this->destination->get();
+        // turn this card face down
+        if (top != nullptr) {
+            top->turn_face_up();
+        }
+
         *this->score -= 10;
 }
 
@@ -157,7 +164,7 @@ void MoveWorkingStackToTargetDeckCommand::undo() {
         if (top != nullptr && this->card_turned) {
                 top->turn_face_down();
         }
-        
+
         // get last card from deck
         top = this->destination->get();
         // push this card to stack
@@ -170,6 +177,13 @@ void MoveWorkingStackToTargetDeckCommand::undo() {
         // unset color of target deck
         if (this->destination->is_empty()) {
                 this->destination->set_color(Color::NO_COLOR);
+        }
+
+        // get last card of deck
+        top = this->destination->get();
+        // turn this card face down
+        if (top != nullptr) {
+            top->turn_face_up();
         }
 
         *this->score -= 10;
