@@ -30,6 +30,7 @@ class MoveWorkingStackToTargetDeckCommand : public Command {
     CardStack *source;
     CardDeck *destination;
     int *score;
+    bool card_turned;
 public:
     MoveWorkingStackToTargetDeckCommand(int *score, CardStack *source, CardDeck *destination);
     virtual bool execute() override;

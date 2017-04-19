@@ -142,7 +142,7 @@ bool MoveWorkingStackToTargetDeckCommand::execute() {
         top = this->source->get();
         // turn this card face up
         if (top != nullptr) {
-                top->turn_face_up();
+                this->card_turned = top->turn_face_up();
         }
 
         *this->score += 10;
@@ -151,8 +151,15 @@ bool MoveWorkingStackToTargetDeckCommand::execute() {
 }
 
 void MoveWorkingStackToTargetDeckCommand::undo() {
+        // get last card of stack
+        Card *top = this->source->get();
+        // turn this card face down
+        if (top != nullptr && this->card_turned) {
+                top->turn_face_down();
+        }
+        
         // get last card from deck
-        Card * top = this->destination->get();
+        top = this->destination->get();
         // push this card to stack
         if (top != nullptr) {
                 this->source->push(*top);
