@@ -160,21 +160,6 @@ void MoveWorkingStackToTargetDeckCommand::undo() {
         // get and pop that card from deck
         this->destination->pop();
 
-        // get previous card of top of deck
-        Card * prev_top =  this->destination->get(this->destination->get_size() - 2);
-        // turn this card face down
-        if (prev_top != nullptr) {
-                prev_top->turn_face_down();
-        }
-
-        // get last card of stack
-        top = this->destination->get();
-
-        // turn new top face up
-        if (top != nullptr) {
-                top->turn_face_up();
-        }
-
         // unset color of target deck
         if (this->destination->is_empty()) {
                 this->destination->set_color(Color::NO_COLOR);
