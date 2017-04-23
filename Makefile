@@ -1,8 +1,8 @@
 all: clean
-	cd src && make
+	cd src && make && mv hra2017-cli ../hra2017-cli
 
 run: all
-	./src/hra2017-cli
+	./hra2017-cli
 	#./hra2017
 
 
@@ -11,6 +11,7 @@ doxygen:
 	doxygen src/doxyfile
 
 clean:
+	rm -f hra2017-cli hra2017
 	cd src && make clean
 
 
