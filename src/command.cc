@@ -3,7 +3,7 @@
 #include "command.h"
 
 
-/*
+/**
 * Execute game command
 * @command: pointer to command
 * @return: true when successful operation, false otherwise
@@ -16,7 +16,7 @@ bool CommandManager::execute_command(std::shared_ptr<Command> command) {
         return exec_success;
 }
 
-/*
+/**
 * Undo last game command
 * @return: true when successful operation, false otherwise
 */
@@ -31,7 +31,7 @@ bool CommandManager::undo_command() {
         return true;
 }
 
-/*
+/**
 * Get size of stack of commands
 * @return: size of stack of commands
 */
@@ -40,7 +40,7 @@ int CommandManager::get_size() {
 }
 
 
-/*
+/**
 * Command for movement from waste deck to target deck
 * @score: pointer to score
 * @source: pointer to waste deck
@@ -52,7 +52,7 @@ MoveWasteDeckToTargetDeckCommand::MoveWasteDeckToTargetDeckCommand(int *score, C
         this->score = score;
 }
 
-/*
+/**
 * Execute move from waste deck to target deck
 * @return: true when successful operation, false otherwise
 */
@@ -98,7 +98,7 @@ bool MoveWasteDeckToTargetDeckCommand::execute() {
         return true;
 }
 
-/*
+/**
 * Return card back from target deck to waste deck
 */
 void MoveWasteDeckToTargetDeckCommand::undo() {
@@ -133,7 +133,7 @@ void MoveWasteDeckToTargetDeckCommand::undo() {
         *this->score -= 10;
 }
 
-/*
+/**
 * Command for movement from working stack to target deck
 * @score: pointer to score
 * @source: pointer to working stack
@@ -145,7 +145,7 @@ MoveWorkingStackToTargetDeckCommand::MoveWorkingStackToTargetDeckCommand(int *sc
         this->score = score;
 }
 
-/*
+/**
 * Execute move from working stack to target deck
 * @return: true when successful operation, false otherwise
 */
@@ -190,7 +190,7 @@ bool MoveWorkingStackToTargetDeckCommand::execute() {
         return true;
 }
 
-/*
+/**
 * Return card back from target deck to working stack
 */
 void MoveWorkingStackToTargetDeckCommand::undo() {

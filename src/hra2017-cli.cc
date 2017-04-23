@@ -15,7 +15,7 @@ const char * NO_STACK_CARD = "    ";
 // Placeholder for card which is turned face down
 const char * FACE_DOWN_CARD = "-(-)";
 
-/*
+/**
 * Get name of target deck
 * @game: pointer to game
 * @index index of target deck
@@ -31,7 +31,7 @@ const char * get_target_deck_name(Game * game, int index) {
         return "        ";
 }
 
-/*
+/**
 * Show hints about possible moves
 * @game: pointer to game
 * @screen: show hints to this screen
@@ -69,7 +69,7 @@ void show_hints(Game *game, WINDOW *screen) {
         mvwprintw(screen, moves.size() + 3, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
 }
 
-/*
+/**
 * Run CLI version of Solitaire game
 * @argc: number of arguments
 * @argv: arguments

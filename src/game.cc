@@ -4,7 +4,7 @@
 #include <sstream>
 #include "game.h"
 
-/*
+/**
 * Implicit game constructor
 */
 Game::Game() {
@@ -24,7 +24,7 @@ Game::Game() {
         score = 0;
 }
 
-/*
+/**
 * Game constructor, load game from file
 * @filename: load game from this file
 */
@@ -78,14 +78,14 @@ Game::Game(std::string filename) {
         file.close();
 }
 
-/*
+/**
 * Undo last move in game
 */
 void Game::undo() {
         this->command_manager.undo_command();
 }
 
-/*
+/**
 * Move card from stock deck to waste deck
 * @return: true when successful operation, false otherwise
 */
@@ -95,7 +95,7 @@ bool Game::move_card_from_stock_deck_to_waste_deck() {
         return this->command_manager.execute_command(cmd);
 }
 
-/*
+/**
 * Move card from waste deck to working stack
 * @stack_index: index of working stack
 * @return: true when successful operation, false otherwise
@@ -109,7 +109,7 @@ bool Game::move_card_from_waste_deck_to_working_stack(int stack_index) {
         return this->command_manager.execute_command(cmd);;
 }
 
-/*
+/**
 * Move card from waste deck to target deck
 * @deck_index: index of target deck
 * @return: true when successful operation, false otherwise
@@ -123,7 +123,7 @@ bool Game::move_card_from_waste_deck_to_target_deck(int deck_index) {
         return this->command_manager.execute_command(cmd);
 }
 
-/*
+/**
 * Move card from target deck to working stack
 * @deck_index: index of target deck
 * @stack_index: index of working stack
@@ -141,7 +141,7 @@ bool Game::move_card_from_target_deck_to_working_stack(int deck_index, int stack
         return this->command_manager.execute_command(cmd);
 }
 
-/*
+/**
 * Move card from working stack to target deck
 * @stack_index: index of working stack
 * @deck_index: index of target deck
@@ -160,7 +160,7 @@ bool Game::move_card_from_working_stack_to_target_deck(int stack_index, int deck
 }
 
 
-/*
+/**
 * Move card from working stack to working stack
 * @src_tack_index: index of source working stack
 * @dest_stack_index: index of destination working stack
@@ -188,7 +188,7 @@ bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, i
         return this->command_manager.execute_command(cmd);
 }
 
-/*
+/**
 * Get target deck
 * @index: index of target deck
 * @return: pointer to target deck
@@ -197,7 +197,7 @@ CardDeck * Game::get_target_deck_by_id(int index) {
         return &this->target_card_decks[index];
 }
 
-/*
+/**
 * Get working stack
 * @index: index of working stack
 * @return: pointer to working stack
@@ -206,7 +206,7 @@ CardStack * Game::get_working_stack_by_id(int index) {
         return &this->working_card_stacks[index];
 }
 
-/*
+/**
 * Get stock deck
 * @return: pointer to stock deck
 */
@@ -214,7 +214,7 @@ CardDeck * Game::get_stock_deck() {
         return &this->stock_deck;
 }
 
-/*
+/**
 * Get waste deck
 * @return: pointer to waste deck
 */
@@ -222,7 +222,7 @@ CardDeck * Game::get_waste_deck() {
         return &this->waste_deck;
 }
 
-/*
+/**
 * Save game to file
 * @filename: save game to this file
 * @return: true on success, false if cannot save game to file
@@ -272,7 +272,7 @@ bool Game::save(std::string filename) {
         return true;
 }
 
-/*
+/**
 * Load game from file
 * @filename: load game from this file
 * @return: pointer to game on success, null pointer if error
@@ -288,7 +288,7 @@ Game * Game::load(std::string filename) {
         return loaded_game;
 }
 
-/*
+/**
 * Get score in game
 * @return: score
 */
@@ -300,7 +300,7 @@ int Game::get_score() {
         return this->score;
 }
 
-/*
+/**
 * Get number of moves in game
 * @return; number of moves
 */
@@ -308,7 +308,7 @@ int Game::get_moves_count() {
         return this->command_manager.get_size();
 }
 
-/*
+/**
 * Start game timer
 */
 void Game::start() {
@@ -316,7 +316,7 @@ void Game::start() {
         this->paused = false;
 }
 
-/*
+/**
 * Pause game timer
 */
 void Game::pause() {
@@ -325,7 +325,7 @@ void Game::pause() {
         this->paused = true;
 }
 
-/*
+/**
 * Resume game timer
 */
 void Game::resume() {
@@ -334,7 +334,7 @@ void Game::resume() {
         this->paused = false;
 }
 
-/*
+/**
 * Get total game play time in seconds
 * @return: play time in seconds
 */

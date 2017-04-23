@@ -8,7 +8,7 @@ const char Color_short_texts[CARD_TYPES] = { 'S', 'D', 'H', 'C'};
 // Long names of card colors
 const char * Color_long_texts[CARD_TYPES] = { "Spades", "Diamonds", "Hearts", "Clubs"};
 
-/*
+/**
 * Card constructor
 * @color: color of card
 * @value: value of card
@@ -23,14 +23,14 @@ Card::Card(Color color, int value, bool turned_face_up) {
         this->turned_face_up = turned_face_up;
 }
 
-/*
+/**
 * Card constructor
 * @color: color of card
 * @value: value of card
 */
 Card::Card(Color color, int value ): Card(color, value, false) {}
 
-/*
+/**
 * Get name of card
 * @return: name of card
 */
@@ -58,7 +58,7 @@ std::string Card::to_string() {
         return card_text;
 }
 
-/*
+/**
 * Get color of card
 * @return: color of card
 */
@@ -66,7 +66,7 @@ Color Card::get_color() {
         return this->color;
 }
 
-/*
+/**
 * Check if card has similar color to other card
 * @return: true if similar, false otherwise
 */
@@ -83,7 +83,7 @@ bool Card::similar_color_to(Card &c) {
 
 }
 
-/*
+/**
 * Check if card has same color as other card
 * @return: true if same, false otherwise
 */
@@ -91,7 +91,7 @@ bool Card::is_same_color(Color c) {
     return this->get_color() == c;
 }
 
-/*
+/**
 * Get value of card
 * @return: value of card
 */
@@ -99,7 +99,7 @@ int Card::get_value() {
         return this->value;
 }
 
-/*
+/**
 * Compare values of two cards
 * @return: difference of two cards (value of first card - value of second card)
 */
@@ -107,7 +107,7 @@ int Card::compare_value(Card &c) {
         return this->get_value() - c.get_value();
 }
 
-/*
+/**
 * Check if card is turned face up
 * @return: true if card is turned face up, false otherwise
 */
@@ -115,7 +115,7 @@ bool Card::is_turned_face_up() {
         return this->turned_face_up;
 }
 
-/*
+/**
 * Turn card face up
 * @return: true if card was turned face up, false otherwise
 */
@@ -128,7 +128,7 @@ bool Card::turn_face_up() {
     }
 }
 
-/*
+/**
 * Turn card face down
 * @return: true if card was turned face down, false otherwise
 */
@@ -141,7 +141,7 @@ bool Card::turn_face_down() {
     }
 }
 
-/*
+/**
 * Check if two cards are same
 * @return: true if same, false otherwise
 */
