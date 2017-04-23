@@ -4,9 +4,10 @@
 #include <vector>
 #include "game.h"
 
-// forward declaration
+// Forward declaration
 class Game;
 
+// All Solitaire moves
 enum MoveType {STOCK_DECK_TO_WASTE_DECK, WASTE_DECK_TO_TARGET_DECK, WASTE_DECK_TO_WORKING_STACK, TARGET_DECK_TO_WORKING_STACK, WORKING_STACK_TO_TARGET_DECK, WORKING_STACK_TO_WORKING_STACK};
 
 class Move {

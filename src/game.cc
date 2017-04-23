@@ -4,6 +4,9 @@
 #include <sstream>
 #include "game.h"
 
+/*
+* Implicit game constructor
+*/
 Game::Game() {
         this->stock_deck = CardDeck::create_standard_deck();
         this->stock_deck.shuffle();
@@ -21,6 +24,10 @@ Game::Game() {
         score = 0;
 }
 
+/*
+* Game constructor, load game from file
+* @filename: load game from this file
+*/
 Game::Game(std::string filename) {
         std::ifstream file(filename);
         if (!file) {
@@ -71,16 +78,28 @@ Game::Game(std::string filename) {
         file.close();
 }
 
+/*
+* Undo last move in game
+*/
 void Game::undo() {
         this->command_manager.undo_command();
 }
 
+/*
+* Move card from stock deck to waste deck
+* @return: true when successful operation, false otherwise
+*/
 bool Game::move_card_from_stock_deck_to_waste_deck() {
         MoveStockDeckToWasteDeckCommand *dtd = new MoveStockDeckToWasteDeckCommand {&this->score, &this->stock_deck, &this->waste_deck};
         std::shared_ptr<Command> cmd {dtd};
         return this->command_manager.execute_command(cmd);
 }
 
+/*
+* Move card from waste deck to working stack
+* @stack_index: index of working stack
+* @return: true when successful operation, false otherwise
+*/
 bool Game::move_card_from_waste_deck_to_working_stack(int stack_index) {
         if (stack_index < 0 || stack_index > STACKS_COUNT - 1) {
                 return false;
@@ -90,6 +109,11 @@ bool Game::move_card_from_waste_deck_to_working_stack(int stack_index) {
         return this->command_manager.execute_command(cmd);;
 }
 
+/*
+* Move card from waste deck to target deck
+* @deck_index: index of target deck
+* @return: true when successful operation, false otherwise
+*/
 bool Game::move_card_from_waste_deck_to_target_deck(int deck_index) {
         if (deck_index < 0 || deck_index > DECKS_COUNT - 1) {
                 return false;
@@ -99,6 +123,12 @@ bool Game::move_card_from_waste_deck_to_target_deck(int deck_index) {
         return this->command_manager.execute_command(cmd);
 }
 
+/*
+* Move card from target deck to working stack
+* @deck_index: index of target deck
+* @stack_index: index of working stack
+* @return: true when successful operation, false otherwise
+*/
 bool Game::move_card_from_target_deck_to_working_stack(int deck_index, int stack_index) {
         if (deck_index < 0 || deck_index > DECKS_COUNT - 1) {
                 return false;
@@ -111,6 +141,12 @@ bool Game::move_card_from_target_deck_to_working_stack(int deck_index, int stack
         return this->command_manager.execute_command(cmd);
 }
 
+/*
+* Move card from working stack to target deck
+* @stack_index: index of working stack
+* @deck_index: index of target deck
+* @return: true when successful operation, false otherwise
+*/
 bool Game::move_card_from_working_stack_to_target_deck(int stack_index, int deck_index) {
         if (deck_index < 0 || deck_index > DECKS_COUNT - 1) {
                 return false;
@@ -123,6 +159,14 @@ bool Game::move_card_from_working_stack_to_target_deck(int stack_index, int deck
         return this->command_manager.execute_command(cmd);
 }
 
+
+/*
+* Move card from working stack to working stack
+* @src_tack_index: index of source working stack
+* @dest_stack_index: index of destination working stack
+* @card_index: index of card in source working stack
+* @return: true when successful operation, false otherwise
+*/
 bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, int dest_stack_index, int card_index) {
         if (src_stack_index < 0 || src_stack_index > STACKS_COUNT - 1) {
                 return false;
@@ -144,22 +188,45 @@ bool Game::move_cards_from_working_stack_to_working_stack(int src_stack_index, i
         return this->command_manager.execute_command(cmd);
 }
 
+/*
+* Get target deck
+* @index: index of target deck
+* @return: pointer to target deck
+*/
 CardDeck * Game::get_target_deck_by_id(int index) {
         return &this->target_card_decks[index];
 }
 
+/*
+* Get working stack
+* @index: index of working stack
+* @return: pointer to working stack
+*/
 CardStack * Game::get_working_stack_by_id(int index) {
         return &this->working_card_stacks[index];
 }
 
+/*
+* Get stock deck
+* @return: pointer to stock deck
+*/
 CardDeck * Game::get_stock_deck() {
         return &this->stock_deck;
 }
 
+/*
+* Get waste deck
+* @return: pointer to waste deck
+*/
 CardDeck * Game::get_waste_deck() {
         return &this->waste_deck;
 }
 
+/*
+* Save game to file
+* @filename: save game to this file
+* @return: true on success, false if cannot save game to file
+*/
 bool Game::save(std::string filename) {
         std::ofstream file (filename);
         if (!file) return false;
@@ -205,6 +272,11 @@ bool Game::save(std::string filename) {
         return true;
 }
 
+/*
+* Load game from file
+* @filename: load game from this file
+* @return: pointer to game on success, null pointer if error
+*/
 Game * Game::load(std::string filename) {
         Game *loaded_game = nullptr;
         try {
@@ -216,6 +288,10 @@ Game * Game::load(std::string filename) {
         return loaded_game;
 }
 
+/*
+* Get score in game
+* @return: score
+*/
 int Game::get_score() {
         if (this->score < 0) {
                 return 0;
@@ -224,28 +300,44 @@ int Game::get_score() {
         return this->score;
 }
 
+/*
+* Get number of moves in game
+* @return; number of moves
+*/
 int Game::get_moves_count() {
         return this->command_manager.get_size();
 }
 
+/*
+* Start game timer
+*/
 void Game::start() {
         this->started_at = std::chrono::high_resolution_clock::now();
         this->paused = false;
 }
 
+/*
+* Pause game timer
+*/
 void Game::pause() {
         if (this->paused) return;
         this->paused_at = std::chrono::high_resolution_clock::now();
         this->paused = true;
 }
 
+/*
+* Resume game timer
+*/
 void Game::resume() {
         if (!this->paused) return;
         this->started_at += std::chrono::high_resolution_clock::now() - this->paused_at;
         this->paused = false;
 }
 
-// http://www.informit.com/articles/article.aspx?p=1881386&seqNum=2
+/*
+* Get total game play time in seconds
+* @return: play time in seconds
+*/
 std::chrono::seconds Game::get_total_time_in_seconds() {
         if (this->paused) {
                 return std::chrono::duration_cast<std::chrono::seconds>(this->paused_at - this->started_at);

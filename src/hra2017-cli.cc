@@ -6,11 +6,21 @@
 #include <vector>
 #include "board.h"
 
+// Left offset of cli window
 const int LEFT_WINDOW_OFFSET = 2;
-const char * NO_CARD = " -- ";
+// Placeholder for not existing card in deck
+const char * NO_DECK_CARD = " -- ";
+// Placeholder for not existing card in stack
+const char * NO_STACK_CARD = "    ";
+// Placeholder for card which is turned face down
 const char * FACE_DOWN_CARD = "-(-)";
 
-// string sized to 8 chars
+/*
+* Get name of target deck
+* @game: pointer to game
+* @index index of target deck
+* @return: target deck name
+*/
 const char * get_target_deck_name(Game * game, int index) {
         switch (game->get_target_deck_by_id(index)->get_color()) {
         case SPADES: return "Spades  ";
@@ -21,6 +31,11 @@ const char * get_target_deck_name(Game * game, int index) {
         return "        ";
 }
 
+/*
+* Show hints about possible moves
+* @game: pointer to game
+* @screen: show hints to this screen
+*/
 void show_hints(Game *game, WINDOW *screen) {
         std::vector<Move> moves = MoveFinder::get_available_moves(game);
         std::string hint;
@@ -54,6 +69,12 @@ void show_hints(Game *game, WINDOW *screen) {
         mvwprintw(screen, moves.size() + 3, LEFT_WINDOW_OFFSET, "Press Enter to return to game board...");
 }
 
+/*
+* Run CLI version of Solitaire game
+* @argc: number of arguments
+* @argv: arguments
+* @return: 0 if no error, 1 if any error when playing game
+*/
 int main(int argc, char *argv[]) {
         Board main {};
         Game * game = main.create_new_game();
@@ -94,23 +115,23 @@ int main(int argc, char *argv[]) {
                 werase(game_board);
                 mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "  Stock\t   Waste\t\t%s  %s  %s  %s", get_target_deck_name(game, 0), get_target_deck_name(game, 1), get_target_deck_name(game, 2), get_target_deck_name(game, 3));
                 mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t  %s\t   %s      %s      %s",
-                          game->get_stock_deck()->is_empty() ? "<=>" : "==>", game->get_waste_deck()->is_empty() ? NO_CARD : game->get_waste_deck()->get()->to_string().c_str(),
-                          game->get_target_deck_by_id(Color::SPADES)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::SPADES)->get()->to_string().c_str(),
-                          game->get_target_deck_by_id(Color::DIAMONDS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::DIAMONDS)->get()->to_string().c_str(),
-                          game->get_target_deck_by_id(Color::HEARTS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::HEARTS)->get()->to_string().c_str(),
-                          game->get_target_deck_by_id(Color::CLUBS)->is_empty() ? NO_CARD : game->get_target_deck_by_id(Color::CLUBS)->get()->to_string().c_str());
+                          game->get_stock_deck()->is_empty() ? "<=>" : "==>", game->get_waste_deck()->is_empty() ? NO_DECK_CARD : game->get_waste_deck()->get()->to_string().c_str(),
+                          game->get_target_deck_by_id(Color::SPADES)->is_empty() ? NO_DECK_CARD : game->get_target_deck_by_id(Color::SPADES)->get()->to_string().c_str(),
+                          game->get_target_deck_by_id(Color::DIAMONDS)->is_empty() ? NO_DECK_CARD : game->get_target_deck_by_id(Color::DIAMONDS)->get()->to_string().c_str(),
+                          game->get_target_deck_by_id(Color::HEARTS)->is_empty() ? NO_DECK_CARD : game->get_target_deck_by_id(Color::HEARTS)->get()->to_string().c_str(),
+                          game->get_target_deck_by_id(Color::CLUBS)->is_empty() ? NO_DECK_CARD : game->get_target_deck_by_id(Color::CLUBS)->get()->to_string().c_str());
                 mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "Stack 1    Stack 2    Stack 3    Stack 4    Stack 5    Stack 6    Stack 7");
                 for (int i = 0; i <  13; ++i) {
 
                         int offset = i + 1 >= 10 ? 1 : 2;
                         mvwprintw(game_board, 6 + i, offset, "%d %s\t%s\t %s\t    %s\t%s\t  %s\t     %s", i + 1,
-                                  game->get_working_stack_by_id(0)->get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(0)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(0)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(1)->get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(1)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(1)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(2)->get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(2)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(2)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(3)->get(i) == nullptr ? NO_CARD : game->get_working_stack_by_id(3)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(3)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(4)->get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(4)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(4)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(5)->get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(5)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(5)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
-                                  game->get_working_stack_by_id(6)->get(i)  == nullptr ? NO_CARD : game->get_working_stack_by_id(6)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(6)->get(i)->to_string().c_str() : FACE_DOWN_CARD);
+                                  game->get_working_stack_by_id(0)->get(i) == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(0)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(0)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(1)->get(i)  == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(1)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(1)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(2)->get(i)  == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(2)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(2)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(3)->get(i) == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(3)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(3)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(4)->get(i)  == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(4)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(4)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(5)->get(i)  == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(5)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(5)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
+                                  game->get_working_stack_by_id(6)->get(i)  == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(6)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(6)->get(i)->to_string().c_str() : FACE_DOWN_CARD);
                 }
 
                 int total_time = game->get_total_time_in_seconds().count();

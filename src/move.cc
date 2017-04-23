@@ -1,20 +1,42 @@
 #include "move.h"
 
+/*
+* Game move constructor
+* @move: type of move
+*/
 Move::Move(MoveType move) {
         this->move = move;
 }
 
+/*
+* Game move constructor
+* @move: type of move
+* @dest_index: index of destination
+*/
 Move::Move(MoveType move, int dest_index) {
         this->move = move;
         this->dest_index = dest_index;
 }
 
+/*
+* Game move constructor
+* @move: type of move
+* @src_index: index of source
+* @dest_index: index of destination
+*/
 Move::Move(MoveType move, int src_index, int dest_index){
         this->move = move;
         this->src_index = src_index;
         this->dest_index = dest_index;
 }
 
+/*
+* Game move constructor
+* @move: type of move
+* @src_index: index of source
+* @dest_index: index of destination
+* @card_index: index of card in stack
+*/
 Move::Move(MoveType move, int src_index, int dest_index, int card_index) {
         this->move = move;
         this->src_index = src_index;
@@ -22,19 +44,43 @@ Move::Move(MoveType move, int src_index, int dest_index, int card_index) {
         this->card_index = card_index;
 }
 
+/*
+* Get type of move
+* @return: type of move
+*/
 MoveType Move::get_move_type() {
         return this->move;
 }
+
+/*
+* Get source index
+* @return: index of source
+*/
 int Move::get_source_index() {
         return this->src_index;
 }
+
+/*
+* Get destination index
+* @return: index of destination
+*/
 int Move::get_destination_index() {
         return this->dest_index;
 }
+
+/*
+* Get card index
+* @return: index of card in stack
+*/
 int Move::get_card_index() {
         return this->card_index;
 }
 
+/*
+* Get list of all possible moves in current state of game
+* @game: pointer to game
+* @return vector of possible (available) moves
+*/
 std::vector<Move> MoveFinder::get_available_moves(Game *game) {
         std::vector<Move> moves;
 

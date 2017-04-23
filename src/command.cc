@@ -3,6 +3,11 @@
 #include "command.h"
 
 
+/*
+* Execute game command
+* @command: pointer to command
+* @return: true when successful operation, false otherwise
+*/
 bool CommandManager::execute_command(std::shared_ptr<Command> command) {
         bool exec_success = command->execute();
         if (exec_success) {
@@ -11,6 +16,10 @@ bool CommandManager::execute_command(std::shared_ptr<Command> command) {
         return exec_success;
 }
 
+/*
+* Undo last game command
+* @return: true when successful operation, false otherwise
+*/
 bool CommandManager::undo_command() {
         if (this->commands_stack.empty()) {
                 return false;
@@ -22,18 +31,31 @@ bool CommandManager::undo_command() {
         return true;
 }
 
+/*
+* Get size of stack of commands
+* @return: size of stack of commands
+*/
 int CommandManager::get_size() {
         return this->commands_stack.size();
 }
 
-// DECK TO DECK (Main deck to visible deck)
 
+/*
+* Command for movement from waste deck to target deck
+* @score: pointer to score
+* @source: pointer to waste deck
+* @destination: pointer to target deck
+*/
 MoveWasteDeckToTargetDeckCommand::MoveWasteDeckToTargetDeckCommand(int *score, CardDeck *source, CardDeck *destination) {
         this->source = source;
         this->destination = destination;
         this->score = score;
 }
 
+/*
+* Execute move from waste deck to target deck
+* @return: true when successful operation, false otherwise
+*/
 bool MoveWasteDeckToTargetDeckCommand::execute() {
         // empty stack, do nothing
         if (this->source->is_empty()) {
@@ -76,6 +98,9 @@ bool MoveWasteDeckToTargetDeckCommand::execute() {
         return true;
 }
 
+/*
+* Return card back from target deck to waste deck
+*/
 void MoveWasteDeckToTargetDeckCommand::undo() {
         // get last card from deck
         Card *top = this->source->get();
@@ -108,14 +133,22 @@ void MoveWasteDeckToTargetDeckCommand::undo() {
         *this->score -= 10;
 }
 
-// STACK TO DECK (4 decks)
-
+/*
+* Command for movement from working stack to target deck
+* @score: pointer to score
+* @source: pointer to working stack
+* @destination: pointer to target deck
+*/
 MoveWorkingStackToTargetDeckCommand::MoveWorkingStackToTargetDeckCommand(int *score, CardStack *source, CardDeck *destination) {
         this->source = source;
         this->destination = destination;
         this->score = score;
 }
 
+/*
+* Execute move from working stack to target deck
+* @return: true when successful operation, false otherwise
+*/
 bool MoveWorkingStackToTargetDeckCommand::execute() {
         // empty stack, do nothing
         if (this->source->is_empty()) {
@@ -157,6 +190,9 @@ bool MoveWorkingStackToTargetDeckCommand::execute() {
         return true;
 }
 
+/*
+* Return card back from target deck to working stack
+*/
 void MoveWorkingStackToTargetDeckCommand::undo() {
         // get last card of stack
         Card *top = this->source->get();
