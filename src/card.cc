@@ -15,9 +15,9 @@ const char * Color_long_texts[CARD_TYPES] = { "Spades", "Diamonds", "Hearts", "C
 
 /**
 * Card constructor
-* @color: color of card
-* @value: value of card
-* @turned_face_up: whether card is turned face up
+* @param color color of card
+* @param value value of card
+* @param turned_face_up whether card is turned face up
 */
 Card::Card(Color color, int value, bool turned_face_up) {
         this->color = color;
@@ -30,14 +30,14 @@ Card::Card(Color color, int value, bool turned_face_up) {
 
 /**
 * Card constructor
-* @color: color of card
-* @value: value of card
+* @param color color of card
+* @param value value of card
 */
 Card::Card(Color color, int value ): Card(color, value, false) {}
 
 /**
 * Get name of card
-* @return: name of card
+* @return name of card
 */
 std::string Card::to_string() {
         std::string card_text;
@@ -65,7 +65,7 @@ std::string Card::to_string() {
 
 /**
 * Get color of card
-* @return: color of card
+* @return color of card
 */
 Color Card::get_color() {
         return this->color;
@@ -73,7 +73,7 @@ Color Card::get_color() {
 
 /**
 * Check if card has similar color to other card
-* @return: true if similar, false otherwise
+* @return true if similar, false otherwise
 */
 bool Card::similar_color_to(Card &c) {
         if ((this->get_color() == SPADES && c.get_color() == CLUBS) || (this->get_color() == CLUBS && c.get_color() == SPADES)) {
@@ -90,7 +90,7 @@ bool Card::similar_color_to(Card &c) {
 
 /**
 * Check if card has same color as other card
-* @return: true if same, false otherwise
+* @return true if same, false otherwise
 */
 bool Card::is_same_color(Color c) {
     return this->get_color() == c;
@@ -98,7 +98,7 @@ bool Card::is_same_color(Color c) {
 
 /**
 * Get value of card
-* @return: value of card
+* @return value of card
 */
 int Card::get_value() {
         return this->value;
@@ -106,7 +106,7 @@ int Card::get_value() {
 
 /**
 * Compare values of two cards
-* @return: difference of two cards (value of first card - value of second card)
+* @return difference of two cards (value of first card - value of second card)
 */
 int Card::compare_value(Card &c) {
         return this->get_value() - c.get_value();
@@ -114,7 +114,7 @@ int Card::compare_value(Card &c) {
 
 /**
 * Check if card is turned face up
-* @return: true if card is turned face up, false otherwise
+* @return true if card is turned face up, false otherwise
 */
 bool Card::is_turned_face_up() {
         return this->turned_face_up;
@@ -122,7 +122,7 @@ bool Card::is_turned_face_up() {
 
 /**
 * Turn card face up
-* @return: true if card was turned face up, false otherwise
+* @return true if card was turned face up, false otherwise
 */
 bool Card::turn_face_up() {
     if (this->is_turned_face_up()) {
@@ -135,7 +135,7 @@ bool Card::turn_face_up() {
 
 /**
 * Turn card face down
-* @return: true if card was turned face down, false otherwise
+* @return true if card was turned face down, false otherwise
 */
 bool Card::turn_face_down() {
     if (!this->is_turned_face_up()) {
@@ -148,7 +148,7 @@ bool Card::turn_face_down() {
 
 /**
 * Check if two cards are same
-* @return: true if same, false otherwise
+* @return true if same, false otherwise
 */
 bool Card::equals(Card &c) {
         return (this->get_color() == c.get_color() && this->get_value() == c.get_value());

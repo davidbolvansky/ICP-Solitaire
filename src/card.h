@@ -1,7 +1,7 @@
 /**
-* @file: card.h
-* @brief: Card interface
-* @author: Dávid Bolvanský xbolva00
+* @file card.h
+* @brief Card interface
+* @author Dávid Bolvanský xbolva00
 */
 
 #ifndef CARD_H
@@ -9,8 +9,8 @@
 
 #include <string>
 
-const int CARD_TYPES = 4;
-enum Color {NO_COLOR = -1, SPADES, DIAMONDS, HEARTS, CLUBS};
+const int CARD_TYPES = 4; /** < Types of cards */
+enum Color {NO_COLOR = -1, SPADES, DIAMONDS, HEARTS, CLUBS}; /**< Colors of cards */
 
 class Card {
     Color color;

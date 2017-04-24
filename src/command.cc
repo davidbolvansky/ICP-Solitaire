@@ -1,7 +1,7 @@
 /**
-* @file: command.cc
-* @brief: Command Manager and Commands implementations
-* @author: Dávid Bolvanský xbolva00
+* @file command.cc
+* @brief Command Manager and Commands implementations
+* @author Dávid Bolvanský xbolva00
 */
 
 #include <iostream>
@@ -11,8 +11,8 @@
 
 /**
 * Execute game command
-* @command: pointer to command
-* @return: true when successful operation, false otherwise
+* @param command pointer to command
+* @return true when successful operation, false otherwise
 */
 bool CommandManager::execute_command(std::shared_ptr<Command> command) {
         bool exec_success = command->execute();
@@ -24,7 +24,7 @@ bool CommandManager::execute_command(std::shared_ptr<Command> command) {
 
 /**
 * Undo last game command
-* @return: true when successful operation, false otherwise
+* @return true when successful operation, false otherwise
 */
 bool CommandManager::undo_command() {
         if (this->commands_stack.empty()) {
@@ -39,7 +39,7 @@ bool CommandManager::undo_command() {
 
 /**
 * Get size of stack of commands
-* @return: size of stack of commands
+* @return size of stack of commands
 */
 int CommandManager::get_size() {
         return this->commands_stack.size();
@@ -48,9 +48,9 @@ int CommandManager::get_size() {
 
 /**
 * Command for movement from waste deck to target deck
-* @score: pointer to score
-* @source: pointer to waste deck
-* @destination: pointer to target deck
+* @param score pointer to score
+* @param source pointer to waste deck
+* @param destination pointer to target deck
 */
 MoveWasteDeckToTargetDeckCommand::MoveWasteDeckToTargetDeckCommand(int *score, CardDeck *source, CardDeck *destination) {
         this->source = source;
@@ -60,7 +60,7 @@ MoveWasteDeckToTargetDeckCommand::MoveWasteDeckToTargetDeckCommand(int *score, C
 
 /**
 * Execute movement from waste deck to target deck
-* @return: true when successful operation, false otherwise
+* @return true when successful operation, false otherwise
 */
 bool MoveWasteDeckToTargetDeckCommand::execute() {
         // empty stack, do nothing
@@ -141,9 +141,9 @@ void MoveWasteDeckToTargetDeckCommand::undo() {
 
 /**
 * Command for movement from working stack to target deck
-* @score: pointer to score
-* @source: pointer to working stack
-* @destination: pointer to target deck
+* @param score pointer to score
+* @param source pointer to working stack
+* @param destination pointer to target deck
 */
 MoveWorkingStackToTargetDeckCommand::MoveWorkingStackToTargetDeckCommand(int *score, CardStack *source, CardDeck *destination) {
         this->source = source;
@@ -153,7 +153,7 @@ MoveWorkingStackToTargetDeckCommand::MoveWorkingStackToTargetDeckCommand(int *sc
 
 /**
 * Execute movement from working stack to target deck
-* @return: true when successful operation, false otherwise
+* @return true when successful operation, false otherwise
 */
 bool MoveWorkingStackToTargetDeckCommand::execute() {
         // empty stack, do nothing
@@ -233,9 +233,9 @@ void MoveWorkingStackToTargetDeckCommand::undo() {
 
 /**
 * Command for movement from waste deck to working stack
-* @score: pointer to score
-* @source: pointer to waste deck
-* @destination: pointer to working stack
+* @param score pointer to score
+* @param source pointer to waste deck
+* @param destination pointer to working stack
 */
 MoveWasteDeckToWorkingStackCommand::MoveWasteDeckToWorkingStackCommand(int *score, CardDeck *source, CardStack *destination) {
         this->source = source;
@@ -245,7 +245,7 @@ MoveWasteDeckToWorkingStackCommand::MoveWasteDeckToWorkingStackCommand(int *scor
 
 /**
 * Execute movement from waste deck to working stack
-* @return: true when successful operation, false otherwise
+* @return true when successful operation, false otherwise
 */
 bool MoveWasteDeckToWorkingStackCommand::execute() {
         // empty stack, do nothing
@@ -303,8 +303,8 @@ void MoveWasteDeckToWorkingStackCommand::undo() {
 /**
 * Command for movement from target deck to working stack
 * @score; pointer to score
-* @source: pointer to target deck
-* @destination: pointer to working stack
+* @param source pointer to target deck
+* @param destination pointer to working stack
 */
 MoveTargetDeckToWorkingStackCommand::MoveTargetDeckToWorkingStackCommand(int *score, CardDeck *source, CardStack *destination) {
         this->source = source;
@@ -314,7 +314,7 @@ MoveTargetDeckToWorkingStackCommand::MoveTargetDeckToWorkingStackCommand(int *sc
 
 /**
 * Execute movement from target deck to working stack
-* @return: true when successful operation, false otherwise
+* @return true when successful operation, false otherwise
 */
 bool MoveTargetDeckToWorkingStackCommand::execute() {
         // empty deck, do nothing
@@ -381,10 +381,10 @@ void MoveTargetDeckToWorkingStackCommand::undo() {
 
 /**
 * Command for movement from working stack to working stack
-* @score: pointer to score
-* @source: pointer to source working stack
+* @param score pointer to score
+* @param source pointer to source working stack
 * @destination pointer to destination working stack
-* @top_card; card in source working stack
+* @param top_card card in source working stack
 */
 MoveWorkingStackToWorkingStackCommand::MoveWorkingStackToWorkingStackCommand(int *score, CardStack *source, CardStack *destination, Card *top_card) {
         this->source = source;
@@ -395,7 +395,7 @@ MoveWorkingStackToWorkingStackCommand::MoveWorkingStackToWorkingStackCommand(int
 
 /**
 * Execute movement from source working stack to destination working stack
-* @return: true when successful operation, false otherwise
+* @return true when successful operation, false otherwise
 */
 bool MoveWorkingStackToWorkingStackCommand::execute() {
         // return if one of stack is empty
@@ -465,9 +465,9 @@ void MoveWorkingStackToWorkingStackCommand::undo() {
 
 /**
 * Command for movement from stock deck to waste deck
-* @score: pointer to score
-* @source: pointer to stock deck
-* @destination: pointer to waste deck
+* @param score pointer to score
+* @param source pointer to stock deck
+* @param destination pointer to waste deck
 */
 MoveStockDeckToWasteDeckCommand::MoveStockDeckToWasteDeckCommand(int *score, CardDeck *source, CardDeck *destination) {
         this->source = source;

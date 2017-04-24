@@ -1,7 +1,7 @@
 /**
-* @file: board.h
-* @brief: Board interface
-* @author: Dávid Bolvanský xbolva00
+* @file board.h
+* @brief Board interface
+* @author Dávid Bolvanský xbolva00
 */
 
 #ifndef BOARD_H
@@ -11,8 +11,7 @@
 #include <memory>
 #include "game.h"
 
-// Default maximum number of games in one board
-const int DEFAULT_GAME_COUNT_LIMIT = 4;
+const int DEFAULT_GAME_COUNT_LIMIT = 4; /**< Default maximum number of games in one board */
 
 class Board {
     int game_count_limit;

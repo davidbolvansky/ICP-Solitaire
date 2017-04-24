@@ -1,7 +1,7 @@
 /**
-* @file: game.h
-* @brief: Game interface
-* @author: Dávid Bolvanský xbolva00
+* @file game.h
+* @brief Game interface
+* @author Dávid Bolvanský xbolva00
 */
 
 #ifndef GAME_H
@@ -15,16 +15,11 @@
 #include "command.h"
 #include "move.h"
 
-// Number of decks in game
-const int DECKS_COUNT = 4;
-// Number of stacks in game
-const int STACKS_COUNT = 7;
-// Number of all cards
-const int ALL_CARDS_COUNT = 52;
-// Number of cards in pack
-const int CARDS_PER_PACK = 13;
-// Maximal number of cards in stack
-const int CARDS_PER_STACK = 19;
+const int DECKS_COUNT = 4; /**< Number of decks in game */
+const int STACKS_COUNT = 7; /**< Number of stacks in game */
+const int ALL_CARDS_COUNT = 52; /**< Number of all card */
+const int CARDS_PER_PACK = 13; /**< // Number of cards in pack */
+const int CARDS_PER_STACK = 19; /**< Maximal number of cards in stack */
 
 class Game {
     CardDeck stock_deck {ALL_CARDS_COUNT};

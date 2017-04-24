@@ -1,7 +1,7 @@
 /**
-* @file: command.h
-* @brief: Command Manager and Commands interfaces
-* @author: Dávid Bolvanský xbolva00
+* @file command.h
+* @brief Command Manager and Commands interfaces
+* @author Dávid Bolvanský xbolva00
 */
 
 #ifndef COMMAND_H
@@ -13,7 +13,9 @@
 #include "card_deck.h"
 #include "card_stack.h"
 
-// interface
+/**
+* Command interface
+*/
 class Command {
     public:
     virtual bool execute() = 0;

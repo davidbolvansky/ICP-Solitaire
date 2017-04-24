@@ -1,7 +1,7 @@
 /**
-* @file: move.h
-* @brief: Move and Move Finder interfaces
-* @author: Dávid Bolvanský xbolva00
+* @file move.h
+* @brief Move and Move Finder interfaces
+* @author Dávid Bolvanský xbolva00
 */
 
 #ifndef MOVE_H
@@ -14,7 +14,7 @@
 class Game;
 
 // All Solitaire moves
-enum MoveType {STOCK_DECK_TO_WASTE_DECK, WASTE_DECK_TO_TARGET_DECK, WASTE_DECK_TO_WORKING_STACK, TARGET_DECK_TO_WORKING_STACK, WORKING_STACK_TO_TARGET_DECK, WORKING_STACK_TO_WORKING_STACK};
+enum MoveType {STOCK_DECK_TO_WASTE_DECK, WASTE_DECK_TO_TARGET_DECK, WASTE_DECK_TO_WORKING_STACK, TARGET_DECK_TO_WORKING_STACK, WORKING_STACK_TO_TARGET_DECK, WORKING_STACK_TO_WORKING_STACK}; /**< All Solitaire moves */
 
 class Move {
     MoveType move;

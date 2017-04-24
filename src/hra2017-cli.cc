@@ -1,7 +1,7 @@
 /**
-* @file: hra2017-cli.cc
-* @brief: implementation of command line version of Solitaire
-* @author: Dávid Bolvanský xbolva00
+* @file hra2017-cli.cc
+* @brief implementation of command line version of Solitaire
+* @author Dávid Bolvanský xbolva00
 */
 
 #include <iostream>
@@ -12,20 +12,16 @@
 #include <vector>
 #include "board.h"
 
-// Left offset of cli window
-const int LEFT_WINDOW_OFFSET = 2;
-// Placeholder for not existing card in deck
-const char * NO_DECK_CARD = " -- ";
-// Placeholder for not existing card in stack
-const char * NO_STACK_CARD = "    ";
-// Placeholder for card which is turned face down
-const char * FACE_DOWN_CARD = "-(-)";
+const int LEFT_WINDOW_OFFSET = 2; /**< Left offset of cli window */
+const char * NO_DECK_CARD = " -- "; /**< Placeholder for not existing card in deck */
+const char * NO_STACK_CARD = "    "; /**< // Placeholder for not existing card in stack */
+const char * FACE_DOWN_CARD = "-(-)"; /**< Placeholder for card which is turned face down */
 
 /**
 * Get name of target deck
-* @game: pointer to game
-* @index index of target deck
-* @return: target deck name
+* @oaram game pointer to game
+* @oaram index index of target deck
+* @return target deck name
 */
 const char * get_target_deck_name(Game * game, int index) {
         switch (game->get_target_deck_by_id(index)->get_color()) {
@@ -39,8 +35,8 @@ const char * get_target_deck_name(Game * game, int index) {
 
 /**
 * Show hints about possible moves
-* @game: pointer to game
-* @screen: show hints to this screen
+* @oaram game pointer to game
+* @oaram screen show hints to this screen
 */
 void show_hints(Game *game, WINDOW *screen) {
         std::vector<Move> moves = MoveFinder::get_available_moves(game);
@@ -77,9 +73,9 @@ void show_hints(Game *game, WINDOW *screen) {
 
 /**
 * Run CLI version of Solitaire game
-* @argc: number of arguments
-* @argv: arguments
-* @return: 0 if no error, 1 if any error when playing game
+* @oaram argc number of arguments
+* @oaram @argv arguments
+* @return 0 if no error, 1 if any error when playing game
 */
 int main(int argc, char *argv[]) {
         Board main {};

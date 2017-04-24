@@ -1,7 +1,7 @@
 /**
-* @file: board.cc
-* @brief: Board implementation
-* @author: Dávid Bolvanský xbolva00
+* @file board.cc
+* @brief Board implementation
+* @author Dávid Bolvanský xbolva00
 */
 
 #include <iostream>
@@ -16,7 +16,7 @@ Board::Board() {
 
 /**
 * Create new game
-* @return: pointer to new game
+* @return pointer to new game
 */
 Game * Board::create_new_game() {
         if (this->get_games_count() + 1 > this->get_games_count_limit()) {
@@ -29,7 +29,7 @@ Game * Board::create_new_game() {
 
 /**
 * Add game to board
-* @return: pointer to game
+* @return pointer to game
 */
 Game * Board::add_game(Game *g) {
         std::shared_ptr<Game> game_ptr {g};
@@ -39,7 +39,7 @@ Game * Board::add_game(Game *g) {
 
 /**
 * Cancel (remove) game from board
-* @return: true on success, false otherwise
+* @return true on success, false otherwise
 */
 bool Board::cancel_game(Game *g) {
         int i = 0;
@@ -52,8 +52,8 @@ bool Board::cancel_game(Game *g) {
 
 /**
 * Get game index
-* @g: pointer to game
-* @return: index of game, -1 if game was not found
+* @param g pointer to game
+* @return index of game, -1 if game was not found
 */
 int Board::get_game_id(Game *g) {
         for (unsigned int i = 0; i < this->games.size(); ++i) {
@@ -66,8 +66,8 @@ int Board::get_game_id(Game *g) {
 
 /*
 * Get game using index
-* @index: index of game
-* @return: pointer to game\
+* @param index index of game
+* @return pointer to game\
 */
 Game * Board::get_game(int index) {
         if (index < 0 || index > this->get_games_count() - 1) {
@@ -78,8 +78,8 @@ Game * Board::get_game(int index) {
 
 /**
 * Import game from filename
-* @filename: file containg game
-* @return: pointer to game, nullptr if any failure during importing
+* @param filename file containg game
+* @return pointer to game, nullptr if any failure during importing
 */
 Game * Board::import_game(std::string filename) {
         if (this->get_games_count() + 1 > this->get_games_count_limit()) {
@@ -95,8 +95,8 @@ Game * Board::import_game(std::string filename) {
 
 /**
 * Export game to filename
-* @filename: save game to this filename
-* @return: true on success, false otherwise
+* @param filename save game to this filename
+* @return true on success, false otherwise
 */
 bool Board::export_game(int index, std::string filename) {
         Game *export_game = this->get_game(index);
@@ -109,7 +109,7 @@ bool Board::export_game(int index, std::string filename) {
 
 /**
 * Get number of games currently at board
-* @return: number of games at board
+* @return number of games at board
 */
 int Board::get_games_count() {
         return this->games.size();
@@ -117,7 +117,7 @@ int Board::get_games_count() {
 
 /**
 * Set limit for maximum number of games at board
-* @limit: maximum number of games
+* @param limit maximum number of games
 */
 void Board::set_game_count_limit(int limit) {
         this->game_count_limit = limit;
@@ -125,7 +125,7 @@ void Board::set_game_count_limit(int limit) {
 
 /**
 * Get limit for maximum number of games at board
-* @return: maximum number of games
+* @return maximum number of games
 */
 int Board::get_games_count_limit() {
         return this->game_count_limit;

@@ -1,7 +1,7 @@
 /**
-* @file: card_stack.h
-* @brief: Card Stack interface
-* @author: Dávid Bolvanský xbolva00
+* @file card_stack.h
+* @brief Card Stack interface
+* @author Dávid Bolvanský xbolva00
 */
 
 #ifndef CARD_STACK_H

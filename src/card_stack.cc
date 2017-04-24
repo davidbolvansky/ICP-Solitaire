@@ -1,7 +1,7 @@
 /**
-* @file: card_stack.cc
-* @brief: Card Stack interface
-* @author: Dávid Bolvanský xbolva00
+* @file card_stack.cc
+* @brie: Card Stack interface
+* @author Dávid Bolvanský xbolva00
 */
 
 #include "card_stack.h"
@@ -11,7 +11,7 @@
 
 /**
 * Card Stack constructor
-* @size: capacity of card stack
+* @param size capacity of card stack
 */
 CardStack::CardStack(int size) {
         this->size = size;
@@ -19,8 +19,8 @@ CardStack::CardStack(int size) {
 
 /**
 * Push card to stack
-* @c: card to be pushed
-* @return: true on success, false if no space in current stack
+* @param c card to be pushed
+* @return true on success, false if no space in current stack
 */
 bool CardStack::push(Card &c) {
     if (this->get_size() + 1 > this->size) {
@@ -33,8 +33,8 @@ bool CardStack::push(Card &c) {
 
 /**
 * Put card to stack
-* @c: card to be put
-* @return: true on success, false if no space in current stack or card cannot be put due to solitaire rules
+* @param c card to be put
+* @return true on success, false if no space in current stack or card cannot be put due to solitaire rules
 */
 bool CardStack::put(Card &c) {
         if (this->get_size() + 1 > this->size) {
@@ -64,7 +64,7 @@ bool CardStack::put(Card &c) {
 
 /**
 * Get size of stack
-* @return: size of stack
+* @return size of stack
 */
 int CardStack::get_size() {
         return this->cards_pack.size();
@@ -72,7 +72,7 @@ int CardStack::get_size() {
 
 /**
 * Pop card from stack
-* @return: pointer top card of stack
+* @return pointer top card of stack
 */
 Card * CardStack::pop() {
         if (this->is_empty()) return nullptr;
@@ -83,7 +83,7 @@ Card * CardStack::pop() {
 
 /**
 * Get top card from stack
-* @return: pointer top card of stack
+* @return pointer top card of stack
 */
 Card * CardStack::get() {
         if (this->is_empty()) return nullptr;
@@ -92,8 +92,8 @@ Card * CardStack::get() {
 
 /**
 * Get card at index
-* @index: index of card
-* @return: pointer to card at index
+* @param index index of card
+* @return pointer to card at index
 */
 Card * CardStack::get(int index) {
         if (this->is_empty() || index < 0  || index > this->get_size() - 1) return nullptr;
@@ -102,7 +102,7 @@ Card * CardStack::get(int index) {
 
 /**
 * Check if stack is empty
-* @return: true if empty, false otherwise
+* @return true if empty, false otherwise
 */
 bool CardStack::is_empty() {
         return this->cards_pack.empty();
@@ -110,8 +110,8 @@ bool CardStack::is_empty() {
 
 /**
 * Put stack to stack
-* @stack: second stack of cards
-* @return: true on success, false if cannot put cards from second stack to current stack
+* @param stack second stack of cards
+* @return true on success, false if cannot put cards from second stack to current stack
 */
 bool CardStack::put(CardStack &stack) {
         if (this->get_size() + stack.get_size() > this->size) return false;
@@ -127,8 +127,8 @@ bool CardStack::put(CardStack &stack) {
 
 /**
 * Push stack to stack
-* @stack: second stack of cards
-* @return: true on success, false if cannot put cards from second stack to current stack
+* @param stack second stack of cards
+* @return true on success, false if cannot put cards from second stack to current stack
 */
 bool CardStack::push(CardStack &stack) {
         if (this->get_size() + stack.get_size() > this->size) return false;
@@ -142,8 +142,8 @@ bool CardStack::push(CardStack &stack) {
 
 /**
 * Get stack of cards since specific card
-* @card: card in stack
-* @return: stack with cards containg all cards since the specific card
+* @param c card in stack
+* @return stack with cards containg all cards since the specific card
 */
 CardStack CardStack::top(Card &c) {
     CardStack card_stack {13};
@@ -164,8 +164,8 @@ CardStack CardStack::top(Card &c) {
 
 /**
 * Pop cards since specific card
-* @card: card in stack
-* @return: stack with cards containg all cards since the specific card
+* @param c card in stack
+* @return stack with cards containg all cards since the specific card
 */
 CardStack CardStack::pop(Card &c) {
         CardStack card_stack = this->top(c);

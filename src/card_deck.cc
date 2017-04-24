@@ -1,7 +1,7 @@
 /**
-* @file: card_deck.cc
-* @brief: Card Deck implementation
-* @author: Dávid Bolvanský xbolva00
+* @file card_deck.cc
+* @brief Card Deck implementation
+* @author Dávid Bolvanský xbolva00
 */
 
 #include "card_deck.h"
@@ -12,7 +12,7 @@
 
 /*
 * Card Deck constructor
-* @size: capacity of card deck
+* @param size capacity of card deck
 */
 CardDeck::CardDeck(int size) {
         this->size = size;
@@ -56,7 +56,7 @@ void CardDeck::shuffle() {
 
 /**
 * Swap two decks
-* @deck: second deck for swapping
+* @param @deck second deck for swapping
 */
 void CardDeck::swap(CardDeck &deck) {
         this->cards_pack.swap(deck.cards_pack);
@@ -71,8 +71,8 @@ void CardDeck::reverse() {
 
 /**
 * Push card to deck
-* @c: card to be pushed
-* @return: true on success, false if no space in current deck
+* @param c card to be pushed
+* @return true on success, false if no space in current deck
 */
 bool CardDeck::push(Card &c) {
         if (this->get_size() + 1 > this->size) {
@@ -85,8 +85,8 @@ bool CardDeck::push(Card &c) {
 
 /**
 * Put card to deck
-* @c: card to be put
-* @return: true on success, false if no space in current deck or card cannot be put due to solitaire rules
+* @param c card to be put
+* @return true on success, false if no space in current deck or card cannot be put due to solitaire rules
 */
 bool CardDeck::put(Card &c) {
         if (this->get_size() + 1 > this->size) {
@@ -115,7 +115,7 @@ bool CardDeck::put(Card &c) {
 
 /**
 * Get size of deck
-* @return: size of deck
+* @return size of deck
 */
 int CardDeck::get_size() {
         return this->cards_pack.size();
@@ -123,7 +123,7 @@ int CardDeck::get_size() {
 
 /**
 * Pop card from deck
-* @return: pointer to top card of deck
+* @return pointer to top card of deck
 */
 Card * CardDeck::pop() {
         if (this->is_empty()) return nullptr;
@@ -134,7 +134,7 @@ Card * CardDeck::pop() {
 
 /**
 * Get top card of deck
-* @return: pointer to top card of deck
+* @return pointer to top card of deck
 */
 Card * CardDeck::get() {
         if (this->is_empty()) return nullptr;
@@ -143,8 +143,8 @@ Card * CardDeck::get() {
 
 /**
 * Get card at index
-* @index: index of card
-* @return: pointer to card at index
+* @param index index of card
+* @return pointer to card at index
 */
 Card * CardDeck::get(int index) {
         if (this->is_empty() || index < 0  || index > this->get_size() - 1) return nullptr;
@@ -153,7 +153,7 @@ Card * CardDeck::get(int index) {
 
 /**
 * Check if deck is empty
-* @return: true if empty, false otherwise
+* @return true if empty, false otherwise
 */
 bool CardDeck::is_empty() {
         return this->cards_pack.empty();
@@ -161,7 +161,7 @@ bool CardDeck::is_empty() {
 
 /**
 * Get color of deck
-* @return: color of deck
+* @return color of deck
 */
 Color CardDeck::get_color() {
         return this->color;
@@ -169,7 +169,7 @@ Color CardDeck::get_color() {
 
 /**
 * Set color of deck
-* @c: color
+* @param c color of deck
 */
 void CardDeck::set_color(Color c) {
         this->color = c;
