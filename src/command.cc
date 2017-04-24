@@ -302,7 +302,7 @@ void MoveWasteDeckToWorkingStackCommand::undo() {
 
 /**
 * Command for movement from target deck to working stack
-* @score; pointer to score
+* @score pointer to score
 * @param source pointer to target deck
 * @param destination pointer to working stack
 */
