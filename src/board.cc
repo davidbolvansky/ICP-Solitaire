@@ -29,6 +29,7 @@ Game * Board::create_new_game() {
 
 /**
 * Add game to board
+* @param g pointer to game
 * @return pointer to game
 */
 Game * Board::add_game(Game *g) {
