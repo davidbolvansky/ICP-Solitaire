@@ -255,6 +255,10 @@ void QBoard::mousePressEvent(QMouseEvent *event)
     if (!child->isEnabled())
         return;
 
+   //if(!child->)
+
+    if (strcmp(child->metaObject()->className(), "QLabel") != 0)
+        return;
     QPixmap pixmap = *child->pixmap();
 
     QByteArray itemData;
@@ -577,7 +581,9 @@ void QBoard::createObjects()
     waste = new QLabel(wasteQ);
     waste->setObjectName("waste");
     top->addWidget(wasteQ);
-    //top->addWidget(new QLabel());
+    QLabel *glue = new QLabel();
+    glue->setEnabled(false);
+    top->addWidget(glue);
     QWidget *target0Q = new QWidget;
     target0 = new QLabel(target0Q);
     target0->setObjectName("target0");

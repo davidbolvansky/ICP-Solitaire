@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     QBoard *board0 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board0, 0,0);
 
-    sleep(1);
+  /*  sleep(1);
 
     QBoard *board1 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board1,0,1);
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     QBoard *board3 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board3,1,1);
 
-    sleep(1);
+    sleep(1);*/
 
     mainWidget.setWindowTitle(QObject::tr("Solitaire"));
     mainWidget.show();
