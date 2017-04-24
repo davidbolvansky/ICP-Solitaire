@@ -1,19 +1,37 @@
+/**
+* @file: card_stack.cc
+* @brief: Card Stack interface
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #include "card_stack.h"
 #include "card.h"
 
 #include <iostream>
 
+/**
+* Card Stack constructor
+* @size: capacity of card stack
+*/
 CardStack::CardStack(int size) {
         this->size = size;
 }
 
-
+/**
+* Create working stack
+* @return: new working stack
+*/c
 CardStack CardStack::create_working_pack() {
-        CardStack working_pack {13};
+        CardStack working_pack {CARDS_PER_STACK};
         return working_pack;
 
 }
 
+/**
+* Push card to stack
+* @c: card to be pushed
+* @return: true on success, false if no space in current stack
+*/
 bool CardStack::push(Card &c) {
     if (this->get_size() + 1 > this->size) {
             return false;
@@ -23,6 +41,11 @@ bool CardStack::push(Card &c) {
     return true;
 }
 
+/**
+* Put card to stack
+* @c: card to be put
+* @return: true on success, false if no space in current stack or card cannot be put due to solitaire rules
+*/
 bool CardStack::put(Card &c) {
         if (this->get_size() + 1 > this->size) {
                 return false;
@@ -49,10 +72,18 @@ bool CardStack::put(Card &c) {
         return true;
 }
 
+/**
+* Get size of stack
+* @return: size of stack
+*/
 int CardStack::get_size() {
         return this->cards_pack.size();
 }
 
+/**
+* Pop card from stack
+* @return: pointer top card of stack
+*/
 Card * CardStack::pop() {
         if (this->is_empty()) return nullptr;
         Card *c = this->get();
@@ -60,20 +91,38 @@ Card * CardStack::pop() {
         return c;
 }
 
+/**
+* Get top card from stack
+* @return: pointer top card of stack
+*/
 Card * CardStack::get() {
         if (this->is_empty()) return nullptr;
         return &this->cards_pack.back();
 }
 
+/**
+* Get card at index
+* @index: index of card
+* @return: pointer to card at index
+*/
 Card * CardStack::get(int index) {
         if (this->is_empty() || index < 0  || index > this->get_size() - 1) return nullptr;
         return &this->cards_pack[index];
 }
 
+/**
+* Check if stack is empty
+* @return: true if empty, false otherwise
+*/
 bool CardStack::is_empty() {
         return this->cards_pack.empty();
 }
 
+/**
+* Put stack to stack
+* @stack: second stack of cards
+* @return: true on success, false if cannot put cards from second stack to current stack
+*/
 bool CardStack::put(CardStack &stack) {
         if (this->get_size() + stack.get_size() > this->size) return false;
 
@@ -86,6 +135,11 @@ bool CardStack::put(CardStack &stack) {
         return true;
 }
 
+/**
+* Push stack to stack
+* @stack: second stack of cards
+* @return: true on success, false if cannot put cards from second stack to current stack
+*/
 bool CardStack::push(CardStack &stack) {
         if (this->get_size() + stack.get_size() > this->size) return false;
 
@@ -96,6 +150,11 @@ bool CardStack::push(CardStack &stack) {
         return true;
 }
 
+/**
+* Get stack of cards since specific card
+* @card: card in stack
+* @return: stack with cards containg all cards since the specific card
+*/
 CardStack CardStack::top(Card &c) {
     CardStack card_stack {13};
     bool take_cards = false;
@@ -112,17 +171,14 @@ CardStack CardStack::top(Card &c) {
     card_stack.size = card_stack.get_size();
     return card_stack;
 }
+
+/**
+* Pop cards since specific card
+* @card: card in stack
+* @return: stack with cards containg all cards since the specific card
+*/
 CardStack CardStack::pop(Card &c) {
         CardStack card_stack = this->top(c);
         this->cards_pack.erase (this->cards_pack.end() - card_stack.get_size(), this->cards_pack.end());
         return card_stack;
-}
-
-void CardStack::print() {
-        std::cout << "[DEBUG] Stack (items: " << this->get_size() << ") contains: " << std::endl;
-        for (int i = 0; i < this->get_size(); ++i) {
-                std::cout << this->get(i)->to_string() << std::endl;
-        }
-
-        std::cout << std::endl;
 }

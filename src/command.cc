@@ -1,4 +1,10 @@
-#include <iostream> // DEBUG
+/**
+* @file: command.cc
+* @brief: Command Manager and Commands implementations
+* @author: Dávid Bolvanský xbolva00
+*/
+
+#include <iostream>
 #include <memory>
 #include "command.h"
 

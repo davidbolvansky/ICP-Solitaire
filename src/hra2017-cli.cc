@@ -1,3 +1,9 @@
+/**
+* @file: hra2017-cli.cc
+* @brief: implementation of command line version of Solitaire
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #include <iostream>
 #include <ncurses.h>
 #include <unistd.h>

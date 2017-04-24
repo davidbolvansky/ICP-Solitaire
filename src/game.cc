@@ -1,3 +1,9 @@
+/**
+* @file: game.cc
+* @brief: Game implementation
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #include <iostream>
 #include <iostream>
 #include <fstream>
@@ -5,7 +11,7 @@
 #include "game.h"
 
 /**
-* Implicit game constructor
+* Game constructor
 */
 Game::Game() {
         this->stock_deck = CardDeck::create_standard_deck();

@@ -1,3 +1,9 @@
+/**
+* @file: card.h
+* @brief: Card interface
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #ifndef CARD_H
 #define CARD_H
 

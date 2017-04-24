@@ -1,3 +1,9 @@
+/**
+* @file: board.h
+* @brief: Board interface
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #ifndef BOARD_H
 #define BOARD_H
 
@@ -5,6 +11,7 @@
 #include <memory>
 #include "game.h"
 
+// Default maximum number of games in one board
 const int DEFAULT_GAME_COUNT_LIMIT = 4;
 
 class Board {

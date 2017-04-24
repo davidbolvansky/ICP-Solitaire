@@ -1,3 +1,7 @@
+# Makefile for ICP project 2016/2017 - Solitaire
+# Authors: Dávid Bolvanský xbolva00
+#		   Katarína Grešová xgreso00
+
 COMPILER=g++
 QMAKE=qmake
 

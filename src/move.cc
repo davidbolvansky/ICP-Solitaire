@@ -1,3 +1,9 @@
+/**
+* @file: move.cc
+* @brief: Move and Move Finder implementations
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #include "move.h"
 
 /**

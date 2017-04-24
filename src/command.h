@@ -1,3 +1,9 @@
+/**
+* @file: command.h
+* @brief: Command Manager and Commands interfaces
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #ifndef COMMAND_H
 #define COMMAND_H
 

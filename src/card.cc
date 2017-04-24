@@ -1,3 +1,8 @@
+/**
+* @file: card.cc
+* @brief: Card implementation
+* @author: Dávid Bolvanský xbolva00
+*/
 
 #include <iostream>
 #include <string>

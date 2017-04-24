@@ -1,3 +1,9 @@
+/**
+* @file: card_deck.h
+* @brief: Card Deck interface
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #ifndef CARD_DECK_H
 #define CARD_DECK_H
 
@@ -22,7 +28,6 @@ class CardDeck {
     bool is_empty();
     Color get_color();
     void set_color(Color c);
-    void print();
 
     static CardDeck create_standard_deck();
 };

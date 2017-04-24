@@ -1,3 +1,7 @@
+# Makefile for ICP project 2016/2017 - Solitaire
+# Authors: Dávid Bolvanský xbolva00
+#		   Katarína Grešová xgreso00
+
 all: clean
 	cd src && make && mv hra2017-cli ../hra2017-cli && mv hra2017 ../hra2017
 

@@ -1,3 +1,9 @@
+/**
+* @file: move.h
+* @brief: Move and Move Finder interfaces
+* @author: Dávid Bolvanský xbolva00
+*/
+
 #ifndef MOVE_H
 #define MOVE_H
 
