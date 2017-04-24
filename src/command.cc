@@ -383,7 +383,7 @@ void MoveTargetDeckToWorkingStackCommand::undo() {
 * Command for movement from working stack to working stack
 * @param score pointer to score
 * @param source pointer to source working stack
-* @destination pointer to destination working stack
+* @param destination pointer to destination working stack
 * @param top_card card in source working stack
 */
 MoveWorkingStackToWorkingStackCommand::MoveWorkingStackToWorkingStackCommand(int *score, CardStack *source, CardStack *destination, Card *top_card) {
