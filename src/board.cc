@@ -68,7 +68,7 @@ int Board::get_game_id(Game *g) {
 /*
 * Get game using index
 * @param index index of game
-* @return pointer to game\
+* @return pointer to game
 */
 Game * Board::get_game(int index) {
         if (index < 0 || index > this->get_games_count() - 1) {
