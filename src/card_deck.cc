@@ -56,7 +56,7 @@ void CardDeck::shuffle() {
 
 /**
 * Swap two decks
-* @param @deck second deck for swapping
+* @param deck second deck for swapping
 */
 void CardDeck::swap(CardDeck &deck) {
         this->cards_pack.swap(deck.cards_pack);

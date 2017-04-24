@@ -73,6 +73,7 @@ Color Card::get_color() {
 
 /**
 * Check if card has similar color to other card
+* @param c other card
 * @return true if similar, false otherwise
 */
 bool Card::similar_color_to(Card &c) {
@@ -90,6 +91,7 @@ bool Card::similar_color_to(Card &c) {
 
 /**
 * Check if card has same color as other card
+* @param c other card color
 * @return true if same, false otherwise
 */
 bool Card::is_same_color(Color c) {
@@ -106,6 +108,7 @@ int Card::get_value() {
 
 /**
 * Compare values of two cards
+* @param c other card
 * @return difference of two cards (value of first card - value of second card)
 */
 int Card::compare_value(Card &c) {
@@ -148,6 +151,7 @@ bool Card::turn_face_down() {
 
 /**
 * Check if two cards are same
+* @param c other card
 * @return true if same, false otherwise
 */
 bool Card::equals(Card &c) {

@@ -168,7 +168,7 @@ bool Game::move_card_from_working_stack_to_target_deck(int stack_index, int deck
 
 /**
 * Move card from working stack to working stack
-* @param src_tack_index index of source working stack
+* @param src_stack_index index of source working stack
 * @param dest_stack_index index of destination working stack
 * @param card_index index of card in source working stack
 * @return true when successful operation, false otherwise

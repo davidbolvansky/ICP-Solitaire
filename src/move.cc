@@ -8,7 +8,7 @@
 
 /**
 * Game move constructor
-* @oaram move type of move
+* @param move type of move
 */
 Move::Move(MoveType move) {
         this->move = move;
@@ -16,8 +16,8 @@ Move::Move(MoveType move) {
 
 /**
 * Game move constructor
-* @oaram move type of move
-* @oaram dest_index index of destination
+* @param move type of move
+* @param dest_index index of destination
 */
 Move::Move(MoveType move, int dest_index) {
         this->move = move;
@@ -26,9 +26,9 @@ Move::Move(MoveType move, int dest_index) {
 
 /**
 * Game move constructor
-* @oaram move type of move
-* @oaram src_index index of source
-* @oaram dest_index index of destination
+* @param move type of move
+* @param src_index index of source
+* @param dest_index index of destination
 */
 Move::Move(MoveType move, int src_index, int dest_index){
         this->move = move;
@@ -38,10 +38,10 @@ Move::Move(MoveType move, int src_index, int dest_index){
 
 /**
 * Game move constructor
-* @oaram move type of move
-* @oaram src_index index of source
-* @oaram dest_index index of destination
-* @oaram card_index index of card in stack
+* @param move type of move
+* @param src_index index of source
+* @param dest_index index of destination
+* @param card_index index of card in stack
 */
 Move::Move(MoveType move, int src_index, int dest_index, int card_index) {
         this->move = move;
@@ -84,7 +84,7 @@ int Move::get_card_index() {
 
 /**
 * Get list of all possible moves in current state of game
-* @oaram game pointer to game
+* @param game pointer to game
 * @return vector of possible (available) moves
 */
 std::vector<Move> MoveFinder::get_available_moves(Game *game) {

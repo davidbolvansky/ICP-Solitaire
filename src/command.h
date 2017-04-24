@@ -89,7 +89,9 @@ public:
 };
 
 
-
+/**
+* Command Manager
+*/
 class CommandManager {
     std::stack<std::shared_ptr<Command>> commands_stack;
     public:
