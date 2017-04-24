@@ -475,6 +475,10 @@ MoveStockDeckToWasteDeckCommand::MoveStockDeckToWasteDeckCommand(int *score, Car
         this->score = score;
 }
 
+/**
+* Execute movement from stock deck to waste deck
+* @return true when successful operation, false otherwise
+*/
 bool MoveStockDeckToWasteDeckCommand::execute() {
         // return if both decks are empty
         if (this->source->is_empty() && this->destination->is_empty()) {
