@@ -65,7 +65,7 @@ int Board::get_game_id(Game *g) {
         return -1;
 }
 
-/*
+/**
 * Get game using index
 * @param index index of game
 * @return pointer to game
