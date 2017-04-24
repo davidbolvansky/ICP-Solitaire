@@ -27,8 +27,6 @@ class CardStack {
     CardStack top(Card &c);
     CardStack pop(Card &c);
     bool is_empty();
-
-    static CardStack create_working_pack();
 };
 
 #endif // CARD_STACK_H

@@ -18,16 +18,6 @@ CardStack::CardStack(int size) {
 }
 
 /**
-* Create working stack
-* @return: new working stack
-*/c
-CardStack CardStack::create_working_pack() {
-        CardStack working_pack {CARDS_PER_STACK};
-        return working_pack;
-
-}
-
-/**
 * Push card to stack
 * @c: card to be pushed
 * @return: true on success, false if no space in current stack
