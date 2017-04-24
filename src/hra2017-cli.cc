@@ -1,6 +1,6 @@
 /**
 * @file hra2017-cli.cc
-* @brief implementation of command line version of Solitaire
+* @brief Implementation of command line version of Solitaire - hra2017-cli
 * @author Dávid Bolvanský xbolva00
 */
 

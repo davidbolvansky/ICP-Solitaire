@@ -1,6 +1,6 @@
 /**
 * @file move.cc
-* @brief Move and Move Finder implementations
+* @brief Move and MoveFinder implementations
 * @author Dávid Bolvanský xbolva00
 */
 

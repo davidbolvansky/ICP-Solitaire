@@ -1,6 +1,6 @@
 /**
 * @file move.h
-* @brief Move and Move Finder interfaces
+* @brief Move and MoveFinder interfaces
 * @author Dávid Bolvanský xbolva00
 */
 

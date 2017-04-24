@@ -10,8 +10,7 @@ run: all
 	./hra2017-cli
 
 doxygen:
-	#mkdir doc
-	#doxygen src/doxyfile
+	cd src && doxygen Doxyfile
 
 clean:
 	rm -f hra2017-cli hra2017
