@@ -9,7 +9,8 @@ HEADERS     += QBoard.h \
             ./card_stack.h \
             ./command.h \
             ./game.h \
-            ./move.h
+            ./move.h \
+            QSolitaire.h
 
 RESOURCES   = solitaire.qrc
 SOURCES     += QBoard.cpp \
@@ -20,7 +21,8 @@ SOURCES     += QBoard.cpp \
             ./card_stack.cc \
             ./command.cc \
             ./game.cc \
-            ./move.cc
+            ./move.cc \
+            QSolitaire.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/draganddrop/draggableicons

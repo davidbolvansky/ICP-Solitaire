@@ -49,12 +49,15 @@
 ****************************************************************************/
 
 #include <QtWidgets>
+#include "QSolitaire.h"
 #include "QBoard.h"
 
-QBoard::QBoard(QWidget *parent, Board * board)
+QBoard::QBoard(QWidget *parent, Board * board, QMainWindow *s)
     : QFrame(parent)
 {
-    setMinimumSize(550, 300);
+    p = s;
+    b = board;
+
     setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
     setAcceptDrops(true);
     layout = new QVBoxLayout();
@@ -66,6 +69,7 @@ QBoard::QBoard(QWidget *parent, Board * board)
     createObjects();
     connectSignals();
     repaint();
+
 }
 
 QBoard::~QBoard()
@@ -255,10 +259,9 @@ void QBoard::mousePressEvent(QMouseEvent *event)
     if (!child->isEnabled())
         return;
 
-   //if(!child->)
-
     if (strcmp(child->metaObject()->className(), "QLabel") != 0)
         return;
+
     QPixmap pixmap = *child->pixmap();
 
     QByteArray itemData;
@@ -317,8 +320,6 @@ void QBoard::repaint()
             QPixmap pixmap(":/images/back.svg");
             QIcon ButtonIcon(pixmap);
             stock->setIcon(ButtonIcon);
-            stock->setIconSize(pixmap.size());
-
         }
         else
         {
@@ -336,7 +337,6 @@ void QBoard::repaint()
         if (card != NULL)
         {
             waste->setPixmap(QPixmap(":/images/" + QString::fromStdString(card->to_string()) + ".svg"));
-            waste->setScaledContents(false);
             waste->show();
             waste->setAttribute(Qt::WA_DeleteOnClose);
             waste->setEnabled(true);
@@ -353,7 +353,6 @@ void QBoard::repaint()
         card = deck->get();
         if (card != NULL) {
             target0->setPixmap(QPixmap(":/images/" + QString::fromStdString(card->to_string()) + ".svg"));
-            target0->setScaledContents(false);
             target0->show();
             target0->setAttribute(Qt::WA_DeleteOnClose);
             target0->setEnabled(true);
@@ -370,7 +369,6 @@ void QBoard::repaint()
         card = deck->get();
         if (card != NULL) {
             target1->setPixmap(QPixmap(":/images/" + QString::fromStdString(card->to_string()) + ".svg"));
-            target1->setScaledContents(false);
             target1->show();
             target1->setAttribute(Qt::WA_DeleteOnClose);
             target1->setEnabled(true);
@@ -387,7 +385,6 @@ void QBoard::repaint()
         card = deck->get();
         if (card != NULL) {
             target2->setPixmap(QPixmap(":/images/" + QString::fromStdString(card->to_string()) + ".svg"));
-            target2->setScaledContents(false);
             target2->show();
             target2->setAttribute(Qt::WA_DeleteOnClose);
             target2->setEnabled(true);
@@ -404,7 +401,6 @@ void QBoard::repaint()
         card = deck->get();
         if (card != NULL) {
             target3->setPixmap(QPixmap(":/images/" + QString::fromStdString(card->to_string()) + ".svg"));
-            target3->setScaledContents(false);
             target3->show();
             target3->setAttribute(Qt::WA_DeleteOnClose);
             target3->setEnabled(true);
@@ -435,7 +431,6 @@ void QBoard::repaint()
                 label->move(0,i*15);
                 if (card->is_turned_face_up()) {
                     label->setEnabled(true);
-                    label->setScaledContents(false);
                     label->setPixmap(QPixmap(":/images/" + QString::fromStdString(card->to_string()) + ".svg"));
                 } else {
                     label->setEnabled(false);
@@ -546,6 +541,66 @@ void QBoard::showTime()
     time->setText(text);
 }
 
+void QBoard::setBigSize()
+{
+    this->setFixedSize(900,520);
+    stock->setFixedSize(75,110);
+    stock->setIconSize(QSize(75,110));
+    waste->setFixedSize(75,110);
+    waste->setScaledContents(true);
+    target0->setFixedSize(75,110);
+    target0->setScaledContents(true);
+    target1->setFixedSize(75,110);
+    target1->setScaledContents(true);
+    target2->setFixedSize(75,110);
+    target2->setScaledContents(true);
+    target3->setFixedSize(75,110);
+    target3->setScaledContents(true);
+    for (int j = 0; j < 7; j++) {
+        QVector<QLabel*> *w = working.at(j);
+        for (int i = 0; i < 13 + j; i++) {
+            QLabel *label = w->at(i);
+            label->setFixedSize(75,110);
+            label->setScaledContents(true);
+         }
+     }
+
+}
+
+void QBoard::setSmallSize()
+{
+    this->setFixedSize(550,320);
+    stock->setFixedSize(40,70);
+    stock->setIconSize(QSize(40,70));
+    waste->setMaximumSize(40,70);
+    waste->setScaledContents(true);
+    target0->setMaximumSize(40,70);
+    target0->setScaledContents(true);
+    target1->setMaximumSize(40,70);
+    target1->setScaledContents(true);
+    target2->setMaximumSize(40,70);
+    target2->setScaledContents(true);
+    target3->setMaximumSize(40,70);
+    target3->setScaledContents(true);
+    for (int j = 0; j < 7; j++) {
+        QVector<QLabel*> *w = working.at(j);
+        for (int i = 0; i < 13 + j; i++) {
+            QLabel *label = w->at(i);
+            label->setMaximumSize(40,70);
+            label->setScaledContents(true);
+         }
+     }
+
+}
+
+
+void QBoard::removeGame()
+{
+    ((QSolitaire*)p)->removeGame(this);
+    this->close();
+    b->cancel_game(this->game);
+}
+
 void QBoard::createObjects()
 {
     menu = new QHBoxLayout();
@@ -558,6 +613,9 @@ void QBoard::createObjects()
     menu->addWidget(undoB);
     hint = new QPushButton("Hint");
     menu->addWidget(hint);
+    endGame = new QPushButton("End Game");
+    connect(endGame, SIGNAL (released()), this, SLOT (removeGame()));
+    menu->addWidget(endGame);
     moves = new QPushButton();
     moves->setStyleSheet("border-width: 3px; border-radius: 5px");
     moves->setEnabled(false);
@@ -571,38 +629,24 @@ void QBoard::createObjects()
     time->setEnabled(false);
     menu->addWidget(time);
 
-    top = new QHBoxLayout();
-    layout->addLayout(top);
-    QWidget *stockQ = new QWidget;
+    cards = new QHBoxLayout();
+    layout->addLayout(cards);
+
+    left = new QVBoxLayout();
+    cards->addLayout(left,1);
+    left->addWidget(new QLabel());
+    stockQ = new QWidget;
     stock = new QPushButton(stockQ);
     stock->setStyleSheet("border-width: 3px; border-radius: 5px");
-    top->addWidget(stockQ);
+    left->addWidget(stockQ);
     wasteQ = new QWidget;
     waste = new QLabel(wasteQ);
     waste->setObjectName("waste");
-    top->addWidget(wasteQ);
-    QLabel *glue = new QLabel();
-    glue->setEnabled(false);
-    top->addWidget(glue);
-    QWidget *target0Q = new QWidget;
-    target0 = new QLabel(target0Q);
-    target0->setObjectName("target0");
-    top->addWidget(target0Q);
-    QWidget *target1Q = new QWidget;
-    target1 = new QLabel(target1Q);
-    target1->setObjectName("target1");
-    top->addWidget(target1Q);
-    QWidget *target2Q = new QWidget;
-    target2 = new QLabel(target2Q);
-    target2->setObjectName("target2");
-    top->addWidget(target2Q);
-    QWidget *target3Q = new QWidget;
-    target3 = new QLabel(target3Q);
-    target3->setObjectName("target3");
-    top->addWidget(target3Q);
+    left->addWidget(wasteQ);
+    left->addWidget(new QLabel());
 
     bottom = new QHBoxLayout();
-    layout->addLayout(bottom);
+    cards->addLayout(bottom,6);
 
     working0 = new QWidget();
     bottom->addWidget(working0);
@@ -661,4 +705,23 @@ void QBoard::createObjects()
         working6v.append(new QLabel(working6));
     }
     working.append(&working6v);
+
+    right = new QVBoxLayout();
+    cards->addLayout(right,1);
+    QWidget *target0Q = new QWidget;
+    target0 = new QLabel(target0Q);
+    target0->setObjectName("target0");
+    right->addWidget(target0Q);
+    QWidget *target1Q = new QWidget;
+    target1 = new QLabel(target1Q);
+    target1->setObjectName("target1");
+    right->addWidget(target1Q);
+    QWidget *target2Q = new QWidget;
+    target2 = new QLabel(target2Q);
+    target2->setObjectName("target2");
+    right->addWidget(target2Q);
+    QWidget *target3Q = new QWidget;
+    target3 = new QLabel(target3Q);
+    target3->setObjectName("target3");
+    right->addWidget(target3Q);
 }

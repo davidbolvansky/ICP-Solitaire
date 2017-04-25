@@ -53,13 +53,27 @@
 #include <QHBoxLayout>
 #include <unistd.h>
 #include "QBoard.h"
+#include "QSolitaire.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QApplication a(argc, argv);
+
+    //QWidget mainWidget;
+    //QVBoxLayout *main = new QVBoxLayout(&mainWidget);
+    //main->addWidget(new QSolitaire);
+
+    //mainWidget.setWindowTitle(QObject::tr("Solitaire"));
+    //mainWidget.show();
 
     QWidget mainWidget;
-    QVBoxLayout *main = new QVBoxLayout(&mainWidget);
+    QSolitaire *w = new QSolitaire(&mainWidget);
+    //w->show();
+
+    return a.exec();
+
+  /*  QApplication app(argc, argv);
+
     QGridLayout *horizontalLayout = new QGridLayout();
     main->addLayout(horizontalLayout);
 
@@ -67,7 +81,7 @@ int main(int argc, char *argv[])
     QBoard *board0 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board0, 0,0);
 
-  /*  sleep(1);
+    sleep(1);
 
     QBoard *board1 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board1,0,1);
@@ -82,11 +96,9 @@ int main(int argc, char *argv[])
     QBoard *board3 = new QBoard(&mainWidget, mainBoard);
     horizontalLayout->addWidget(board3,1,1);
 
-    sleep(1);*/
+    sleep(1);
 
-    mainWidget.setWindowTitle(QObject::tr("Solitaire"));
-    mainWidget.show();
 
-    return app.exec();
+    return app.exec();*/
 }
 

@@ -57,8 +57,10 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QVector>
+#include <QMainWindow>
 #include "./game.h"
 #include "./board.h"
+//#include "QSolitaire.h"
 
 class QDragEnterEvent;
 class QDropEvent;
@@ -68,8 +70,10 @@ class QBoard : public QFrame
     Q_OBJECT
 
 public:
-    QBoard(QWidget *parent = 0, Board * board = nullptr);
+    QBoard(QWidget *parent = 0, Board * board = nullptr, QMainWindow *s = 0);
     ~QBoard();
+    void setBigSize();
+    void setSmallSize();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -81,6 +85,8 @@ protected:
     void repaint();
 
 private:
+    QMainWindow *p;
+
     Board *main;
     Game *game;
     QLabel *source;
@@ -94,8 +100,12 @@ private:
     QPushButton *score;
     QPushButton *moves;
     QPushButton *time;
+    QPushButton *endGame;
 
-    QHBoxLayout *top;
+    QHBoxLayout *cards;
+    QVBoxLayout *left;
+    QVBoxLayout *right;
+    QWidget *stockQ;
     QPushButton *stock;
     QWidget *wasteQ;
     QLabel *waste;
@@ -122,6 +132,8 @@ private:
     QWidget *working5;
     QWidget *working6;
 
+    Board *b;
+
 private slots:
     void save();
     void load();
@@ -129,6 +141,7 @@ private slots:
     void on_hint_clicked();
     void handleStockDeck();
     void showTime();
+    void removeGame();
 
 };
 
