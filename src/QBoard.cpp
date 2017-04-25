@@ -522,6 +522,10 @@ void QBoard::on_hint_clicked()
             }
     }
 
+    if (hints.empty()) {
+        hints = "Game is lost, no possible moves.";
+    }
+
     QMessageBox::information(this, tr("Hints"), hints.c_str());
 }
 
