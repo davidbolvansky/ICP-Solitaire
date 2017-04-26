@@ -33,6 +33,9 @@ QBoard::~QBoard()
 {
 }
 
+/**
+ * @brief QBoard::setup creates all object and paints board
+ */
 void QBoard::setup()
 {
     createObjects();
@@ -241,6 +244,7 @@ void QBoard::mousePressEvent(QMouseEvent *event)
     if (!child->isEnabled())
         return;
 
+    //only labels are movable
     if (strcmp(child->metaObject()->className(), "QLabel") != 0)
         return;
 
@@ -436,7 +440,7 @@ void QBoard::repaint()
     score->setText("Score: " + QString::number(game->get_score()));
 
     if (game->is_won()) {
-        QMessageBox::information(this, tr("You Won!"), "YOU WON!");
+        QMessageBox::information(this, tr("You won!"), "");
     }
 }
 
@@ -597,6 +601,8 @@ void QBoard::removeGame()
  */
 void QBoard::createObjects()
 {
+
+    //top menu with buttons and info
     menu = new QHBoxLayout();
     layout->addLayout(menu);
     saveB = new QPushButton("Save Game");
@@ -621,9 +627,11 @@ void QBoard::createObjects()
     time->setEnabled(false);
     menu->addWidget(time);
 
+    //layout for everything else then top menu
     cards = new QHBoxLayout();
     layout->addLayout(cards);
 
+    //decks on left
     left = new QVBoxLayout();
     cards->addLayout(left,1);
     QLabel *glue = new QLabel();
@@ -641,6 +649,7 @@ void QBoard::createObjects()
     glue2->setPixmap(QPixmap());
     left->addWidget(glue2);
 
+    //for all working stacks
     bottom = new QHBoxLayout();
     cards->addLayout(bottom,6);
 
@@ -702,6 +711,7 @@ void QBoard::createObjects()
     }
     working.append(&working6v);
 
+    //target decks
     right = new QVBoxLayout();
     cards->addLayout(right,1);
     QWidget *target0Q = new QWidget;
