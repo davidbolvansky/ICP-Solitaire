@@ -321,9 +321,9 @@ int Game::get_moves_count() {
 bool Game::is_won() {
         int all_cards_in_target_decks = 0;
         for (int i = 0; i < DECKS_COUNT; ++i) {
-                all_cards_in_target_decks += this->get_target_deck_by_id(i).get_size();
+                all_cards_in_target_decks += this->get_target_deck_by_id(i)->get_size();
         }
-        
+
         return all_cards_in_target_decks == 52;
 }
 
