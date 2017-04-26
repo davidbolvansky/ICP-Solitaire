@@ -434,6 +434,10 @@ void QBoard::repaint()
     }
     moves->setText("Moves: " + QString::number(game->get_moves_count()));
     score->setText("Score: " + QString::number(game->get_score()));
+
+    if (game->is_won()) {
+        QMessageBox::information(this, tr("You Won!"), "YOU WON!");
+    }
 }
 
 /**
@@ -622,7 +626,9 @@ void QBoard::createObjects()
 
     left = new QVBoxLayout();
     cards->addLayout(left,1);
-    left->addWidget(new QLabel());
+    QLabel *glue = new QLabel();
+    glue->setPixmap(QPixmap());
+    left->addWidget(glue);
     stockQ = new QWidget;
     stock = new QPushButton(stockQ);
     stock->setStyleSheet("border-width: 3px; border-radius: 5px");
@@ -631,7 +637,9 @@ void QBoard::createObjects()
     waste = new QLabel(wasteQ);
     waste->setObjectName("waste");
     left->addWidget(wasteQ);
-    left->addWidget(new QLabel());
+    QLabel *glue2 = new QLabel();
+    glue2->setPixmap(QPixmap());
+    left->addWidget(glue2);
 
     bottom = new QHBoxLayout();
     cards->addLayout(bottom,6);
