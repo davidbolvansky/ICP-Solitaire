@@ -44,6 +44,7 @@ class Game {
     static Game * load(std::string filename);
     int get_score();
     int get_moves_count();
+    bool is_won();
     void start();
     void pause();
     void resume();
