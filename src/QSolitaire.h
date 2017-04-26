@@ -1,3 +1,9 @@
+/**
+* @file     QSolitaire.h
+* @brief    main view, can contains multiple games
+* @author   Katarina Gresova xgreso00
+*/
+
 #ifndef QGAME_H
 #define QGAME_H
 
@@ -22,6 +28,7 @@ private:
     QGridLayout *layout;
     QGridLayout *horizontalLayout;
     QPushButton *newGame;
+    QPushButton *loadB;
     Board * mainBoard;
     QBoard *board0;
     QBoard *board1;
@@ -34,6 +41,7 @@ protected:
 
 private slots:
     void addNewGame();
+    void load();
 };
 
 #endif // QGAME_H

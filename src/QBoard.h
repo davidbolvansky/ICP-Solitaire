@@ -48,6 +48,12 @@
 **
 ****************************************************************************/
 
+/**
+* @file QBoard.h
+* @brief view of one game
+* @author Katarina Gresova xgreso00
+*/
+
 #ifndef DRAGWIDGET_H
 #define DRAGWIDGET_H
 
@@ -60,7 +66,6 @@
 #include <QMainWindow>
 #include "./game.h"
 #include "./board.h"
-//#include "QSolitaire.h"
 
 class QDragEnterEvent;
 class QDropEvent;
@@ -74,6 +79,8 @@ public:
     ~QBoard();
     void setBigSize();
     void setSmallSize();
+    void setup();
+    Game *game;
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -86,15 +93,12 @@ protected:
 
 private:
     QMainWindow *p;
-
-    Board *main;
-    Game *game;
+    QBoard *main;
     QLabel *source;
     QVBoxLayout *layout;
 
     QHBoxLayout *menu;
     QPushButton *saveB;
-    QPushButton *loadB;
     QPushButton *undoB;
     QPushButton *hint;
     QPushButton *score;
@@ -136,7 +140,6 @@ private:
 
 private slots:
     void save();
-    void load();
     void undo();
     void on_hint_clicked();
     void handleStockDeck();

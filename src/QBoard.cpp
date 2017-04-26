@@ -1,57 +1,19 @@
-/****************************************************************************
-**
-** Copyright (C) 2016 The Qt Company Ltd.
-** Contact: https://www.qt.io/licensing/
-**
-** This file is part of the examples of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:BSD$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see https://www.qt.io/terms-conditions. For further
-** information use the contact form at https://www.qt.io/contact-us.
-**
-** BSD License Usage
-** Alternatively, you may use this file under the terms of the BSD license
-** as follows:
-**
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of The Qt Company Ltd nor the names of its
-**     contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
-**
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
+/**
+* @file     QBoard.cpp
+* @brief    view of one game
+* @author   Katarina Gresova xgreso00
+*/
 
 #include <QtWidgets>
 #include "QSolitaire.h"
 #include "QBoard.h"
 
+/**
+ * @brief QBoard::QBoard    QBoard constructor
+ * @param parent            parent widget
+ * @param board             board to create games from
+ * @param s                 parent window
+ */
 QBoard::QBoard(QWidget *parent, Board * board, QMainWindow *s)
     : QFrame(parent)
 {
@@ -62,21 +24,26 @@ QBoard::QBoard(QWidget *parent, Board * board, QMainWindow *s)
     setAcceptDrops(true);
     layout = new QVBoxLayout();
     setLayout(layout);
+}
 
-    game = board->create_new_game();
-    game->start();
+/**
+ * @brief QBoard::~QBoard   object destructor
+ */
+QBoard::~QBoard()
+{
+}
 
+void QBoard::setup()
+{
     createObjects();
     connectSignals();
     repaint();
-
 }
 
-QBoard::~QBoard()
-{
-
-}
-
+/**
+ * @brief QBoard::dragEnterEvent    setup for drag enter event
+ * @param event                     drag enter event
+ */
 void QBoard::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
@@ -91,6 +58,10 @@ void QBoard::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
+/**
+ * @brief QBoard::dragMoveEvent setup for drag move event
+ * @param event                 drag move event
+ */
 void QBoard::dragMoveEvent(QDragMoveEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
@@ -105,6 +76,10 @@ void QBoard::dragMoveEvent(QDragMoveEvent *event)
     }
 }
 
+/**
+ * @brief QBoard::dropEvent handles card drop event
+ * @param event             drop event
+ */
 void QBoard::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
@@ -117,9 +92,9 @@ void QBoard::dropEvent(QDropEvent *event)
 
         QString name = child->objectName();
         QString sourceName = source->objectName();
-        //presun z waste
+        //move from waste
         if (sourceName.compare("waste") == 0) {
-            //na niektory target
+            //move to some target
             if (name.compare("target0") == 0) {
                 game->move_card_from_waste_deck_to_target_deck(0);
             } else if (name.compare("target1") == 0) {
@@ -128,7 +103,7 @@ void QBoard::dropEvent(QDropEvent *event)
                 game->move_card_from_waste_deck_to_target_deck(2);
             } else if (name.compare("target3") == 0) {
                 game->move_card_from_waste_deck_to_target_deck(3);
-            //na niektory working
+            //move to some working
             } else {
                 int indexW = -1;
                 if (child->parent()->objectName().compare("working0") == 0) {
@@ -162,6 +137,7 @@ void QBoard::dropEvent(QDropEvent *event)
                 target = 3;
             }
             if (target > -1) {
+                //move from some target
                 int indexW = -1;
                 if (child->parent()->objectName().compare("working0") == 0) {
                     indexW = 0;
@@ -179,6 +155,7 @@ void QBoard::dropEvent(QDropEvent *event)
                     indexW = 6;
                 }
                 if (indexW > -1) {
+                    //move to some working
                     game->move_card_from_target_deck_to_working_stack(target, indexW);
                 }
             } else {
@@ -198,9 +175,9 @@ void QBoard::dropEvent(QDropEvent *event)
                 } else if (source->parent()->objectName().compare("working6") == 0) {
                     indexW = 6;
                 }
-                //zdroj bol niektory working
+                //move from some working
                 if (indexW > -1) {
-                    //zostenie, ci ciel je niektory target
+                    //check, if move to some target
                     if (name.compare("target0") == 0) {
                         game->move_card_from_working_stack_to_target_deck(indexW,0);
                     } else if (name.compare("target1") == 0) {
@@ -209,7 +186,7 @@ void QBoard::dropEvent(QDropEvent *event)
                         game->move_card_from_working_stack_to_target_deck(indexW,2);
                     } else if (name.compare("target3") == 0) {
                         game->move_card_from_working_stack_to_target_deck(indexW,3);
-                    //ciel nie je target.
+                    //no move to target
                     } else {
                         int indexW2 = -1;
                         if (child->parent()->objectName().compare("working0") == 0) {
@@ -228,6 +205,7 @@ void QBoard::dropEvent(QDropEvent *event)
                             indexW2 = 6;
                         }
                         if (indexW2 > -1) {
+                            //move to some working
                             QVector<QLabel*> *w = working.at(indexW);
                             int indexC = w->indexOf(source);
                             game->move_cards_from_working_stack_to_working_stack(indexW,indexW2,indexC);
@@ -249,6 +227,10 @@ void QBoard::dropEvent(QDropEvent *event)
     }
 }
 
+/**
+ * @brief QBoard::mousePressEvent   handles start of card move
+ * @param event                     mouse pressed event
+ */
 void QBoard::mousePressEvent(QMouseEvent *event)
 {
     QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
@@ -294,11 +276,12 @@ void QBoard::mousePressEvent(QMouseEvent *event)
 }
 
 
-
+/**
+ * @brief QBoard::connectSignals    connects slost and signals
+ */
 void QBoard::connectSignals()
 {
     connect(saveB, SIGNAL (released()), this, SLOT (save()));
-    connect(loadB, SIGNAL (released()), this, SLOT (load()));
     connect(undoB, SIGNAL (released()), this, SLOT (undo()));
     connect(hint, SIGNAL (released()), this, SLOT (on_hint_clicked()));
     connect(stock, SIGNAL (released()), this, SLOT (handleStockDeck()));
@@ -307,6 +290,9 @@ void QBoard::connectSignals()
     timer->start(1000);
 }
 
+/**
+ * @brief QBoard::repaint      repaints whole board
+ */
 void QBoard::repaint()
 {
     CardDeck *deck = game->get_stock_deck();
@@ -450,6 +436,9 @@ void QBoard::repaint()
     score->setText("Score: " + QString::number(game->get_score()));
 }
 
+/**
+ * @brief QBoard::save  creates save window and allows to save current game to file
+ */
 void QBoard::save()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Game to File"));
@@ -467,33 +456,18 @@ void QBoard::save()
     }
 }
 
-void QBoard::load()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Address Book"));
-    if (fileName.isEmpty())
-        return;
-    else {
-
-        QFile file(fileName);
-
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
-                file.errorString());
-            return;
-        }
-
-        game = game->load(fileName.toStdString());
-        repaint();
-    }
-
-}
-
+/**
+ * @brief QBoard::undo  launch undo functionality
+ */
 void QBoard::undo()
 {
     game->undo();
     repaint();
 }
 
+/**
+ * @brief QBoard::on_hint_clicked   creates window with hints
+ */
 void QBoard::on_hint_clicked()
 {
     std::vector<Move> moves = MoveFinder::get_available_moves(game);
@@ -522,20 +496,21 @@ void QBoard::on_hint_clicked()
             }
     }
 
-    if (hints.empty()) {
-        hints = "Game is lost, no possible moves.\n";
-    }
-
     QMessageBox::information(this, tr("Hints"), hints.c_str());
 }
 
-
+/**
+ * @brief QBoard::handleStockDeck   handles click on stock deck
+ */
 void QBoard::handleStockDeck()
 {
     game->move_card_from_stock_deck_to_waste_deck();
     repaint();
 }
 
+/**
+ * @brief QBoard::showTime  shows current time from game
+ */
 void QBoard::showTime()
 {
     int t = game->get_total_time_in_seconds().count();
@@ -545,9 +520,12 @@ void QBoard::showTime()
     time->setText(text);
 }
 
+/**
+ * @brief QBoard::setBigSize    resizes all components to bigger version
+ */
 void QBoard::setBigSize()
 {
-    this->setFixedSize(900,520);
+    this->setFixedSize(900,530);
     stock->setFixedSize(75,110);
     stock->setIconSize(QSize(75,110));
     waste->setFixedSize(75,110);
@@ -571,33 +549,38 @@ void QBoard::setBigSize()
 
 }
 
+/**
+ * @brief QBoard::setSmallSize  resizes all components to smaller version
+ */
 void QBoard::setSmallSize()
 {
     this->setFixedSize(550,320);
     stock->setFixedSize(40,70);
     stock->setIconSize(QSize(40,70));
-    waste->setMaximumSize(40,70);
+    waste->setFixedSize(40,70);
     waste->setScaledContents(true);
-    target0->setMaximumSize(40,70);
+    target0->setFixedSize(40,70);
     target0->setScaledContents(true);
-    target1->setMaximumSize(40,70);
+    target1->setFixedSize(40,70);
     target1->setScaledContents(true);
-    target2->setMaximumSize(40,70);
+    target2->setFixedSize(40,70);
     target2->setScaledContents(true);
-    target3->setMaximumSize(40,70);
+    target3->setFixedSize(40,70);
     target3->setScaledContents(true);
     for (int j = 0; j < 7; j++) {
         QVector<QLabel*> *w = working.at(j);
         for (int i = 0; i < 13 + j; i++) {
             QLabel *label = w->at(i);
-            label->setMaximumSize(40,70);
+            label->setFixedSize(40,70);
             label->setScaledContents(true);
          }
      }
 
 }
 
-
+/**
+ * @brief QBoard::removeGame    handles removing of current game
+ */
 void QBoard::removeGame()
 {
     ((QSolitaire*)p)->removeGame(this);
@@ -605,14 +588,15 @@ void QBoard::removeGame()
     b->cancel_game(this->game);
 }
 
+/**
+ * @brief QBoard::createObjects creates all objects on board
+ */
 void QBoard::createObjects()
 {
     menu = new QHBoxLayout();
     layout->addLayout(menu);
     saveB = new QPushButton("Save Game");
     menu->addWidget(saveB);
-    loadB = new QPushButton("Load Game");
-    menu->addWidget(loadB);
     undoB = new QPushButton("Undo");
     menu->addWidget(undoB);
     hint = new QPushButton("Hint");
