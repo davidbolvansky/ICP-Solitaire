@@ -324,7 +324,7 @@ bool Game::is_won() {
                 all_cards_in_target_decks += this->get_target_deck_by_id(i)->get_size();
         }
 
-        return all_cards_in_target_decks == 52;
+        return all_cards_in_target_decks == ALL_CARDS_COUNT;
 }
 
 /**
