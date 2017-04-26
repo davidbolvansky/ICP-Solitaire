@@ -111,9 +111,7 @@ int QSolitaire::getNumberOfActiveGames()
  */
 void QSolitaire::setProperSizes()
 {
-    if (getNumberOfActiveGames() == 0) {
-       p->close();
-    } else if (getNumberOfActiveGames() == 1) {
+    if (getNumberOfActiveGames() == 1) {
         if (board0 != NULL)
             board0->setBigSize();
         if (board1 != NULL)
