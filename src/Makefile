@@ -26,4 +26,4 @@ all:
 	rm -f qtsolitaire.mk
 
 clean:
-	rm -f *.o hra2017 hra2017-cli qtsolitaire.mk
+	rm -f *.o hra2017 hra2017-cli qtsolitaire.mk moc*
