@@ -27,3 +27,7 @@
 *.exe
 *.out
 *.app
+
+# Binaries
+hra2017
+hra2017-cli
