@@ -40,6 +40,7 @@ Game * Board::add_game(Game *g) {
 
 /**
 * Cancel (remove) game from board
+* @param g pointer to game
 * @return true on success, false otherwise
 */
 bool Board::cancel_game(Game *g) {
@@ -96,6 +97,7 @@ Game * Board::import_game(std::string filename) {
 
 /**
 * Export game to filename
+* @param index index of game
 * @param filename save game to this filename
 * @return true on success, false otherwise
 */
