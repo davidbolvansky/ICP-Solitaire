@@ -28,4 +28,4 @@ SOURCES     += QBoard.cpp \
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/draganddrop/draggableicons
 INSTALLS += target
 
-DISTFILES +=
+CONFIG += c++11
