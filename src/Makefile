@@ -5,9 +5,11 @@
 COMPILER=g++
 QMAKE=qmake
 
-ifneq ($(wildcard /home/xbolva00/Qt/5.8/gcc_64/bin/qmake),"")
-	QMAKE=/home/xbolva00/Qt/5.8/gcc_64/bin/qmake
-else ifneq ($(wildcard /usr/local/share/Qt-5.5.1/5.5/gcc_64/bin/qmake),"")
+#ifneq ($(wildcard /home/xbolva00/Qt/5.8/gcc_64/bin/qmake),"")
+#	QMAKE=/home/xbolva00/Qt/5.8/gcc_64/bin/qmake
+#endif
+
+ifneq ($(wildcard /usr/local/share/Qt-5.5.1/5.5/gcc_64/bin/qmake),"")
 	QMAKE=/usr/local/share/Qt-5.5.1/5.5/gcc_64/bin/qmake
 endif
 
