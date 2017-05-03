@@ -19,8 +19,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QWidget mainWidget;
-    QSolitaire *w = new QSolitaire(&mainWidget);
+    new QSolitaire(&mainWidget);
 
     return a.exec();
 }
-
