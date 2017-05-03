@@ -3,11 +3,6 @@
 #		   Katarína Grešová xgreso00
 
 COMPILER=g++
-QMAKE=qmake
-
-#ifneq ($(wildcard /home/xbolva00/Qt/5.8/gcc_64/bin/qmake),"")
-#	QMAKE=/home/xbolva00/Qt/5.8/gcc_64/bin/qmake
-#endif
 
 export LD_LIBRARY_PATH=/usr/local/share/Qt-5.5.1/5.5/gcc_64/lib:$LD_LIBRARY_PATH
 export QT_PLUGIN_PATH=/usr/local/share/Qt-5.5.1/5.5/gcc_64/plugins:$QT_PLUGIN_PATH
