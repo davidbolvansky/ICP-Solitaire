@@ -289,7 +289,7 @@ void QBoard::connectSignals()
     connect(undoB, SIGNAL (released()), this, SLOT (undo()));
     connect(hint, SIGNAL (released()), this, SLOT (on_hint_clicked()));
     connect(stock, SIGNAL (released()), this, SLOT (handleStockDeck()));
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
     timer->start(1000);
 }
@@ -440,7 +440,12 @@ void QBoard::repaint()
     score->setText("Score: " + QString::number(game->get_score()));
 
     if (game->is_won()) {
-        QMessageBox::information(this, tr("You won!"), "");
+        int t = game->get_total_time_in_seconds().count();
+        QTime ti(0,0);
+        ti = ti.addSecs(t);
+        QString text = ti.toString("mm:ss");
+        QMessageBox::information(this, tr("You won!"), "Score: " +  QString::number(game->get_score()) + "\nMoves: " + QString::number(game->get_moves_count()) + "\nTime: " + text);
+        disconnect(timer, SIGNAL(timeout()), 0, 0);
     }
 }
 

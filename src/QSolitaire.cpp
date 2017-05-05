@@ -183,21 +183,25 @@ void QSolitaire::load()
             if (board0 == NULL) {
                 board0 = new QBoard(p, mainBoard, this);
                 board0->game = board0->game->load(fileName.toStdString());
+                board0->game->start();
                 board0->setup();
                 horizontalLayout->addWidget(board0,0,0);
             } else if (board1 == NULL) {
                 board1 = new QBoard(p, mainBoard, this);
                 board1->game = board1->game->load(fileName.toStdString());
+                board1->game->start();
                 board1->setup();
                 horizontalLayout->addWidget(board1,0,1);
             } else if (board2 == NULL) {
                 board2 = new QBoard(p, mainBoard, this);
                 board2->game = board2->game->load(fileName.toStdString());
+                board2->game->start();
                 board2->setup();
                 horizontalLayout->addWidget(board2,1,0);
             } else if (board3 == NULL) {
                 board3 = new QBoard(p, mainBoard, this);
                 board3->game = board3->game->load(fileName.toStdString());
+                board3->game->start();
                 board3->setup();
                 horizontalLayout->addWidget(board3,1,1);
             }

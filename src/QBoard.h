@@ -137,6 +137,7 @@ private:
     QWidget *working6;
 
     Board *b;
+    QTimer *timer;
 
 private slots:
     void save();
