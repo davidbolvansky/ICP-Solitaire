@@ -20,4 +20,3 @@ Specifikace požadavků
 - součástí aplikace bude grafické uživatelské rozhraní zobrazující
    - hrací plátno (plátna) s kartami
    - ovládací prvky (uložit, načíst, ukončit hru, založit novou hru, ...)
-- textové uživatelské rozhraní bude ve vhodné formě obsahovat v podstatě totéž, tj. zobrzí aktuální stav hry a umožní všechny dovolené operace
