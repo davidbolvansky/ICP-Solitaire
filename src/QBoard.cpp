@@ -444,8 +444,8 @@ void QBoard::repaint()
         QTime ti(0,0);
         ti = ti.addSecs(t);
         QString text = ti.toString("mm:ss");
-        QMessageBox::information(this, tr("You won!"), "Score: " +  QString::number(game->get_score()) + "\nMoves: " + QString::number(game->get_moves_count()) + "\nTime: " + text);
         disconnect(timer, SIGNAL(timeout()), 0, 0);
+        QMessageBox::information(this, tr("You won!"), "Score: " +  QString::number(game->get_score()) + "\nMoves: " + QString::number(game->get_moves_count()) + "\nTime: " + text);
     }
 }
 
