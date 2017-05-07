@@ -19,8 +19,8 @@ const char * FACE_DOWN_CARD = "-(-)"; /**< Placeholder for card which is turned 
 
 /**
 * Get name of target deck
-* @oaram game pointer to game
-* @oaram index index of target deck
+* @param game pointer to game
+* @param index index of target deck
 * @return target deck name
 */
 const char * get_target_deck_name(Game * game, int index) {
@@ -35,8 +35,8 @@ const char * get_target_deck_name(Game * game, int index) {
 
 /**
 * Show hints about possible moves
-* @oaram game pointer to game
-* @oaram screen show hints to this screen
+* @param game pointer to game
+* @param screen show hints to this screen
 */
 void show_hints(Game *game, WINDOW *screen) {
         std::vector<Move> moves = MoveFinder::get_available_moves(game);
@@ -73,8 +73,8 @@ void show_hints(Game *game, WINDOW *screen) {
 
 /**
 * Run CLI version of Solitaire game
-* @oaram argc number of arguments
-* @oaram @argv arguments
+* @param argc number of arguments
+* @param @argv arguments
 * @return 0 if no error, 1 if any error when playing game
 */
 int main(int argc, char *argv[]) {
