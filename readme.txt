@@ -28,3 +28,7 @@ export LD_LIBRARY_PATH=/usr/local/share/Qt-5.5.1/5.5/gcc_64/lib:$LD_LIBRARY_PATH
 export QT_PLUGIN_PATH=/usr/local/share/Qt-5.5.1/5.5/gcc_64/plugins:$QT_PLUGIN_PATH
 
 2. Následne pomocou "make run" skompilovať a spustiť hru
+
+
+Ovládanie CLI verzie:
+- Po stlačení kláves "h" sa zobrazí pomocník s možnými príkazmi na ovládanie hry
