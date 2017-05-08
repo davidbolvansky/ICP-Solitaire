@@ -10,7 +10,7 @@ export QT_PLUGIN_PATH=/usr/local/share/Qt-5.5.1/5.5/gcc_64/plugins:$QT_PLUGIN_PA
 ifeq ($(wildcard /usr/local/share/Qt-5.5.1/5.5/gcc_64/bin/qmake),)
     QMAKE=qmake
 else
-		QMAKE=/usr/local/share/Qt-5.5.1/5.5/gcc_64/bin/qmake
+	QMAKE=/usr/local/share/Qt-5.5.1/5.5/gcc_64/bin/qmake
 endif
 
 all:
@@ -28,4 +28,4 @@ all:
 	rm -f qtsolitaire.mk
 
 clean:
-	rm -f *.o hra2017 hra2017-cli qtsolitaire.mk moc*
+	rm -f *.o hra2017 hra2017-cli qtsolitaire.mk moc* qrc*

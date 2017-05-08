@@ -20,3 +20,11 @@ Specifikace požadavků
 - součástí aplikace bude grafické uživatelské rozhraní zobrazující
    - hrací plátno (plátna) s kartami
    - ovládací prvky (uložit, načíst, ukončit hru, založit novou hru, ...)
+
+
+Kompilácia a spustenie Solitaire Qt Qui na merline:
+1. Je potrebné spustiť najskôr tieto príkazy:
+export LD_LIBRARY_PATH=/usr/local/share/Qt-5.5.1/5.5/gcc_64/lib:$LD_LIBRARY_PATH
+export QT_PLUGIN_PATH=/usr/local/share/Qt-5.5.1/5.5/gcc_64/plugins:$QT_PLUGIN_PATH
+
+2. Následne pomocou "make run" skompilovať a spustiť hru
