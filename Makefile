@@ -18,4 +18,4 @@ clean:
 
 
 pack: clean
-	zip xbolva00-xgreso00.zip -r Makefile src doc examples README.txt
+	zip xbolva00-xgreso00.zip -r Makefile src doc examples readme.txt
