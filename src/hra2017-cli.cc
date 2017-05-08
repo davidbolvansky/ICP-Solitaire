@@ -78,15 +78,16 @@ void show_hints(Game *game, WINDOW *screen) {
 * @return 0 if no error, 1 if any error when playing game
 */
 int main(int argc, char *argv[]) {
+		// create new board
         Board main {};
+		// start new game
         Game * game = main.create_new_game();
         game->start();
 
         int parent_x, parent_y, new_x, new_y;
         int game_info_size =  3;
-
-
-
+		
+		// init windows
         initscr();
         noecho();
         curs_set(FALSE);
@@ -99,7 +100,7 @@ int main(int argc, char *argv[]) {
         WINDOW *game_info = newwin(game_info_size, parent_x, parent_y - game_info_size, 0);
         while(1) {
                 getmaxyx(stdscr, new_y, new_x);
-
+				// handle resize
                 if (new_y != parent_y || new_x != parent_x) {
                         parent_x = new_x;
                         parent_y = new_y;
@@ -113,8 +114,9 @@ int main(int argc, char *argv[]) {
                         wclear(game_info);
                 }
 
-                // draw to our windows
+                // draw windows
                 werase(game_board);
+				// decks
                 mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "  Stock\t   Waste\t\t%s  %s  %s  %s", get_target_deck_name(game, 0), get_target_deck_name(game, 1), get_target_deck_name(game, 2), get_target_deck_name(game, 3));
                 mvwprintw(game_board, 3, LEFT_WINDOW_OFFSET, "   %s\t    %s\t\t  %s\t   %s      %s      %s",
                           game->get_stock_deck()->is_empty() ? "<=>" : "==>", game->get_waste_deck()->is_empty() ? NO_DECK_CARD : game->get_waste_deck()->get()->to_string().c_str(),
@@ -122,10 +124,10 @@ int main(int argc, char *argv[]) {
                           game->get_target_deck_by_id(Color::DIAMONDS)->is_empty() ? NO_DECK_CARD : game->get_target_deck_by_id(Color::DIAMONDS)->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::HEARTS)->is_empty() ? NO_DECK_CARD : game->get_target_deck_by_id(Color::HEARTS)->get()->to_string().c_str(),
                           game->get_target_deck_by_id(Color::CLUBS)->is_empty() ? NO_DECK_CARD : game->get_target_deck_by_id(Color::CLUBS)->get()->to_string().c_str());
+				// draw stecks
                 mvwprintw(game_board, 5, LEFT_WINDOW_OFFSET, "Stack 1    Stack 2    Stack 3    Stack 4    Stack 5    Stack 6    Stack 7");
                 for (int i = 0; i <  13; ++i) {
-
-                        int offset = i + 1 >= 10 ? 1 : 2;
+						int offset = i + 1 >= 10 ? 1 : 2;
                         mvwprintw(game_board, 6 + i, offset, "%d %s\t%s\t %s\t    %s\t%s\t  %s\t     %s", i + 1,
                                   game->get_working_stack_by_id(0)->get(i) == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(0)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(0)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
                                   game->get_working_stack_by_id(1)->get(i)  == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(1)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(1)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
@@ -135,7 +137,9 @@ int main(int argc, char *argv[]) {
                                   game->get_working_stack_by_id(5)->get(i)  == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(5)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(5)->get(i)->to_string().c_str() : FACE_DOWN_CARD,
                                   game->get_working_stack_by_id(6)->get(i)  == nullptr ? NO_STACK_CARD : game->get_working_stack_by_id(6)->get(i)->is_turned_face_up() ? game->get_working_stack_by_id(6)->get(i)->to_string().c_str() : FACE_DOWN_CARD);
                 }
+				
 
+				// convert time to mm:ss format
                 int total_time = game->get_total_time_in_seconds().count();
                 std::string game_time;
                 int minutes = total_time / 60;
@@ -153,13 +157,11 @@ int main(int argc, char *argv[]) {
                 }
 
                 werase(game_info);
+				// set game info - score, time, moves, ...
                 mvwprintw(game_info, 1, LEFT_WINDOW_OFFSET, "Moves: %d | Time: %s | Score: %d | Game: %d / %d", game->get_moves_count(), game_time.data(), game->get_score(), main.get_game_id(game) + 1, main.get_games_count());
 
-                if (game->get_total_time_in_seconds().count() <  20) {
-
-                }
-
-                int c = getch();
+                // get char to perform some command
+				int c = getch();
                 if (c == 'c') {
                         std::string command;
                         std::cin >> command;
@@ -314,8 +316,10 @@ int main(int argc, char *argv[]) {
                         }
                         game->resume();
                 } else if (c == 'e') {
+						// exit program
                         break;
                 } else if (c == 's') {
+						// save game from file
                         wclear(game_board);
                         wclear(game_info);
                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Enter file name:");
@@ -332,6 +336,7 @@ int main(int argc, char *argv[]) {
                                 sleep(1);
                         }
                 } else if (c == 'l') {
+						// load game from file
                         wclear(game_board);
                         wclear(game_info);
                         mvwprintw(game_board, 1, LEFT_WINDOW_OFFSET, "Enter file name:");
@@ -361,15 +366,18 @@ int main(int argc, char *argv[]) {
                         }
                         game->start();
                 } else if (c  == 'u') {
+						// undo last move
                         game->undo();
                 } else if (c  == 'm') {
+						// show hints
                         wclear(game_board);
                         wclear(game_info);
                         show_hints(game, game_board);
                         wrefresh(game_board);
                         wrefresh(game_info);
                         std::cin.ignore();
-                } else if (c  == 'x') {
+                } else if (c  == 'x') { 
+						// cancel current game
                         main.cancel_game(game);
                         if (main.get_games_count() == 0) {
                             break;
@@ -377,10 +385,12 @@ int main(int argc, char *argv[]) {
                         game = main.get_game(0);
                 }
 
+				// refresh windows
                 wrefresh(game_board);
                 wrefresh(game_info);
         }
-
+		
+		// close and release windows
         endwin();
 
         return EXIT_SUCCESS;
